@@ -8,7 +8,6 @@ output_file="./out/extracted_data.csv"
 delimiter=";"
 
 # Function to handle script interruption
-# Function to handle script interruption
 cleanup() 
 {
     last_processed=$(tail -n 2 "$output_file" | sed -n '1{s/.*"\([^"]*\)"$/\1/p}')
