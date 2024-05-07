@@ -1,5 +1,12 @@
 latest.sql
 latest.sql.bz2
+ol_dump_editions_2024-04-30.txt
+ol_dump_editions_2024-04-30.txt.gz
+out.txt
+extracted_data.csv
+extracted_data.csv.bz2
+resume.txt
+last_processed_isbn.txt
 
 # Logs
 logs
