@@ -7,6 +7,7 @@ extracted_data.csv
 extracted_data.csv.bz2
 resume.txt
 last_processed_isbn.txt
+NodeTest/
 
 # Logs
 logs
