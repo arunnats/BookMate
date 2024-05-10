@@ -8,6 +8,7 @@ extracted_data.csv.bz2
 resume.txt
 last_processed_isbn.txt
 NodeTest/
+cert.crt
 
 # Logs
 logs
