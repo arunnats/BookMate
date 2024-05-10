@@ -9,7 +9,7 @@ conn = mysql.connector.connect(
 )
 cursor = conn.cursor()
 
-with open('./processed/filenames.txt', 'r') as file:
+with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabaseScraping/processed/filenames.txt', 'r') as file:
     for line in file:
         parts = line.split('\t')
         table_name = parts[0]
@@ -17,7 +17,7 @@ with open('./processed/filenames.txt', 'r') as file:
 
         create_table_query = f"""
             CREATE TABLE Book( 
-            Title VARCHAR(255), 
+            Title TEXT, 
             ISBN VARCHAR(13), 
             Genres TEXT )
         """
@@ -27,8 +27,11 @@ with open('./processed/filenames.txt', 'r') as file:
             # Remove curly braces from file name
             file_name = file_name.strip('{}')
 
+            # Adjust the file path for Windows
+            file_path = f'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/{file_name}'
+
             load_data_query = f"""
-                LOAD DATA INFILE '/var/lib/mysql-files/{file_name}'
+                LOAD DATA INFILE '{file_path}'
                 INTO TABLE Book
                 FIELDS TERMINATED BY '\t'
                 LINES TERMINATED BY '\n'
@@ -36,13 +39,13 @@ with open('./processed/filenames.txt', 'r') as file:
                 (Title, ISBN, Genres)
             """
             try:
-                cursor.execute(load_data_query)
+                cursor.execute(load_data_query) 
             except mysql.connector.Error as err:
                 print(f"Error: {err}. Skipping file {file_name}.")
         
         # For some reason the last file wont work so I had to rename and load it separately
         load_data_query = f"""
-                LOAD DATA INFILE '/var/lib/mysql-files/test.csv'
+                LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/temp.csv'
                 INTO TABLE Book
                 FIELDS TERMINATED BY '\t'
                 LINES TERMINATED BY '\n'
