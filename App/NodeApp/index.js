@@ -49,10 +49,11 @@ async function fuzzySearch(query, fuse) {
 
 async function main() {
 	try {
+		console.log("Creating Fuse Index");
 		const fuse = await createFuseIndex();
-		const matches = await fuzzySearch("harry potter and the prisoner", fuse);
-		matches.slice(0, 50);
-		console.log("Matching titles:", matches);
+		console.log("Searching");
+		const matches = await fuzzySearch("percy jackson and the", fuse);
+		console.log("Matching titles:", matches.slice(0, 10));
 		connection.end();
 	} catch (error) {
 		console.error("Error:", error);
