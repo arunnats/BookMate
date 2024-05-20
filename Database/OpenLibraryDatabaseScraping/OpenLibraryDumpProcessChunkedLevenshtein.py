@@ -13,8 +13,8 @@ OUTPUT_PATH = "/media/arunnats/Storage/out"
 FILE_IDENTIFIERS = ['editions_2024-04-30']
 
 
-def is_similar(subject, interested_subjects, threshold=0.7):
-    for interested_subject in interested_subjects:
+def is_similar(subject, targestList, threshold=0.7):
+    for interested_subject in targestList:
         # First check for simple substring match to quickly filter out unlikely candidates
         if interested_subject.lower() in subject.lower() or subject.lower() in interested_subject.lower():
             return True
@@ -30,6 +30,13 @@ interested_subjects = {
     'literary fiction', 'love stories', 'erotic fiction', 'epic', 'crime', 
     'horror', 'science fiction', 'coming of age', 'time travel', 'alternative history', 
     'romantic comedy', 'comics', 'friendship', 'mystery'
+}
+
+uninterested_subjects = {
+    'Military', 'USA', 'United States', 'Japan', 'Science', 'Geology', 'Mathematics',
+    'Medicine', 'Psychology', 'Engineering', 'Business', 'Economics', 'Finance', 'Accounting',
+    'Management', 'Marketing', 'Entrepreneurship', 'Sociology', 'Politics', 'Philosophy',
+    'Religion', 'Law', 'Education', 'Geography', 'Art', 'Music', 'Languages'
 }
 
 def run():
@@ -69,15 +76,16 @@ def run():
                     if 'title' in json_data and 'subjects' in json_data:
                         # Check if any of the required subjects are present
                         if 'languages' in json_data and any(language.get('key', '').endswith('/eng') for language in json_data['languages']):
-                            if any(is_similar(subject, interested_subjects) for subject in json_data['subjects']):
-                                title = json_data['title']
-                                if 'isbn_13' in json_data and len(json_data['isbn_13']) > 0:
-                                    isbn = json_data['isbn_13'][0]  
-                                else:
-                                    isbn =''
-                                subjects = '|'.join(json_data['subjects']) if 'subjects' in json_data else ''
+                            if not any(is_similar(subject, uninterested_subjects) for subject in json_data['subjects']):
+                                if any(is_similar(subject, interested_subjects) for subject in json_data['subjects']):
+                                    title = json_data['title']
+                                    if 'isbn_13' in json_data and len(json_data['isbn_13']) > 0:
+                                        isbn = json_data['isbn_13'][0]  
+                                    else:
+                                        isbn =''
+                                    subjects = '|'.join(json_data['subjects']) if 'subjects' in json_data else ''
 
-                                writer.writerow([title, isbn, subjects])   
+                                    writer.writerow([title, isbn, subjects])   
 
             if csvoutputfile:
                 csvoutputfile.close()
