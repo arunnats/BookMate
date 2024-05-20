@@ -33,10 +33,12 @@ interested_subjects = {
 }
 
 uninterested_subjects = {
-    'Military', 'USA', 'United States', 'Japan', 'Science', 'Geology', 'Mathematics',
+    'History', 'Military', 'USA', 'United States', 'Japan', 'Science', 'Geology', 'Mathematics',
     'Medicine', 'Psychology', 'Engineering', 'Business', 'Economics', 'Finance', 'Accounting',
     'Management', 'Marketing', 'Entrepreneurship', 'Sociology', 'Politics', 'Philosophy',
-    'Religion', 'Law', 'Education', 'Geography', 'Art', 'Music', 'Languages'
+    'Religion', 'Law', 'Education', 'Geography', 'Art', 'Music', 'Languages', 'Travel', 'Cooking',
+    'Guide', 'World', 'Geopolitics', 'Culture', 'Biography', 'Health', 'Technology',
+    'Computer Science', 'Programming', 'Data Science', 'Machine Learning', 'Artificial Intelligence', 'Help'
 }
 
 def run():
