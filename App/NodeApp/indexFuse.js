@@ -26,6 +26,19 @@ async function createFuseIndex() {
 	}
 }
 
+async function createSearchQuery(query) {
+	try {
+		const conn = await connection;
+		const [results] = await conn.query(
+			"SELECT * FROM book WHERE MATCH(title) AGAINST(?)",
+			[query]
+		);
+		return results;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 async function fetchBooks() {
 	try {
 		const conn = await connection;

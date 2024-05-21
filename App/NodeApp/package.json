@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",
+    "fuse.js": "^7.0.0",
     "mysql2": "^3.9.7"
   }
 }
