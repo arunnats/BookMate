@@ -2,7 +2,6 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const Fuse = require("fuse.js");
 const { Cookie } = require("express-session");
-
 const app = express();
 app.use(express.json());
 
