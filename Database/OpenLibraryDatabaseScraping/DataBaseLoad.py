@@ -14,11 +14,16 @@ with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabase
         parts = line.split('\t')
         table_name = parts[0]
         files = parts[3].strip('{}').split(',')
-
+        
+        drop_table_query = f"""
+            DROP TABLE IF EXISTS Book
+        """
+        cursor.execute(drop_table_query)
+        
         create_table_query = f"""
             CREATE TABLE Book( 
             Title TEXT, 
-            ISBN VARCHAR(13), 
+            ISBN VARCHAR(20), 
             Genres TEXT )
         """
         cursor.execute(create_table_query)
