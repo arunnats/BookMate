@@ -45,7 +45,7 @@ def run():
                     filenames.append(filename)
                     csvoutput = open(os.path.join(OUTPUT_PATH, filename), "w", newline="", encoding="utf-8")
                     writer = csv.writer(csvoutput, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                    writer.writerow(['Title', 'ISBN', 'Subjects', 'By Statement', 'Author Key'])
+                    writer.writerow(['Title', 'ISBN', 'Subjects'])
                     csvoutputfile = csvoutput
 
                 if len(row) > 4:
@@ -57,10 +57,9 @@ def run():
                                 title = json_data['title']
                                 isbn = json_data['isbn_13'][0] if 'isbn_13' in json_data else ''
                                 subjects = '|'.join(json_data['subjects']) if 'subjects' in json_data else ''
-                                by_statement = json_data.get('by_statement', '')
-                                author_key = '|'.join(author['key'] for author in json_data.get('authors', []))
+                                author = json_data['by_statement'] if 'by_statement' in json_data else ''
 
-                                writer.writerow([title, isbn, subjects, by_statement, author_key])
+                                writer.writerow([title, isbn, subjects, author, authorID])
 
             if csvoutputfile:
                 csvoutputfile.close()
