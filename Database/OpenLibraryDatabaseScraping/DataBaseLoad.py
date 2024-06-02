@@ -23,7 +23,7 @@ with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabase
         create_table_query = f"""
             CREATE TABLE Book( 
             Title TEXT, 
-            ISBN VARCHAR(20), 
+            ISBN VARCHAR(13), 
             Genres TEXT,
             Author TEXT,
             AuthorID TEXT,
