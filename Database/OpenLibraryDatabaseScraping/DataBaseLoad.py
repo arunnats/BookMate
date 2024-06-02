@@ -24,7 +24,10 @@ with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabase
             CREATE TABLE Book( 
             Title TEXT, 
             ISBN VARCHAR(20), 
-            Genres TEXT )
+            Genres TEXT,
+            Author TEXT,
+            AuthorID TEXT,
+            Language TEXT)
         """
         cursor.execute(create_table_query)
         
@@ -41,7 +44,7 @@ with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabase
                 FIELDS TERMINATED BY '\t'
                 LINES TERMINATED BY '\n'
                 IGNORE 1 LINES
-                (Title, ISBN, Genres)
+                (Title, ISBN, Genres, Author, AuthorID, Language)
             """
             try:
                 cursor.execute(load_data_query) 
@@ -55,7 +58,7 @@ with open('C:/Users/hiaru/Documents/GitHub/BookMate/Database/OpenLibraryDatabase
                 FIELDS TERMINATED BY '\t'
                 LINES TERMINATED BY '\n'
                 IGNORE 1 LINES
-                (Title, ISBN, Genres)
+                (Title, ISBN, Genres, Author, AuthorID, Language)
             """
         cursor.execute(load_data_query)
                 
