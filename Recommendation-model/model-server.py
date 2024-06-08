@@ -42,16 +42,24 @@ async def get_usage(book_title: str):
     data = []
     for i in similar_items:
         item = []
-        temp_df = app.state.app.state.books[app.state.books['Book-Title'] == app.state.pt.index[i[0]]]
+        temp_df = app.state.books[app.state.books['Book-Title'] == app.state.pt.index[i[0]]]
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
+        item.extend(list(temp_df.drop_duplicates('Book-Title')['ISBN'].values))
         
         data.append(item)
     
     return data
 
-@app.get("/random-movies/")
-async def get_random_movies():
-    random_movies = random.sample(list(app.state.corr_matrix.columns), 10)
-    return {"random_movies": random_movies}
+@app.get("/random-books/")
+async def get_random_books():
+    books_in_pivot_table = app.state.books[app.state.books['Book-Title'].isin(app.state.pt.index)]
+    random_books = books_in_pivot_table.sample(n=10)
+    
+    data = []
+    for _, row in random_books.iterrows():
+        item = [row['Book-Title'], row['Book-Author'], row['Image-URL-M'], row['ISBN']]
+        data.append(item)
+    
+    return data
