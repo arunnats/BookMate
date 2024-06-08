@@ -1,6 +1,8 @@
-import numpy as np
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
+from sqlalchemy import create_engine
+
+# Connect to MySQL database using SQLAlchemy
+engine = create_engine('mysql+mysqlconnector://root:nats@localhost/bookmate')
 
 def load_data():
     books = pd.read_csv('../dataset/Books.csv', dtype={'ISBN': str, 'Book-Title': str, 'Book-Author': str, 'Year-Of-Publication': str, 'Publisher': str, 'Image-URL-S': str, 'Image-URL-M': str, 'Image-URL-L': str})
@@ -8,9 +10,8 @@ def load_data():
     ratings = pd.read_csv('../dataset/Ratings.csv', dtype={'User-ID': int, 'ISBN': str, 'Book-Rating': float})
     return books, users, ratings
 
-def preprocess_data(books, ratings):
+def preprocess_and_insert_data(books, ratings):
     ratings_with_name = ratings.merge(books, on='ISBN')
-    
     num_rating_df = ratings_with_name.groupby('Book-Title').count()['Book-Rating'].reset_index()
     num_rating_df.rename(columns={'Book-Rating': 'num_ratings'}, inplace=True)
     
@@ -19,7 +20,7 @@ def preprocess_data(books, ratings):
     
     popular_df = num_rating_df.merge(avg_rating_df, on='Book-Title')
     popular_df = popular_df[popular_df['num_ratings'] >= 250].sort_values('avg_rating', ascending=False).head(50)
-    popular_df = popular_df.merge(books, on='Book-Title').drop_duplicates('Book-Title')[['Book-Title', 'Book-Author', 'Image-URL-M', 'num_ratings', 'avg_rating']]
+    popular_df = popular_df.merge(books, on='Book-Title').drop_duplicates('Book-Title')[['ISBN', 'Book-Title', 'Book-Author', 'Image-URL-M', 'num_ratings', 'avg_rating']]
     
     x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 200
     top_users = x[x].index
@@ -27,19 +28,13 @@ def preprocess_data(books, ratings):
     
     y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] >= 50
     top_books = y[y].index
-    
     final_ratings = filtered_rating[filtered_rating['Book-Title'].isin(top_books)]
     
-    pt = final_ratings.pivot_table(index='Book-Title', columns='User-ID', values='Book-Rating')
-    pt.fillna(0, inplace=True)
+    final_df = final_ratings.merge(popular_df, on='Book-Title', how='left')
     
-    similarity_scores = cosine_similarity(pt)
-    
-    np.save('similarity_scores.npy', similarity_scores)  
-    pt.to_pickle('pivot_table.pkl')                    
-    books.to_pickle('books.pkl')                      
-    print("Books and Similarity Scores and Pivot Table saved to disk.")
+    final_df.to_sql(name='top_books', con=engine, if_exists='replace', index=False)
+    print("Data inserted into database successfully.")
 
 if __name__ == "__main__":
     books, users, ratings = load_data()
-    preprocess_data(books, ratings)
+    preprocess_and_insert_data(books, ratings)

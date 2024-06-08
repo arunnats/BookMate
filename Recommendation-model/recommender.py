@@ -59,5 +59,5 @@ def recommend(book_name, pt, similarity_scores, books):
 books, users, ratings = load_data()
 pt, similarity_scores, books = preprocess_data(books, ratings)
 
-recommendations = recommend('Under the Tuscan Sun', pt, similarity_scores, books)
+recommendations = recommend('The Tao of Pooh', pt, similarity_scores, books)
 print(recommendations)

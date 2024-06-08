@@ -9,6 +9,9 @@ resume.txt
 last_processed_isbn.txt
 NodeTest/
 cert.crt
+books.pkl
+pivot_table.pkl
+similarity_scores.npy
 
 # Logs
 logs
