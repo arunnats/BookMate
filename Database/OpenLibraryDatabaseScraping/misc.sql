@@ -54,6 +54,9 @@ SELECT * FROM top_books LIMIT 10;
 SELECT COUNT(*) FROM top_books;
 SHOW COLUMNS FROM top_books;
 
+CREATE INDEX titles ON top_books (`Book-Title`(255));
+ALTER TABLE top_books ADD FULLTEXT INDEX title_index (`Book-Title`);
+
 SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE '%har%' LIMIT 10;
 
 SET GLOBAL  wait_timeout = 288000;
