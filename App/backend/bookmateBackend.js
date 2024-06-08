@@ -43,8 +43,8 @@ app.get("/search", async (req, res) => {
 		// );
 
 		const [results] = await pool.query(
-			`SELECT Title, ISBN FROM top_books WHERE Title LIKE ? LIMIT 10`,
-			[`${query}%`]
+			"SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE ? LIMIT 10",
+			[`%${query}%`]
 		);
 
 		cache.set(query, results);
