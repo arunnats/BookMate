@@ -21,11 +21,11 @@ def preprocess_data(books, ratings):
     popular_df = popular_df[popular_df['num_ratings'] >= 250].sort_values('avg_rating', ascending=False).head(50)
     popular_df = popular_df.merge(books, on='Book-Title').drop_duplicates('Book-Title')[['Book-Title', 'Book-Author', 'Image-URL-M', 'num_ratings', 'avg_rating']]
     
-    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 200
+    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 1
     top_users = x[x].index
     filtered_rating = ratings_with_name[ratings_with_name['User-ID'].isin(top_users)]
     
-    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] >= 50
+    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] >= 40
     top_books = y[y].index
     
     final_ratings = filtered_rating[filtered_rating['Book-Title'].isin(top_books)]
