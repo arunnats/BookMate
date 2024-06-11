@@ -1,7 +1,13 @@
 import React from "react";
+import SearchAndResults from "../components/searchAndResults/searchAndResults";
 
 const Recommendations = () => {
-	return <h1>Recommendations Page</h1>;
+	return (
+		<div>
+			<h1>Recommendations Page</h1>
+			<SearchAndResults />
+		</div>
+	);
 };
 
 export default Recommendations;
