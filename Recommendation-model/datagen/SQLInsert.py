@@ -18,19 +18,17 @@ def preprocess_and_insert_data(books, ratings):
 
     avg_rating_df = ratings_with_name.groupby('Book-Title')['Book-Rating'].agg(lambda x: x.astype(float).mean()).reset_index()
     avg_rating_df.rename(columns = {'Book-Rating' : 'avg_rating'}, inplace = True)
-
-    popular_df = num_rating_df.merge(avg_rating_df,on='Book-Title')
-    popular_df = popular_df[popular_df['num_ratings']>=250].sort_values('avg_rating',ascending=False).head(50)
-    popular_df = popular_df.merge(books,on='Book-Title').drop_duplicates('Book-Title')[['Book-Title','Book-Author','Image-URL-M','num_ratings','avg_rating']]
     
-    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 1
+    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 15
     top_users = x[x].index
     filtered_rating = ratings_with_name[ratings_with_name['User-ID'].isin(top_users)]
-
-    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] > 40
+    
+    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] > 10
     top_books = y[y].index
+    
     final_ratings = filtered_rating[filtered_rating['Book-Title'].isin(top_books)]
     final_ratings = final_ratings.drop_duplicates(subset='ISBN', keep='first')
+    final_ratings = final_ratings.drop_duplicates(subset='Book-Title', keep='first')
     
     final_ratings.to_sql(name='top_books', con=engine, if_exists='replace', index=False)
     print("Data inserted into database successfully.")

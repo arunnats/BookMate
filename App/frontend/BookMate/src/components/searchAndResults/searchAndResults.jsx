@@ -15,7 +15,7 @@ const SearchAndResults = () => {
 		try {
 			console.log(result);
 			const response = await axios.get(
-				`http://127.0.0.1:8080/recommend/?book_title=${result}`
+				`http://localhost:8000/recommend/?book_title=${result}`
 			);
 			console.log(response.data);
 			const recommendationsData = response.data;
@@ -32,7 +32,7 @@ const SearchAndResults = () => {
 
 	const getRandom = async () => {
 		try {
-			const response = await axios.get(`http://127.0.0.1:8080/random-books/`);
+			const response = await axios.get(`http://localhost:8000/random-books/`);
 			const randomTitles = response.data;
 			const formattedRecommendations = randomTitles.map(
 				(book) => `${book[0]} - ${book[1]}`
