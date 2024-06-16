@@ -63,7 +63,7 @@ const Navbar = () => {
 				</a>
 			</div>
 
-			<div className="navbar-end hidden lg:flex">
+			<div className="navbar-center hidden lg:flex">
 				<Link to="/" className="btn btn-ghost text-m">
 					Home
 				</Link>
@@ -73,13 +73,15 @@ const Navbar = () => {
 				<Link to="/about" className="btn btn-ghost text-m">
 					About
 				</Link>
+			</div>
+
+			<div className="navbar-end hidden lg:flex">
 				<a
 					href="https://github.com/arunnats/BookMate/"
 					className="btn btn-ghost text-xl"
 				>
 					<img className="mx-1 h-8 max-w-lg" src={githubLogo} alt="Logo" />
 				</a>
-
 				<label className="flex cursor-pointer gap-2">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -114,6 +116,37 @@ const Navbar = () => {
 						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
 					</svg>
 				</label>
+				<div className="dropdown dropdown-end">
+					<div
+						tabIndex={0}
+						role="button"
+						className="btn btn-ghost btn-circle avatar"
+					>
+						<div className="w-10 rounded-full">
+							<img
+								alt="Tailwind CSS Navbar component"
+								src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+							/>
+						</div>
+					</div>
+					<ul
+						tabIndex={0}
+						className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+					>
+						<li>
+							<a className="justify-between">
+								Profile
+								<span className="badge">New</span>
+							</a>
+						</li>
+						<li>
+							<a>Settings</a>
+						</li>
+						<li>
+							<a>Logout</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	);

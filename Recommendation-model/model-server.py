@@ -58,28 +58,16 @@ async def get_recommendations(book_title: str):
     return data
 
 @app.get("/top-books/")
-async def get_recommendations(book_title: str):
-    print(f"Recommendation request received for book title: '{book_title}'")
-    
-    if book_title not in app.state.pt.index:
-        print(f"Book '{book_title}' not found in the pivot table.")
-        return {"error": f"Book '{book_title}' not found in the pivot table."}
-    
-    index = np.where(app.state.pt.index == book_title)[0][0]
-    similar_items = sorted(list(enumerate(app.state.similarity_scores[index])), key=lambda x: x[1], reverse=True)[1:11]
+async def get_top_books():
+    print("Request received for top books.")
     
     data = []
-    for i in similar_items:
-        item = []
-        temp_df = app.state.books[app.state.books['Book-Title'] == app.state.pt.index[i[0]]]
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['ISBN'].values))
-        
+    
+    for _, row in app.state.top_50.iterrows():
+        item = [row['Book-Title'], row['Book-Author'], row['Image-URL-M'], row['num_ratings'], row['avg_rating']]
         data.append(item)
     
-    print(f"Recommendations generated successfully for book title: '{book_title}'")
+    print("Top books generated successfully")
     return data
 
 @app.get("/random-books/")
