@@ -1,8 +1,11 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
+const { OAuth2Client } = require("google-auth-library");
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const pool = mysql.createPool({
 	host: "localhost",
@@ -21,6 +24,21 @@ app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 	next();
+});
+
+app.post("/auth/google", async (req, res) => {
+	const { token } = req.body;
+	try {
+		const ticket = await client.verifyIdToken({
+			idToken: token,
+			audience: process.env.GOOGLE_CLIENT_ID,
+		});
+		const payload = ticket.getPayload();
+		// Here you would create or find a user in your database
+		res.status(200).json({ message: "User authenticated", user: payload });
+	} catch (error) {
+		res.status(401).json({ error: "Invalid token" });
+	}
 });
 
 app.get("/search", async (req, res) => {
@@ -56,7 +74,7 @@ setInterval(() => {
 	console.log("Cache cleared");
 }, 1000 * 60 * 60); // clear cache every hour
 
-const PORT = 5000;
+const PORT = 3000;
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });

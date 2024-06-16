@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Footer from "./components/Footer/Footer";
 
 const App = () => {

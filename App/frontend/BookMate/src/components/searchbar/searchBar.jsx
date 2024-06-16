@@ -7,7 +7,7 @@ const SearchBar = ({ setResults, searchTerm, setSearchTerm }) => {
 		console.log(value);
 		try {
 			const response = await axios.get(
-				`http://localhost:5000/search?q=${value}`
+				`http://localhost:3000/search?q=${value}`
 			);
 			console.log(response.data);
 			setResults(response.data);

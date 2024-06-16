@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",
+    "dotenv": "^16.4.5",
     "fuse.js": "^7.0.0",
+    "google-auth-library": "^9.11.0",
     "mysql2": "^3.9.7"
   }
 }

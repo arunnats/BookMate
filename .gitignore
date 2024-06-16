@@ -12,5 +12,7 @@ cert.crt
 books.pkl
 pivot_table.pkl
 similarity_scores.npy
+client_secret_691956204808-o8ehhd1f6dbjfqp58iu2i86raprde1aq.apps.googleusercontent.com.json
+.env
 
 node_modules/
