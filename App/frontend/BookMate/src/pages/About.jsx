@@ -4,11 +4,6 @@ import { GoogleLogin } from "@react-oauth/google";
 const About = () => {
 	const handleLoginSuccess = (credentialResponse) => {
 		console.log(credentialResponse);
-	};
-
-	const handleLoginFailure = (error) => {
-		console.log(error);
-		console.log("Login Failed");
 		fetch("http://localhost:3000/auth/google", {
 			method: "POST",
 			headers: {
@@ -21,6 +16,11 @@ const About = () => {
 				console.log(data);
 				// Handle the response from the backend
 			});
+	};
+
+	const handleLoginFailure = (error) => {
+		console.log(error);
+		console.log("Login Failed");
 	};
 
 	return (

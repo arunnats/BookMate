@@ -26,17 +26,72 @@ app.use((req, res, next) => {
 	next();
 });
 
+async function findUserBySub(sub) {
+	try {
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query("SELECT * FROM users WHERE id = ?", [
+			sub,
+		]);
+		connection.release();
+
+		return rows.length > 0 ? rows[0] : null;
+	} catch (error) {
+		console.error("Error finding user:", error.message);
+		throw error;
+	}
+}
+
+// Function to create a new user in MySQL database
+async function createUser(sub, email, given_name, family_name, picture) {
+	try {
+		const connection = await pool.getConnection();
+		const [result] = await connection.query(
+			"INSERT INTO users (sub, email, given_name, family_name, picture_url) VALUES (?, ?, ?, ?, ?)",
+			[sub, email, given_name, family_name, picture]
+		);
+		connection.release();
+
+		return {
+			id: result.insertId,
+			sub,
+			email,
+			given_name,
+			family_name,
+			picture,
+		};
+	} catch (error) {
+		console.error("Error creating user:", error.message);
+		throw error;
+	}
+}
+
 app.post("/auth/google", async (req, res) => {
 	const { token } = req.body;
+
 	try {
+		// Verify Google ID token
 		const ticket = await client.verifyIdToken({
 			idToken: token,
 			audience: process.env.GOOGLE_CLIENT_ID,
 		});
+
 		const payload = ticket.getPayload();
-		// Here you would create or find a user in your database
-		res.status(200).json({ message: "User authenticated", user: payload });
+		console.log(payload);
+		const { sub, email, given_name, family_name, picture } = payload;
+
+		// Check if the user exists in the database
+		let user = await findUserBySub(sub);
+
+		if (user) {
+			// User already exists, return user details
+			res.status(200).json({ message: "User authenticated", user });
+		} else {
+			// User doesn't exist, create a new user in the database
+			user = await createUser(sub, email, given_name, family_name, picture);
+			res.status(200).json({ message: "User created and authenticated", user });
+		}
 	} catch (error) {
+		console.error("Error authenticating user:", error.message);
 		res.status(401).json({ error: "Invalid token" });
 	}
 });

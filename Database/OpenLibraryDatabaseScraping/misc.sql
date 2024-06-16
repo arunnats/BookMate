@@ -45,6 +45,16 @@ CREATE TABLE top_books (
     avg_rating FLOAT
 );
 
+CREATE TABLE temp_top_books (
+    ISBN VARCHAR(13) PRIMARY KEY,
+    Book_Title VARCHAR(255),
+    Book_Author VARCHAR(255),
+    Image_URL_M VARCHAR(255),
+    num_ratings INT,
+    avg_rating FLOAT
+);
+
+
 desc top_books;
 
 DROP TABLE top_books;
@@ -52,12 +62,28 @@ DROP TABLE top_books;
 SELECT * FROM top_books LIMIT 10;
 
 SELECT COUNT(*) FROM top_books;
+SELECT COUNT(*) FROM temp_top_books;
+
 SHOW COLUMNS FROM top_books;
 
 CREATE INDEX titles ON top_books (`Book-Title`(255));
 ALTER TABLE top_books ADD FULLTEXT INDEX title_index (`Book-Title`);
 
-SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE '%har%' LIMIT 10;
+SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE '%black beau%' LIMIT 10;
+
+CREATE INDEX titles ON temp_top_books (`Book-Title`(255));
+ALTER TABLE temp_top_books ADD FULLTEXT INDEX title_index (`Book-Title`);
+SELECT `Book-Title`, `ISBN` FROM temp_top_books WHERE `Book-Title` LIKE '%harry potter and the%' LIMIT 10;
 
 SET GLOBAL  wait_timeout = 288000;
 SET GLOBAL  interactive_timeout = 288000;
+
+
+CREATE TABLE users (
+    id VARCHAR(255) PRIMARY KEY, 
+    email VARCHAR(255),
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    picture_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
