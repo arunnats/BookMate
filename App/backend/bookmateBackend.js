@@ -46,18 +46,18 @@ async function createUser(sub, email, given_name, family_name, picture) {
 	try {
 		const connection = await pool.getConnection();
 		const [result] = await connection.query(
-			"INSERT INTO users (sub, email, given_name, family_name, picture_url) VALUES (?, ?, ?, ?, ?)",
+			"INSERT INTO users (id, email, first_name, last_name, picture_url) VALUES (?, ?, ?, ?, ?)",
 			[sub, email, given_name, family_name, picture]
 		);
 		connection.release();
 
 		return {
-			id: result.insertId,
-			sub,
+			id: sub,
 			email,
-			given_name,
-			family_name,
-			picture,
+			first_name: given_name,
+			last_name: family_name,
+			picture_url: picture,
+			created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
 		};
 	} catch (error) {
 		console.error("Error creating user:", error.message);
