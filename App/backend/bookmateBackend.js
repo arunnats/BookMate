@@ -37,11 +37,6 @@ app.get("/search", async (req, res) => {
 	}
 
 	try {
-		// const [results] = await pool.query(
-		// 	`SELECT Title, MovieId FROM movie WHERE MATCH(Title) AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 10`,
-		// 	[`${query}%`]
-		// );
-
 		const [results] = await pool.query(
 			"SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE ? LIMIT 10",
 			[`%${query}%`]
