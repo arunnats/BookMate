@@ -11,7 +11,6 @@ const Navbar = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("user");
 		setUser(null);
-		console.log(user.picture);
 	};
 
 	return (
@@ -132,7 +131,11 @@ const Navbar = () => {
 						className="btn btn-ghost btn-circle avatar"
 					>
 						<div className="w-10 rounded-full">
-							<img alt="User Avatar" src={user ? user.picture : default_user} />
+							<img
+								alt="User Avatar"
+								src={user ? user.picture_url : default_user}
+								referrerPolicy="no-referrer"
+							/>
 						</div>
 					</div>
 					<ul
@@ -142,13 +145,7 @@ const Navbar = () => {
 						{user ? (
 							<>
 								<li>
-									<a className="justify-between">
-										Profile
-										<span className="badge">New</span>
-									</a>
-								</li>
-								<li>
-									<a>Settings</a>
+									<Link to="/Profile">Profile</Link>
 								</li>
 								<li>
 									<a onClick={handleLogout}>Logout</a>

@@ -1,8 +1,16 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../userContext.js";
 
 const UserProfile = () => {
-	const { user } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		localStorage.removeItem("user");
+		setUser(null);
+		navigate("/");
+	};
 
 	return (
 		<div>
@@ -10,10 +18,15 @@ const UserProfile = () => {
 			{user ? (
 				<div>
 					<p>
+						<img
+							src={user.picture_url}
+							referrerPolicy="no-referrer"
+							alt="Profile"
+						/>
 						Name: {user.first_name} {user.last_name}
 					</p>
 					<p>Email: {user.email}</p>
-					<img src={user.picture} alt="Profile" />
+					<button onClick={handleLogout}>Logout</button>
 				</div>
 			) : (
 				<p>User not logged in.</p>

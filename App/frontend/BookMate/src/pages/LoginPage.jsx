@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../userContext.js";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
 	const { setUser } = useContext(UserContext);
+	const navigate = useNavigate();
 
 	const handleLoginSuccess = (credentialResponse) => {
 		console.log(credentialResponse);
@@ -18,7 +20,9 @@ const LoginPage = () => {
 			.then((data) => {
 				console.log(data);
 				localStorage.setItem("user", JSON.stringify(data.user));
+				console.log(data.user);
 				setUser(data.user);
+				navigate("/");
 				// Handle the response from the backend
 			});
 	};
