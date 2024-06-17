@@ -19,10 +19,10 @@ const SearchAndResults = () => {
 			);
 			console.log(response.data);
 			const recommendationsData = response.data;
-			const formattedRecommendations = recommendationsData.map(
-				(book) => `${book[0]} - ${book[1]}`
-			);
-			setRecommendations(formattedRecommendations);
+			// const formattedRecommendations = recommendationsData.map(
+			// 	(book) => `${book[0]} - ${book[1]}`
+			// );
+			setRecommendations(recommendationsData);
 			setSearchTerm("");
 			setResults([]);
 		} catch (error) {
@@ -34,10 +34,10 @@ const SearchAndResults = () => {
 		try {
 			const response = await axios.get(`http://localhost:8000/random-books/`);
 			const randomTitles = response.data;
-			const formattedRecommendations = randomTitles.map(
-				(book) => `${book[0]} - ${book[1]}`
-			);
-			setRecommendations(formattedRecommendations);
+			// const formattedRecommendations = randomTitles.map(
+			// 	(book) => `${book[0]} - ${book[1]}`
+			// );
+			setRecommendations(randomTitles);
 		} catch (error) {
 			console.error("Error fetching recommendations:", error);
 		}
