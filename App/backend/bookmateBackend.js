@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const { OAuth2Client } = require("google-auth-library");
+const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
 const app = express();
@@ -26,6 +27,13 @@ app.use((req, res, next) => {
 	next();
 });
 
+function generateLibraryId() {
+	const timestamp = new Date().toISOString().slice(0, 19).replace(/[-T:]/g, "");
+	const uuidPart = uuidv4().split("-")[0];
+	const LibID = `LIB-${timestamp}-${uuidPart}`;
+	return LibID.substring(0, 25);
+}
+
 async function findUserBySub(sub) {
 	try {
 		const connection = await pool.getConnection();
@@ -45,14 +53,27 @@ async function findUserBySub(sub) {
 async function createUser(sub, email, given_name, family_name, picture) {
 	try {
 		const connection = await pool.getConnection();
-		const [result] = await connection.query(
-			"INSERT INTO users (id, email, first_name, last_name, picture_url) VALUES (?, ?, ?, ?, ?)",
-			[sub, email, given_name, family_name, picture]
+		const libID = generateLibraryId();
+
+		const [resultUsers] = await connection.query(
+			"INSERT INTO users (id, LibID, email, first_name, last_name, picture_url) VALUES (?, ?, ?, ?, ?, ?)",
+			[sub, libID, email, given_name, family_name, picture]
 		);
+		console.log("Inserted into users table:");
+		console.log(resultUsers);
+
+		const [resultLibrary] = await connection.query(
+			"INSERT INTO library (LibID, id, Fave_Books, Wish_list, answers) VALUES (?, ?, NULL, NULL, NULL)",
+			[libID, sub]
+		);
+		console.log("Inserted into library table:");
+		console.log(resultLibrary);
+
 		connection.release();
 
 		return {
 			id: sub,
+			LibID: libID,
 			email,
 			first_name: given_name,
 			last_name: family_name,

@@ -13,9 +13,18 @@ const App = () => {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		const storedUser = JSON.parse(localStorage.getItem("user"));
+		const storedUser = localStorage.getItem("user");
 		if (storedUser) {
-			setUser(storedUser);
+			try {
+				const parsedUser = JSON.parse(storedUser);
+				setUser(parsedUser);
+			} catch (error) {
+				console.error("Error parsing user from localStorage:", error);
+				localStorage.setItem("user", JSON.stringify(null)); // Set to null if parsing fails
+				setUser(null);
+			}
+		} else {
+			setUser(null);
 		}
 	}, []);
 
