@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const BookCard = ({ bookDetails }) => {
-	const [title, author, imageUrl, isbn] = bookDetails;
+	const [title, author, imageUrl, year] = bookDetails;
+	const imageUrlAlt = "http://covers.openlibrary.org/b/isbn/" + year + "-M.jpg";
+	console.log(imageUrlAlt);
+
+	const handleError = (e) => {
+		e.target.src = imageUrl; // Fallback image URL
+	};
 
 	return (
 		<div className="card card-compact w-96 bg-base-100 shadow-xl">
 			<figure>
-				<img src={imageUrl} alt={title} />
+				<img src={imageUrlAlt} alt={title} onError={handleError} />
 			</figure>
-			<div className="card-body">
-				<h2 className="card-title">{title}</h2>
+			<div className="card-body flex flex-col align-middle">
+				<h2 className="card-title justify-center">{title}</h2>
 				<p className="card-text">Author: {author}</p>
-				<p className="card-text">ISBN: {isbn}</p>
-				<div className="card-actions justify-end">
+				<p className="card-text">Year: {year}</p>
+				<div className="card-actions justify-center">
 					<button className="btn btn-primary">More Info</button>
 				</div>
 			</div>
