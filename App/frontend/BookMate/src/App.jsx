@@ -1,5 +1,4 @@
-// /src/App.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -7,23 +6,33 @@ import LoginPage from "./pages/LoginPage";
 import Profile from "./pages/Profile";
 import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { UserContext } from "./userContext";
 import Footer from "./components/Footer/Footer";
 
 const App = () => {
-	return (
-		<Router>
-			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/recommendations" element={<Recommendations />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/profile" element={<Profile />} />
-			</Routes>
+	const [user, setUser] = useState(null);
 
-			{/* <Footer />	 */}
-		</Router>
+	useEffect(() => {
+		const storedUser = JSON.parse(localStorage.getItem("user"));
+		if (storedUser) {
+			setUser(storedUser);
+		}
+	}, []);
+
+	return (
+		<UserContext.Provider value={{ user, setUser }}>
+			<Router>
+				<Navbar />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/about" element={<About />} />
+					<Route path="/recommendations" element={<Recommendations />} />
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/profile" element={<Profile />} />
+				</Routes>
+				{/* <Footer /> */}
+			</Router>
+		</UserContext.Provider>
 	);
 };
 
