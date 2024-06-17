@@ -63,7 +63,7 @@ const SearchAndResults = () => {
 			<Results className="relative z-40" recommendations={recommendations} />
 			<br />
 			<button className="btn btn-primary" onClick={getRandom}>
-				Get Random Movies
+				Get Random Books
 			</button>
 		</div>
 	);

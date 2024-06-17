@@ -22,7 +22,7 @@ def preprocess_data(books, ratings):
     popular_df = popular_df.merge(books, on='Book-Title')
     popular_df = popular_df.drop_duplicates('Book-Title')[['Book-Title', 'Book-Author', 'Image-URL-M', 'num_ratings', 'avg_rating']]
     
-     x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 15
+    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 15
     top_users = x[x].index
     filtered_rating = ratings_with_name[ratings_with_name['User-ID'].isin(top_users)]
     

@@ -69,11 +69,11 @@ SHOW COLUMNS FROM top_books;
 CREATE INDEX titles ON top_books (`Book-Title`(255));
 ALTER TABLE top_books ADD FULLTEXT INDEX title_index (`Book-Title`);
 
-SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE '%black beau%' LIMIT 10;
+SELECT * FROM top_books WHERE `Book-Title` LIKE '%harry potter and the%' LIMIT 10;
 
 CREATE INDEX titles ON temp_top_books (`Book-Title`(255));
 ALTER TABLE temp_top_books ADD FULLTEXT INDEX title_index (`Book-Title`);
-SELECT `Book-Title`, `ISBN` FROM temp_top_books WHERE `Book-Title` LIKE '%harry potter and the%' LIMIT 10;
+SELECT * FROM temp_top_books WHERE `Book-Title` LIKE '%harry potter and the%' LIMIT 10;
 
 SET GLOBAL  wait_timeout = 288000;
 SET GLOBAL  interactive_timeout = 288000;
@@ -87,3 +87,5 @@ CREATE TABLE users (
     picture_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+SELECT * FROM users LIMIT 10;
