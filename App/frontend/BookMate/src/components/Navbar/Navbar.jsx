@@ -1,10 +1,19 @@
-//Navbar.jsx
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../userContext";
 import { Link } from "react-router-dom";
 import logo from "../../assets/Logo.png";
 import githubLogo from "../../assets/icons8-github.svg";
+import default_user from "../../assets/images/default_user.jpeg";
 
 const Navbar = () => {
+	const { user, setUser } = useContext(UserContext);
+
+	const handleLogout = () => {
+		localStorage.removeItem("user");
+		setUser(null);
+		console.log(user.picture);
+	};
+
 	return (
 		<div className="navbar bg-neutral">
 			<div className="navbar-start">
@@ -123,28 +132,33 @@ const Navbar = () => {
 						className="btn btn-ghost btn-circle avatar"
 					>
 						<div className="w-10 rounded-full">
-							<img
-								alt="Tailwind CSS Navbar component"
-								src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-							/>
+							<img alt="User Avatar" src={user ? user.picture : default_user} />
 						</div>
 					</div>
 					<ul
 						tabIndex={0}
 						className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 					>
-						<li>
-							<a className="justify-between">
-								Profile
-								<span className="badge">New</span>
-							</a>
-						</li>
-						<li>
-							<a>Settings</a>
-						</li>
-						<li>
-							<a>Logout</a>
-						</li>
+						{user ? (
+							<>
+								<li>
+									<a className="justify-between">
+										Profile
+										<span className="badge">New</span>
+									</a>
+								</li>
+								<li>
+									<a>Settings</a>
+								</li>
+								<li>
+									<a onClick={handleLogout}>Logout</a>
+								</li>
+							</>
+						) : (
+							<li>
+								<Link to="/login">Login</Link>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

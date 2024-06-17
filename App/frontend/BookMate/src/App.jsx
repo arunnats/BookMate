@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import LoginPage from "./pages/LoginPage";
 import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -16,6 +17,7 @@ const App = () => {
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/recommendations" element={<Recommendations />} />
+				<Route path="/login" element={<LoginPage />} />
 			</Routes>
 
 			{/* <Footer />	 */}

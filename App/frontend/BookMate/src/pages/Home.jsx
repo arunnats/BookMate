@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import UserProfile from "../components/UserProfile/UserProfile";
 
 const Home = () => {
-	return <h1>Home Page</h1>;
+	return (
+		<div>
+			<h1>Home Page</h1>
+			<UserProfile />
+		</div>
+	);
 };
 
 export default Home;
