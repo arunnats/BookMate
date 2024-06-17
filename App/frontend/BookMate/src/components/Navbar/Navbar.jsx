@@ -60,6 +60,11 @@ const Navbar = () => {
 									</Link>
 								</li>
 								<li>
+									<Link className="btn btn-ghost text-m" to="/Library">
+										Your Library
+									</Link>
+								</li>
+								<li>
 									<a className="btn btn-ghost text-m" onClick={handleLogout}>
 										Logout
 									</a>
@@ -166,6 +171,9 @@ const Navbar = () => {
 							<>
 								<li>
 									<Link to="/Profile">Profile</Link>
+								</li>
+								<li>
+									<Link to="/Library">Your Library</Link>
 								</li>
 								<li>
 									<a onClick={handleLogout}>Logout</a>

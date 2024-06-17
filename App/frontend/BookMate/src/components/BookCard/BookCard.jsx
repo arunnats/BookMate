@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BookCard = ({ bookDetails }) => {
 	const [title, author, imageUrl, year] = bookDetails;
@@ -19,7 +20,9 @@ const BookCard = ({ bookDetails }) => {
 				<p className="card-text">Author: {author}</p>
 				<p className="card-text">Year: {year}</p>
 				<div className="card-actions justify-center">
-					<button className="btn btn-primary">More Info</button>
+					<button className="btn btn-primary">
+						<Link to={`/book/${year}`}>View Book</Link>
+					</button>
 				</div>
 			</div>
 		</div>
