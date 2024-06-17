@@ -52,6 +52,26 @@ const Navbar = () => {
 								About
 							</Link>
 						</li>
+						{user ? (
+							<>
+								<li>
+									<Link className="btn btn-ghost text-m" to="/Profile">
+										Profile
+									</Link>
+								</li>
+								<li>
+									<a className="btn btn-ghost text-m" onClick={handleLogout}>
+										Logout
+									</a>
+								</li>
+							</>
+						) : (
+							<li>
+								<Link className="btn btn-ghost text-m" to="/login">
+									Login
+								</Link>
+							</li>
+						)}
 						<li>
 							<a
 								href="https://github.com/arunnats/Flix/"
