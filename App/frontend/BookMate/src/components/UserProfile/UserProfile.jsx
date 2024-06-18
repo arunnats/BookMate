@@ -9,6 +9,8 @@ const UserProfile = () => {
 	useEffect(() => {
 		if (!user) {
 			navigate("/login");
+		} else {
+			console.log("Logged in");
 		}
 	}, [user, navigate]);
 

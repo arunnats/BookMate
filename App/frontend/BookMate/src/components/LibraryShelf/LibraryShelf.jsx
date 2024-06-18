@@ -1,17 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { UserContext } from "../../userContext.js";
-import { useNavigate } from "react-router-dom";
 import BookCard from "../BookCard/BookCard.jsx";
 
-const LibraryShelf = () => {
-	const { user, setUser } = useContext(UserContext);
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (!user) {
-			navigate("/login");
-		}
-	}, [user, navigate]);
+const LibraryShelf = ({ books }) => {
+	// const [book_list] = bookDetails;
+	console.log(books);
 
 	return (
 		<div>
