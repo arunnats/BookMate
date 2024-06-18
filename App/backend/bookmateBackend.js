@@ -80,6 +80,24 @@ async function findUserBySub(sub) {
 	}
 }
 
+async function findBook(ISBN) {
+	try {
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query(
+			"SELECT * FROM top_books WHERE ISBN = ?",
+			[ISBN]
+		);
+		connection.release();
+
+		console.log("Found book:", rows.length > 0 ? rows[0] : null);
+
+		return rows.length > 0 ? rows[0] : null;
+	} catch (error) {
+		console.error("Error finding book:", error.message);
+		throw error;
+	}
+}
+
 async function createUser(sub, email, given_name, family_name, picture) {
 	try {
 		const connection = await pool.getConnection();
