@@ -1,8 +1,14 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../userContext.js";
+import React, { useContext, useEffect } from "react";
+import { UserContext } from "../userContext";
 import LibraryShelf from "../components/LibraryShelf/LibraryShelf";
 
 const LibraryPage = () => {
+	const { user, updateUser } = useContext(UserContext);
+
+	useEffect(() => {
+		fetchLibraryDetails();
+	}, [user?.LibID, updateUser]);
+
 	return (
 		<div className="flex flex-col items-center py-8 min-h-screen">
 			<h1 className="text-center">Library Page</h1>

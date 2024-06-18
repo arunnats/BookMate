@@ -34,6 +34,35 @@ function generateLibraryId() {
 	return LibID.substring(0, 25);
 }
 
+async function findLibrary(LibID) {
+	try {
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query(
+			"SELECT * FROM library WHERE LibID = ?",
+			[LibID]
+		);
+		connection.release();
+
+		const Lib = rows.length > 0 ? rows[0] : null;
+		console.log("Found library:", Lib);
+
+		const wishList = Lib && Lib.Wish_list ? Lib.Wish_list.split(",") : [];
+		const faveBooks = Lib && Lib.Fave_Books ? Lib.Fave_Books.split(",") : [];
+
+		const response = {
+			LibID: Lib ? Lib.LibID : null,
+			Fave_Books: faveBooks,
+			Wish_list: wishList,
+		};
+
+		console.log("Returning library response:", response);
+		return response;
+	} catch (error) {
+		console.error("Error finding library:", error.message);
+		throw error;
+	}
+}
+
 async function findUserBySub(sub) {
 	try {
 		const connection = await pool.getConnection();
@@ -42,6 +71,8 @@ async function findUserBySub(sub) {
 		]);
 		connection.release();
 
+		console.log("Found user:", rows.length > 0 ? rows[0] : null);
+
 		return rows.length > 0 ? rows[0] : null;
 	} catch (error) {
 		console.error("Error finding user:", error.message);
@@ -49,29 +80,28 @@ async function findUserBySub(sub) {
 	}
 }
 
-// Function to create a new user in MySQL database
 async function createUser(sub, email, given_name, family_name, picture) {
 	try {
 		const connection = await pool.getConnection();
 		const libID = generateLibraryId();
 
+		console.log("Creating user with ID:", sub);
+
 		const [resultUsers] = await connection.query(
 			"INSERT INTO users (id, LibID, email, first_name, last_name, picture_url) VALUES (?, ?, ?, ?, ?, ?)",
 			[sub, libID, email, given_name, family_name, picture]
 		);
-		console.log("Inserted into users table:");
-		console.log(resultUsers);
+		console.log("Inserted into users table:", resultUsers);
 
 		const [resultLibrary] = await connection.query(
 			"INSERT INTO library (LibID, id, Fave_Books, Wish_list, answers) VALUES (?, ?, NULL, NULL, NULL)",
 			[libID, sub]
 		);
-		console.log("Inserted into library table:");
-		console.log(resultLibrary);
+		console.log("Inserted into library table:", resultLibrary);
 
 		connection.release();
 
-		return {
+		const user = {
 			id: sub,
 			LibID: libID,
 			email,
@@ -80,6 +110,9 @@ async function createUser(sub, email, given_name, family_name, picture) {
 			picture_url: picture,
 			created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
 		};
+
+		console.log("Created user:", user);
+		return user;
 	} catch (error) {
 		console.error("Error creating user:", error.message);
 		throw error;
@@ -90,6 +123,8 @@ app.post("/auth/google", async (req, res) => {
 	const { token } = req.body;
 
 	try {
+		console.log("Received Google Auth token:", token);
+
 		// Verify Google ID token
 		const ticket = await client.verifyIdToken({
 			idToken: token,
@@ -97,7 +132,7 @@ app.post("/auth/google", async (req, res) => {
 		});
 
 		const payload = ticket.getPayload();
-		console.log(payload);
+		console.log("Google Auth Payload:", payload);
 		const { sub, email, given_name, family_name, picture } = payload;
 
 		// Check if the user exists in the database
@@ -105,9 +140,11 @@ app.post("/auth/google", async (req, res) => {
 
 		if (user) {
 			// User already exists, return user details
+			console.log("User already exists:", user);
 			res.status(200).json({ message: "User authenticated", user });
 		} else {
 			// User doesn't exist, create a new user in the database
+			console.log("Creating new user...");
 			user = await createUser(sub, email, given_name, family_name, picture);
 			res.status(200).json({ message: "User created and authenticated", user });
 		}
@@ -117,8 +154,26 @@ app.post("/auth/google", async (req, res) => {
 	}
 });
 
+app.get("/library", async (req, res) => {
+	const { LibID } = req.query;
+	try {
+		console.log("Fetching library for LibID:", LibID);
+		let library = await findLibrary(LibID);
+		if (library) {
+			console.log("Library found:", library);
+			res.json(library);
+		} else {
+			console.log("Library not found for LibID:", LibID);
+			res.status(404).json({ error: "Library not found" });
+		}
+	} catch (error) {
+		console.error("Error fetching library data:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 app.get("/search", async (req, res) => {
-	console.log("search req");
+	console.log("Received search request");
 	const query = req.query.q;
 	if (!query) {
 		return res.status(400).json({ error: "Query parameter 'q' is required" });
@@ -126,11 +181,12 @@ app.get("/search", async (req, res) => {
 
 	// Check cache first
 	if (cache.has(query)) {
-		console.log("Using cache for query:", query);
+		console.log("Using cached results for query:", query);
 		return res.json(cache.get(query));
 	}
 
 	try {
+		console.log("Executing search query:", query);
 		const [results] = await pool.query(
 			"SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE ? LIMIT 10",
 			[`%${query}%`]
@@ -138,9 +194,10 @@ app.get("/search", async (req, res) => {
 
 		cache.set(query, results);
 
+		console.log("Search results:", results);
 		res.json(results);
 	} catch (error) {
-		console.error("Error executing query", error);
+		console.error("Error executing search query:", error);
 		res.status(500).json({ error: "Internal server error" });
 	}
 });
