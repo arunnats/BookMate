@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const BookCard = ({ bookDetails }) => {
-	const [title, author, imageUrl, year] = bookDetails;
+	const [title, author, imageUrl, year, ISBN] = bookDetails;
 	const imageUrlAlt = "http://covers.openlibrary.org/b/isbn/" + year + "-M.jpg";
 	console.log(imageUrlAlt);
 
@@ -19,9 +19,10 @@ const BookCard = ({ bookDetails }) => {
 				<h2 className="card-title justify-center">{title}</h2>
 				<p className="card-text">Author: {author}</p>
 				<p className="card-text">Year: {year}</p>
+				<p className="card-text">ISBN: {ISBN}</p>
 				<div className="card-actions justify-center">
 					<button className="btn btn-primary">
-						<Link to={`/book/${year}`}>View Book</Link>
+						<Link to={`/book/${ISBN}`}>View Book</Link>
 					</button>
 				</div>
 			</div>

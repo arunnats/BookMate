@@ -198,7 +198,16 @@ app.get("/book-details", async (req, res) => {
 		let book = await findBook(ISBN);
 		if (book) {
 			console.log("Book found:", book);
-			res.json(book);
+
+			const result = [
+				book["Book-Title"],
+				book["Book-Author"],
+				book["Image-URL-M"],
+				book["Year-Of-Publication"],
+				book["ISBN"],
+			];
+
+			res.json(result);
 		} else {
 			console.log("Book not found for ISBN:", book);
 			res.status(404).json({ error: "Book not found" });

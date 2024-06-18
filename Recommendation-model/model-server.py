@@ -50,6 +50,7 @@ async def get_recommendations(book_title: str):
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
         item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
+        item.extend(list(temp_df.drop_duplicates('Book-Title')['Year-Of-Publication'].values))
         item.extend(list(temp_df.drop_duplicates('Book-Title')['ISBN'].values))
         
         data.append(item)

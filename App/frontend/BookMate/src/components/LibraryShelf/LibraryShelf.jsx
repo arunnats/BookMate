@@ -1,65 +1,44 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BookCard from "../BookCard/BookCard.jsx";
 
 const LibraryShelf = ({ books }) => {
-	// const [book_list] = bookDetails;
-	const bookCards = [];
-	console.log(books);
+	const [bookCards, setBookCards] = useState([]);
 
-	for (let i = 0; i < books.length; i++) {
-		const bookDetails = books[i];
-		bookCards.push(
-			<div key={i} className="p-2">
-				<BookCard bookDetails={bookDetails} />
-			</div>
-		);
-	}
+	useEffect(() => {
+		const fetchBookDetails = async () => {
+			try {
+				const fetchPromises = books.map(async (isbn) => {
+					const response = await fetch(
+						`http://localhost:3000/book-details/?ISBN=${isbn}`
+					);
+					if (!response.ok) {
+						throw new Error(`Failed to fetch book details for ISBN ${isbn}`);
+					}
+					const bookDetails = await response.json();
+					return <BookCard key={isbn} bookDetails={bookDetails} />;
+				});
+
+				const resolvedBookCards = await Promise.all(fetchPromises);
+				setBookCards(resolvedBookCards);
+			} catch (error) {
+				console.error("Error fetching book details:", error.message);
+				// Handle error state if needed
+			}
+		};
+
+		if (books.length > 0) {
+			fetchBookDetails();
+		}
+	}, [books]);
 
 	return (
 		<div>
 			<div className="carousel carousel-center max-w-[80rem] p-4 space-x-4 bg-neutral rounded-box">
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg"
-						className="rounded-box"
-					/>
-				</div>
-				<div className="carousel-item">
-					<img
-						src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg"
-						className="rounded-box"
-					/>
-				</div>
+				{bookCards.length > 0 ? (
+					bookCards
+				) : (
+					<p>No books available or loading...</p>
+				)}
 			</div>
 		</div>
 	);
