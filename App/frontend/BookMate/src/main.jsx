@@ -14,7 +14,16 @@ const RootComponent = () => {
 		// Check if user data is stored in local storage
 		const storedUser = localStorage.getItem("user");
 		if (storedUser) {
-			setUser(JSON.parse(storedUser));
+			try {
+				const parsedUser = JSON.parse(storedUser);
+				setUser(parsedUser);
+			} catch (error) {
+				console.error("Error parsing user from localStorage:", error);
+				localStorage.setItem("user", JSON.stringify(null)); // Set to null if parsing fails
+				setUser(null);
+			}
+		} else {
+			setUser(null);
 		}
 	}, []);
 

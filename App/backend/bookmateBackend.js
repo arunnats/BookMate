@@ -172,6 +172,25 @@ app.get("/library", async (req, res) => {
 	}
 });
 
+app.get("/book-details", async (req, res) => {
+	const { ISBN } = req.query;
+	try {
+		console.log("Fetching Book for ISBN:", ISBN);
+
+		let book = await findBook(ISBN);
+		if (book) {
+			console.log("Book found:", book);
+			res.json(book);
+		} else {
+			console.log("Book not found for ISBN:", book);
+			res.status(404).json({ error: "Book not found" });
+		}
+	} catch (error) {
+		console.error("Error fetching book data:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 app.get("/search", async (req, res) => {
 	console.log("Received search request");
 	const query = req.query.q;

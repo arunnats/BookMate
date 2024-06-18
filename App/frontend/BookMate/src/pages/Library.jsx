@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../userContext.js";
+import { UserContext } from "../userContext";
 import { useNavigate } from "react-router-dom";
 import LibraryShelf from "../components/LibraryShelf/LibraryShelf";
 
@@ -18,8 +18,8 @@ const LibraryPage = () => {
 		if (user) {
 			console.log("User is logged in, fetching library details");
 			try {
-				const Fave_Books = user.library.Fave_Books || [];
-				const Wish_List = user.library.Wish_list || [];
+				const Fave_Books = user.library?.Fave_Books || [];
+				const Wish_List = user.library?.Wish_list || [];
 
 				setLibraryData({ Fave_Books, Wish_List });
 
@@ -29,7 +29,7 @@ const LibraryPage = () => {
 				console.error("Error fetching library details:", error.message);
 				// Handle error state
 			}
-		} else if (!user) {
+		} else {
 			console.log("Not logged in");
 			navigate("/login");
 		}

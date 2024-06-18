@@ -3,7 +3,16 @@ import BookCard from "../BookCard/BookCard.jsx";
 
 const LibraryShelf = ({ books }) => {
 	// const [book_list] = bookDetails;
+  const bookCards = [];
 	console.log(books);
+
+  for (let i = 0; i < books.length; i++) {
+		const bookDetails = books[i];
+		bookCards.push(
+			<div key={i} className="p-2">
+				<BookCard bookDetails={bookDetails} />
+			</div>
+		)
 
 	return (
 		<div>
