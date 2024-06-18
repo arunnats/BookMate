@@ -13,7 +13,7 @@ const BookCard = ({ bookDetails }) => {
 	return (
 		<div className="card card-compact w-96 bg-base-100 shadow-xl">
 			<figure>
-				<img src={imageUrlAlt} alt={title} onError={handleError} />
+				<img src={imageUrl} alt={title} onError={handleError} />
 			</figure>
 			<div className="card-body flex flex-col align-middle">
 				<h2 className="card-title justify-center">{title}</h2>
