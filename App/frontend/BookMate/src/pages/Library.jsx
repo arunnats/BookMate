@@ -1,14 +1,45 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { UserContext } from "../userContext.js";
+import { useNavigate } from "react-router-dom";
 import LibraryPage from "../components/LibraryPage/LibraryPage";
 import EditLibrary from "../components/EditLibrary/EditLibrary";
 
 const Library = () => {
+	const { user } = useContext(UserContext);
+	const navigate = useNavigate();
 	const [isEditing, setIsEditing] = useState(false);
+	const [libraryData, setLibraryData] = useState({
+		Fave_Books: [],
+		Wish_List: [],
+	});
 
 	const handleButtonClick = () => {
 		setIsEditing(!isEditing);
 	};
+
+	useEffect(() => {
+		console.log("useEffect called");
+		console.log("Current user:", user);
+
+		if (user) {
+			console.log("User is logged in, fetching library details");
+			try {
+				const Fave_Books = user.library?.Fave_Books || [];
+				const Wish_List = user.library?.Wish_list || [];
+
+				setLibraryData({ Fave_Books, Wish_List });
+
+				console.log("Favorite Books:", Fave_Books);
+				console.log("Wish List:", Wish_List);
+			} catch (error) {
+				console.error("Error fetching library details:", error.message);
+				// Handle error state
+			}
+		} else {
+			console.log("Not logged in");
+			navigate("/login");
+		}
+	}, [user, navigate]);
 
 	return (
 		<div className="flex flex-col items-center py-8 min-h-screen">
@@ -18,7 +49,14 @@ const Library = () => {
 				{isEditing ? "Save Changes" : "Edit Library"}
 			</button>
 			<br />
-			{isEditing ? <EditLibrary /> : <LibraryPage />}
+			{isEditing ? (
+				<EditLibrary
+					libraryData={libraryData}
+					setLibraryData={setLibraryData}
+				/>
+			) : (
+				<LibraryPage libraryData={libraryData} />
+			)}
 		</div>
 	);
 };
