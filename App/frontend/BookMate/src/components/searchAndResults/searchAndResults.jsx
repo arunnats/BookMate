@@ -14,8 +14,9 @@ const SearchAndResults = () => {
 	const getRecommendations = async (result) => {
 		try {
 			console.log(result);
+			const Title = result["Book-Title"];
 			const response = await axios.get(
-				`http://localhost:8000/recommend/?book_title=${result}`
+				`http://localhost:8000/recommend/?book_title=${Title}`
 			);
 			console.log(response.data);
 			const recommendationsData = response.data;

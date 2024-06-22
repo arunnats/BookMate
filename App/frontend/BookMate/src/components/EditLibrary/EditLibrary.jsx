@@ -9,34 +9,27 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 	const [faveSearchTerm, setFaveSearchTerm] = useState("");
 	const [wishSearchTerm, setWishSearchTerm] = useState("");
 
-	const addToFaveBooks = async (result) => {
-		try {
-			const newFaveBooks = [...libraryData.Fave_Books, result.ISBN];
-			setLibraryData((prevLibraryData) => ({
-				...prevLibraryData,
-				Fave_Books: newFaveBooks,
-			}));
-		} catch (error) {
-			console.error("Error adding to Fave Books:", error);
-		}
+	const addToFaveBooks = (result) => {
+		const newFaveBooks = new Set(libraryData.Fave_Books);
+		newFaveBooks.add(result.ISBN);
+		setLibraryData((prevLibraryData) => ({
+			...prevLibraryData,
+			Fave_Books: newFaveBooks,
+		}));
 	};
 
-	const addToWishList = async (result) => {
-		try {
-			const newWishList = [...libraryData.Wish_List, result.ISBN];
-			setLibraryData((prevLibraryData) => ({
-				...prevLibraryData,
-				Wish_List: newWishList,
-			}));
-		} catch (error) {
-			console.error("Error adding to Wish List:", error);
-		}
+	const addToWishList = (result) => {
+		const newWishList = new Set(libraryData.Wish_List);
+		newWishList.add(result.ISBN);
+		setLibraryData((prevLibraryData) => ({
+			...prevLibraryData,
+			Wish_List: newWishList,
+		}));
 	};
 
 	const removeFaveBook = (isbn) => {
-		const newFaveBooks = libraryData.Fave_Books.filter(
-			(bookISBN) => bookISBN !== isbn
-		);
+		const newFaveBooks = new Set(libraryData.Fave_Books);
+		newFaveBooks.delete(isbn);
 		setLibraryData((prevLibraryData) => ({
 			...prevLibraryData,
 			Fave_Books: newFaveBooks,
@@ -44,9 +37,8 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 	};
 
 	const removeWishBook = (isbn) => {
-		const newWishList = libraryData.Wish_List.filter(
-			(bookISBN) => bookISBN !== isbn
-		);
+		const newWishList = new Set(libraryData.Wish_List);
+		newWishList.delete(isbn);
 		setLibraryData((prevLibraryData) => ({
 			...prevLibraryData,
 			Wish_List: newWishList,
@@ -72,7 +64,7 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 					)}
 					<br />
 					<LibraryShelf
-						books={libraryData.Fave_Books}
+						books={Array.from(libraryData.Fave_Books)}
 						editState={1}
 						removeBook={removeFaveBook}
 					/>
@@ -92,7 +84,7 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 					)}
 					<br />
 					<LibraryShelf
-						books={libraryData.Wish_List}
+						books={Array.from(libraryData.Wish_List)}
 						editState={1}
 						removeBook={removeWishBook}
 					/>
