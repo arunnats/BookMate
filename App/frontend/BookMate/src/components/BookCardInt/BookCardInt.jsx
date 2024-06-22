@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 const BookCardInt = ({ bookDetails }) => {
 	const [title, author, imageUrl, year, ISBN] = bookDetails;
 	const imageUrlAlt = "http://covers.openlibrary.org/b/isbn/" + year + "-M.jpg";
-	console.log(imageUrlAlt);
-
 	const handleError = (e) => {
 		e.target.src = imageUrl; // Fallback image URL
 	};

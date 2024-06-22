@@ -4,7 +4,6 @@ import BookCardInt from "../BookCardInt/BookCardInt.jsx";
 
 const LibraryShelf = ({ books, editState }) => {
 	const [bookCards, setBookCards] = useState([]);
-	console.log(editState);
 
 	useEffect(() => {
 		const fetchBookDetails = async () => {
