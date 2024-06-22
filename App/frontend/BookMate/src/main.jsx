@@ -8,24 +8,14 @@ import "./index.css";
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const RootComponent = () => {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState(() => {
+		const storedUser = localStorage.getItem("user");
+		return storedUser ? JSON.parse(storedUser) : null;
+	});
 
 	useEffect(() => {
-		// Check if user data is stored in local storage
-		const storedUser = localStorage.getItem("user");
-		if (storedUser) {
-			try {
-				const parsedUser = JSON.parse(storedUser);
-				setUser(parsedUser);
-			} catch (error) {
-				console.error("Error parsing user from localStorage:", error);
-				localStorage.setItem("user", JSON.stringify(null)); // Set to null if parsing fails
-				setUser(null);
-			}
-		} else {
-			setUser(null);
-		}
-	}, []);
+		localStorage.setItem("user", JSON.stringify(user));
+	}, [user]);
 
 	return (
 		<GoogleOAuthProvider clientId={clientId}>

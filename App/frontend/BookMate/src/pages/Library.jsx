@@ -6,7 +6,7 @@ import EditLibrary from "../components/EditLibrary/EditLibrary";
 import axios from "axios";
 
 const Library = () => {
-	const { user } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [isEditing, setIsEditing] = useState(false);
 	const [libraryData, setLibraryData] = useState({
@@ -15,28 +15,34 @@ const Library = () => {
 	});
 
 	useEffect(() => {
-		console.log("useEffect called");
-		console.log("Current user:", user);
-
-		if (user) {
-			console.log("User is logged in, fetching library details");
+		console.log(user.library);
+		const fetchLibraryData = async () => {
 			try {
-				const Fave_Books = new Set(user.library?.Fave_Books || []);
-				const Wish_List = new Set(user.library?.Wish_list || []);
-
+				const libraryResponse = await axios.get(
+					`http://localhost:3000/library?LibID=${user.LibID}`
+				);
+				const libraryData = libraryResponse.data;
+				const Fave_Books = new Set(libraryData.Fave_Books || []);
+				const Wish_List = new Set(libraryData.Wish_List || []);
 				setLibraryData({ Fave_Books, Wish_List });
 
-				// console.log("Favorite Books:", Fave_Books);
-				// console.log("Wish List:", Wish_List);
+				const updatedUser = { ...user, library: libraryData };
+				setUser(updatedUser);
 			} catch (error) {
 				console.error("Error fetching library details:", error.message);
-				// Handle error state
 			}
+		};
+
+		if (user && !user.library) {
+			fetchLibraryData();
+		} else if (user) {
+			const Fave_Books = new Set(user.library.Fave_Books || []);
+			const Wish_List = new Set(user.library.Wish_List || []);
+			setLibraryData({ Fave_Books, Wish_List });
 		} else {
-			console.log("Not logged in");
 			navigate("/login");
 		}
-	}, [user, navigate]);
+	}, [user, navigate, setUser]);
 
 	const handleButtonClick = async () => {
 		setIsEditing(!isEditing);
@@ -47,11 +53,16 @@ const Library = () => {
 				Wish_List: Array.from(libraryData.Wish_List),
 			};
 			try {
-				const response = await axios.post(
-					"http://localhost:3000/update-library",
-					updateData
-				);
-				console.log(response.data);
+				await axios.post("http://localhost:3000/update-library", updateData);
+
+				const updatedUser = {
+					...user,
+					library: {
+						Fave_Books: Array.from(libraryData.Fave_Books),
+						Wish_List: Array.from(libraryData.Wish_List),
+					},
+				};
+				setUser(updatedUser);
 			} catch (error) {
 				console.error("Error updating library data:", error.message);
 			}

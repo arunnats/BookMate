@@ -3,7 +3,7 @@ import BookCard from "../BookCard/BookCard.jsx";
 import BookCardInt from "../BookCardInt/BookCardInt.jsx";
 
 const LibraryShelf = ({ books, editState, removeBook }) => {
-	const [bookCards, setBookCards] = useState([]);
+	const [bookDetailsList, setBookDetailsList] = useState([]);
 
 	useEffect(() => {
 		const fetchBookDetails = async () => {
@@ -16,20 +16,11 @@ const LibraryShelf = ({ books, editState, removeBook }) => {
 						throw new Error(`Failed to fetch book details for ISBN ${isbn}`);
 					}
 					const bookDetails = await response.json();
-					if (editState === 0)
-						return <BookCard key={isbn} bookDetails={bookDetails} />;
-					else
-						return (
-							<BookCardInt
-								key={isbn}
-								bookDetails={bookDetails}
-								removeBook={removeBook}
-							/>
-						);
+					return { isbn, bookDetails };
 				});
 
-				const resolvedBookCards = await Promise.all(fetchPromises);
-				setBookCards(resolvedBookCards);
+				const resolvedBookDetails = await Promise.all(fetchPromises);
+				setBookDetailsList(resolvedBookDetails);
 			} catch (error) {
 				console.error("Error fetching book details:", error.message);
 			}
@@ -37,14 +28,26 @@ const LibraryShelf = ({ books, editState, removeBook }) => {
 
 		if (books.length > 0) {
 			fetchBookDetails();
+		} else {
+			setBookDetailsList([]);
 		}
 	}, [books]);
 
 	return (
 		<div>
 			<div className="carousel carousel-center max-w-[80rem] p-4 space-x-4 bg-neutral rounded-box">
-				{bookCards.length > 0 ? (
-					bookCards
+				{bookDetailsList.length > 0 ? (
+					bookDetailsList.map(({ isbn, bookDetails }) =>
+						editState === 0 ? (
+							<BookCard key={isbn} bookDetails={bookDetails} />
+						) : (
+							<BookCardInt
+								key={isbn}
+								bookDetails={bookDetails}
+								removeBook={removeBook}
+							/>
+						)
+					)
 				) : (
 					<p>No books available or loading...</p>
 				)}

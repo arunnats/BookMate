@@ -15,7 +15,6 @@ const LoginPage = () => {
 
 	const handleLoginSuccess = async (credentialResponse) => {
 		try {
-			console.log(credentialResponse);
 			const response = await fetch("http://localhost:3000/auth/google", {
 				method: "POST",
 				headers: {
@@ -24,22 +23,13 @@ const LoginPage = () => {
 				body: JSON.stringify({ token: credentialResponse.credential }),
 			});
 			const data = await response.json();
-			console.log(data);
-			localStorage.setItem("user", JSON.stringify(data.user));
-			setUser(data.user);
-
 			const libraryResponse = await fetch(
 				`http://localhost:3000/library?LibID=${data.user.LibID}`
 			);
 			const libraryData = await libraryResponse.json();
-			if (libraryResponse.ok) {
-				const updatedUser = { ...data.user, library: libraryData };
-				console.log(updatedUser);
-				localStorage.setItem("user", JSON.stringify(updatedUser));
-				setUser(updatedUser);
-			} else {
-				console.error("Failed to fetch library details", libraryData.error);
-			}
+
+			const updatedUser = { ...data.user, library: libraryData };
+			setUser(updatedUser);
 
 			navigate("/profile");
 		} catch (error) {
@@ -48,8 +38,7 @@ const LoginPage = () => {
 	};
 
 	const handleLoginFailure = (error) => {
-		console.log(error);
-		console.log("Login Failed");
+		console.error("Login Failed", error);
 	};
 
 	return (
