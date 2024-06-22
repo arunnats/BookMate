@@ -46,13 +46,13 @@ async function findLibrary(LibID) {
 		const Lib = rows.length > 0 ? rows[0] : null;
 		// console.log("Found library:", Lib);
 
-		const wishList = Lib && Lib.Wish_list ? Lib.Wish_list.split(",") : [];
+		const wishList = Lib && Lib.Wish_List ? Lib.Wish_List.split(",") : [];
 		const faveBooks = Lib && Lib.Fave_Books ? Lib.Fave_Books.split(",") : [];
 
 		const response = {
 			LibID: Lib ? Lib.LibID : null,
 			Fave_Books: faveBooks,
-			Wish_list: wishList,
+			Wish_List: wishList,
 		};
 
 		// console.log("Returning library response:", response);
@@ -112,7 +112,7 @@ async function createUser(sub, email, given_name, family_name, picture) {
 		console.log("Inserted into users table:", resultUsers);
 
 		const [resultLibrary] = await connection.query(
-			"INSERT INTO library (LibID, id, Fave_Books, Wish_list, answers) VALUES (?, ?, NULL, NULL, NULL)",
+			"INSERT INTO library (LibID, id, Fave_Books, Wish_List, answers) VALUES (?, ?, NULL, NULL, NULL)",
 			[libID, sub]
 		);
 		console.log("Inserted into library table:", resultLibrary);
@@ -200,7 +200,7 @@ app.post("/update-library", async (req, res) => {
 
 	try {
 		const [resultLibUpdate] = await connection.query(
-			"UPDATE library SET Fave_Books = ?, Wish_list = ? WHERE LibID = ?",
+			"UPDATE library SET Fave_Books = ?, Wish_List = ? WHERE LibID = ?",
 			[Fave_Books_Str, Wish_List_Str, LibID]
 		);
 		console.log("Updated library table:", resultLibUpdate);

@@ -15,7 +15,8 @@ const Library = () => {
 	});
 
 	useEffect(() => {
-		console.log(user.library);
+		if (!user) navigate("/login");
+
 		const fetchLibraryData = async () => {
 			try {
 				const libraryResponse = await axios.get(
@@ -36,6 +37,7 @@ const Library = () => {
 		if (user && !user.library) {
 			fetchLibraryData();
 		} else if (user) {
+			console.log(user.library);
 			const Fave_Books = new Set(user.library.Fave_Books || []);
 			const Wish_List = new Set(user.library.Wish_List || []);
 			setLibraryData({ Fave_Books, Wish_List });
