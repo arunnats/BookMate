@@ -70,9 +70,9 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 	return (
 		<div ref={containerRef} className="relative">
 			<div className="flex flex-col items-center py-8 min-h-screen">
-				<h1>Edit Library</h1>
-				<div className="w-full flex flex-col p-4 items-center justify-center">
-					<h1 className="pb-6">Your Books</h1>
+				<h4>Edit Library</h4>
+				<h1 className="pb-6">Your Books</h1>
+				<div className="search-bar-container w-full flex flex-col justify-center items-center relative">
 					<SearchBar
 						setResults={setFaveResults}
 						searchTerm={faveSearchTerm}
@@ -91,13 +91,14 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 						removeBook={removeFaveBook}
 					/>
 				</div>
-				<div className="w-full flex flex-col p-1 items-center justify-center">
-					<h1 className="p-6">Your WishList</h1>
+				<h1 className="p-6">Your WishList</h1>
+				<div className="search-bar-container w-full flex flex-col justify-center items-center relative">
 					<SearchBar
 						setResults={setWishResults}
 						searchTerm={wishSearchTerm}
 						setSearchTerm={setWishSearchTerm}
 					/>
+
 					{wishResults && wishResults.length > 0 && (
 						<SearchResultsList
 							results={wishResults}
