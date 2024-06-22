@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BookCard from "../BookCard/BookCard.jsx";
 import BookCardInt from "../BookCardInt/BookCardInt.jsx";
 
-const LibraryShelf = ({ books, editState }) => {
+const LibraryShelf = ({ books, editState, removeBook }) => {
 	const [bookCards, setBookCards] = useState([]);
 
 	useEffect(() => {
@@ -18,21 +18,27 @@ const LibraryShelf = ({ books, editState }) => {
 					const bookDetails = await response.json();
 					if (editState === 0)
 						return <BookCard key={isbn} bookDetails={bookDetails} />;
-					else return <BookCardInt key={isbn} bookDetails={bookDetails} />;
+					else
+						return (
+							<BookCardInt
+								key={isbn}
+								bookDetails={bookDetails}
+								removeBook={removeBook}
+							/>
+						);
 				});
 
 				const resolvedBookCards = await Promise.all(fetchPromises);
 				setBookCards(resolvedBookCards);
 			} catch (error) {
 				console.error("Error fetching book details:", error.message);
-				// Handle error state if needed
 			}
 		};
 
 		if (books.length > 0) {
 			fetchBookDetails();
 		}
-	}, [books, editState]);
+	}, [books]);
 
 	return (
 		<div>

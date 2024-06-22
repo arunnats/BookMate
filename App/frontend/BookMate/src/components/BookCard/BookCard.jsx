@@ -10,7 +10,7 @@ const BookCard = ({ bookDetails }) => {
 	};
 
 	return (
-		<div className="card card-compact w-96 bg-base-100 shadow-xl">
+		<div className="card card-compact min-w-96 max-w-96 bg-base-100 shadow-xl">
 			<figure>
 				<img src={imageUrl} alt={title} onError={handleError} />
 			</figure>

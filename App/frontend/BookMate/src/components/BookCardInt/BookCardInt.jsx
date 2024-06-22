@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
-const BookCardInt = ({ bookDetails }) => {
+const BookCardInt = ({ bookDetails, removeBook }) => {
 	const [title, author, imageUrl, year, ISBN] = bookDetails;
 	const imageUrlAlt = "http://covers.openlibrary.org/b/isbn/" + year + "-M.jpg";
 	const handleError = (e) => {
-		e.target.src = imageUrl; // Fallback image URL
+		e.target.src = imageUrlAlt; // Fallback image URL
 	};
 
 	return (
-		<div className="card card-compact w-96 bg-base-100 shadow-xl">
+		<div className="card card-compact min-w-96 max-w-96 bg-base-100 shadow-xl">
 			<figure>
 				<img src={imageUrl} alt={title} onError={handleError} />
 			</figure>
@@ -19,7 +18,9 @@ const BookCardInt = ({ bookDetails }) => {
 				<p className="card-text">Year: {year}</p>
 				<p className="card-text">ISBN: {ISBN}</p>
 				<div className="card-actions justify-center">
-					<button className="btn btn-primary">Remove Book</button>
+					<button className="btn btn-primary" onClick={() => removeBook(ISBN)}>
+						Remove Book
+					</button>
 				</div>
 			</div>
 		</div>
