@@ -1,15 +1,14 @@
-import React from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import SearchBar from "../searchbar/searchBar";
 import SearchResultsList from "../searchbar/searchResultsList";
 import Results from "../results/results";
 import axios from "axios";
-import { useState } from "react";
 
 const SearchAndResults = () => {
 	const [results, setResults] = useState([]);
 	const [recommendations, setRecommendations] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
+	const containerRef = useRef(null);
 
 	const getRecommendations = async (result) => {
 		try {
@@ -20,9 +19,6 @@ const SearchAndResults = () => {
 			);
 			console.log(response.data);
 			const recommendationsData = response.data;
-			// const formattedRecommendations = recommendationsData.map(
-			// 	(book) => `${book[0]} - ${book[1]}`
-			// );
 			setRecommendations(recommendationsData);
 			setSearchTerm("");
 			setResults([]);
@@ -35,19 +31,31 @@ const SearchAndResults = () => {
 		try {
 			const response = await axios.get(`http://localhost:8000/random-books/`);
 			const randomTitles = response.data;
-			// const formattedRecommendations = randomTitles.map(
-			// 	(book) => `${book[0]} - ${book[1]}`
-			// );
 			setRecommendations(randomTitles);
 		} catch (error) {
 			console.error("Error fetching recommendations:", error);
 		}
 	};
 
+	const handleOutsideClick = (event) => {
+		if (containerRef.current && !containerRef.current.contains(event.target)) {
+			setSearchTerm("");
+			setResults([]);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleOutsideClick);
+		return () => {
+			document.removeEventListener("mousedown", handleOutsideClick);
+		};
+	}, []);
+
 	return (
 		<div
-			className="search-bar-container w-full flex flex-col justify-center items-center "
+			className="search-bar-container w-full flex flex-col justify-center items-center relative"
 			id="recommendations"
+			ref={containerRef}
 		>
 			<SearchBar
 				setResults={setResults}

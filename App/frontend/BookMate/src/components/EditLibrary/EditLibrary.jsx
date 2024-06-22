@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LibraryShelf from "../LibraryShelf/LibraryShelf.jsx";
 import SearchBar from "../searchbar/searchBar";
 import SearchResultsList from "../searchbar/searchResultsList";
@@ -9,6 +9,8 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 	const [faveSearchTerm, setFaveSearchTerm] = useState("");
 	const [wishSearchTerm, setWishSearchTerm] = useState("");
 
+	const containerRef = useRef(null);
+
 	const addToFaveBooks = (result) => {
 		const newFaveBooks = new Set(libraryData.Fave_Books);
 		newFaveBooks.add(result.ISBN);
@@ -16,6 +18,8 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 			...prevLibraryData,
 			Fave_Books: newFaveBooks,
 		}));
+		setFaveSearchTerm("");
+		setFaveResults([]);
 	};
 
 	const addToWishList = (result) => {
@@ -25,6 +29,8 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 			...prevLibraryData,
 			Wish_List: newWishList,
 		}));
+		setWishSearchTerm("");
+		setWishResults([]);
 	};
 
 	const removeFaveBook = (isbn) => {
@@ -45,8 +51,24 @@ const EditLibrary = ({ libraryData, setLibraryData }) => {
 		}));
 	};
 
+	const handleOutsideClick = (event) => {
+		if (containerRef.current && !containerRef.current.contains(event.target)) {
+			setFaveSearchTerm("");
+			setWishSearchTerm("");
+			setFaveResults([]);
+			setWishResults([]);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleOutsideClick);
+		return () => {
+			document.removeEventListener("mousedown", handleOutsideClick);
+		};
+	}, []);
+
 	return (
-		<div>
+		<div ref={containerRef} className="relative">
 			<div className="flex flex-col items-center py-8 min-h-screen">
 				<h1>Edit Library</h1>
 				<div className="w-full flex flex-col p-4 items-center justify-center">

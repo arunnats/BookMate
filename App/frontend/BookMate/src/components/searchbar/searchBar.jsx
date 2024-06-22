@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 

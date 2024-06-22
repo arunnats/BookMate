@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import SearchResult from "./searchResult";
 
 const SearchResultsList = ({ results, onResultClick }) => {
+	const containerRef = useRef(null);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(event.target)
+			) {
+				onResultClick(null); // Handle outside click
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [onResultClick]);
+
 	return (
-		<div className="w-[22rem] text-accent font-customRoboto flex flex-col rounded-box border-2 shadow-xl border-accent px-4 bg-neutral mt-2 max-h-72 overflow-y-auto z-50 absolute">
+		<div
+			ref={containerRef}
+			className="w-[22rem] text-accent font-customRoboto flex flex-col rounded-box border-2 shadow-xl border-accent px-4 bg-neutral mt-2 max-h-72 overflow-y-auto z-50 absolute top-12"
+		>
 			{results.map((result, index) => (
 				<SearchResult
 					result={result}
