@@ -1,5 +1,4 @@
 import React from "react";
-
 import SearchBar from "../searchbar/searchBar";
 import SearchResultsList from "../searchbar/searchResultsList";
 import axios from "axios";

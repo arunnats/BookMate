@@ -44,7 +44,7 @@ async function findLibrary(LibID) {
 		connection.release();
 
 		const Lib = rows.length > 0 ? rows[0] : null;
-		console.log("Found library:", Lib);
+		// console.log("Found library:", Lib);
 
 		const wishList = Lib && Lib.Wish_list ? Lib.Wish_list.split(",") : [];
 		const faveBooks = Lib && Lib.Fave_Books ? Lib.Fave_Books.split(",") : [];
@@ -55,7 +55,7 @@ async function findLibrary(LibID) {
 			Wish_list: wishList,
 		};
 
-		console.log("Returning library response:", response);
+		// console.log("Returning library response:", response);
 		return response;
 	} catch (error) {
 		console.error("Error finding library:", error.message);
@@ -71,7 +71,7 @@ async function findUserBySub(sub) {
 		]);
 		connection.release();
 
-		console.log("Found user:", rows.length > 0 ? rows[0] : null);
+		// console.log("Found user:", rows.length > 0 ? rows[0] : null);
 
 		return rows.length > 0 ? rows[0] : null;
 	} catch (error) {
@@ -89,7 +89,7 @@ async function findBook(ISBN) {
 		);
 		connection.release();
 
-		console.log("Found book:", rows.length > 0 ? rows[0] : null);
+		// console.log("Found book:", rows.length > 0 ? rows[0] : null);
 
 		return rows.length > 0 ? rows[0] : null;
 	} catch (error) {
@@ -190,14 +190,35 @@ app.get("/library", async (req, res) => {
 	}
 });
 
+app.post("/update-library", async (req, res) => {
+	const connection = await pool.getConnection();
+	const { LibID, Fave_Books, Wish_List } = req.body;
+	console.log("Library update data:", { LibID, Fave_Books, Wish_List });
+
+	const Fave_Books_Str = Fave_Books.join(",");
+	const Wish_List_Str = Wish_List.join(",");
+
+	try {
+		const [resultLibUpdate] = await connection.query(
+			"UPDATE library SET Fave_Books = ?, Wish_list = ? WHERE LibID = ?",
+			[Fave_Books_Str, Wish_List_Str, LibID]
+		);
+		console.log("Updated library table:", resultLibUpdate);
+		res.status(200).json({ message: "Library data updated successfully" });
+	} catch (error) {
+		console.error("Error updating library data:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 app.get("/book-details", async (req, res) => {
 	const { ISBN } = req.query;
 	try {
-		console.log("Fetching Book for ISBN:", ISBN);
+		// console.log("Fetching Book for ISBN:", ISBN);
 
 		let book = await findBook(ISBN);
 		if (book) {
-			console.log("Book found:", book);
+			// console.log("Book found:", book);
 
 			const result = [
 				book["Book-Title"],
@@ -209,7 +230,7 @@ app.get("/book-details", async (req, res) => {
 
 			res.json(result);
 		} else {
-			console.log("Book not found for ISBN:", book);
+			// console.log("Book not found for ISBN:", book);
 			res.status(404).json({ error: "Book not found" });
 		}
 	} catch (error) {
@@ -219,7 +240,7 @@ app.get("/book-details", async (req, res) => {
 });
 
 app.get("/search", async (req, res) => {
-	console.log("Received search request");
+	// console.log("Received search request");
 	const query = req.query.q;
 	if (!query) {
 		return res.status(400).json({ error: "Query parameter 'q' is required" });
@@ -227,12 +248,12 @@ app.get("/search", async (req, res) => {
 
 	// Check cache first
 	if (cache.has(query)) {
-		console.log("Using cached results for query:", query);
+		// console.log("Using cached results for query:", query);
 		return res.json(cache.get(query));
 	}
 
 	try {
-		console.log("Executing search query:", query);
+		// console.log("Executing search query:", query);
 		const [results] = await pool.query(
 			"SELECT `Book-Title`, `ISBN` FROM top_books WHERE `Book-Title` LIKE ? LIMIT 10",
 			[`%${query}%`]

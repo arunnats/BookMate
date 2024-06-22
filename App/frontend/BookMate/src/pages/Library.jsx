@@ -3,6 +3,7 @@ import { UserContext } from "../userContext.js";
 import { useNavigate } from "react-router-dom";
 import LibraryPage from "../components/LibraryPage/LibraryPage";
 import EditLibrary from "../components/EditLibrary/EditLibrary";
+import axios from "axios";
 
 const Library = () => {
 	const { user } = useContext(UserContext);
@@ -37,11 +38,23 @@ const Library = () => {
 		}
 	}, [user, navigate]);
 
-	const handleButtonClick = () => {
+	const handleButtonClick = async () => {
 		setIsEditing(!isEditing);
 		if (isEditing) {
-			console.log("Fave_Books:", Array.from(libraryData.Fave_Books));
-			console.log("Wish_List:", Array.from(libraryData.Wish_List));
+			const updateData = {
+				LibID: user.LibID,
+				Fave_Books: Array.from(libraryData.Fave_Books),
+				Wish_List: Array.from(libraryData.Wish_List),
+			};
+			try {
+				const response = await axios.post(
+					"http://localhost:3000/update-library",
+					updateData
+				);
+				console.log(response.data);
+			} catch (error) {
+				console.error("Error updating library data:", error.message);
+			}
 		}
 	};
 
