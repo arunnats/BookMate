@@ -19,11 +19,11 @@ def preprocess_and_insert_data(books, ratings):
     avg_rating_df = ratings_with_name.groupby('Book-Title')['Book-Rating'].agg(lambda x: x.astype(float).mean()).reset_index()
     avg_rating_df.rename(columns = {'Book-Rating' : 'avg_rating'}, inplace = True)
     
-    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 15
+    x = ratings_with_name.groupby('User-ID').count()['Book-Rating'] > 20
     top_users = x[x].index
     filtered_rating = ratings_with_name[ratings_with_name['User-ID'].isin(top_users)]
     
-    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] > 10
+    y = filtered_rating.groupby('Book-Title').count()['Book-Rating'] > 15
     top_books = y[y].index
     
     final_ratings = filtered_rating[filtered_rating['Book-Title'].isin(top_books)]

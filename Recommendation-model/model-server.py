@@ -19,10 +19,10 @@ app.add_middleware(
 def load_precomputed_data():
     global app
     print("Loading precomputed correlation matrix and ratings...")
-    app.state.books = pd.read_pickle('./datagen/books.pkl')
-    app.state.pt = pd.read_pickle('./datagen/pivot_table.pkl')
-    app.state.similarity_scores = np.load('./datagen/similarity_scores.npy')
-    app.state.top_50 = pd.read_csv('./datagen/popular_books.csv')
+    app.state.books = pd.read_pickle('./books.pkl')
+    app.state.pt = pd.read_pickle('./pivot_table.pkl')
+    app.state.similarity_scores = np.load('./similarity_scores.npy')
+    app.state.top_50 = pd.read_csv('./popular_books.csv')
     print("Precomputed data loaded successfully.")
 
 @asynccontextmanager

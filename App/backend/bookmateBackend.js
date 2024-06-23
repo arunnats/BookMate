@@ -98,6 +98,55 @@ async function findBook(ISBN) {
 	}
 }
 
+async function deleteUserById(id) {
+	try {
+		const connection = await pool.getConnection();
+
+		const [rows] = await connection.query("SELECT * FROM users WHERE id = ?", [
+			id,
+		]);
+
+		console.log(rows);
+
+		const [response] = await connection.query(
+			"DELETE FROM users WHERE id = ?",
+			[id]
+		);
+
+		console.log(response);
+
+		connection.release();
+	} catch (error) {
+		console.error("Error deleting user:", error.message);
+		throw error;
+	}
+}
+
+async function deleteLibraryById(id) {
+	try {
+		const connection = await pool.getConnection();
+
+		const [rows] = await connection.query(
+			"SELECT * FROM library WHERE LibID = ?",
+			[id]
+		);
+
+		console.log(rows);
+
+		const [response] = await connection.query(
+			"DELETE FROM library WHERE LibID = ?",
+			[id]
+		);
+
+		console.log(response);
+
+		connection.release();
+	} catch (error) {
+		console.error("Error deleting user:", error.message);
+		throw error;
+	}
+}
+
 async function createUser(sub, email, given_name, family_name, picture) {
 	try {
 		const connection = await pool.getConnection();
@@ -169,6 +218,21 @@ app.post("/auth/google", async (req, res) => {
 	} catch (error) {
 		console.error("Error authenticating user:", error.message);
 		res.status(401).json({ error: "Invalid token" });
+	}
+});
+
+app.post("/delete-user", async (req, res) => {
+	const { id, LibID } = req.body;
+	try {
+		console.log("Deleting user by id:", id, "and LibID:", LibID);
+
+		await deleteLibraryById(LibID);
+		await deleteUserById(id);
+
+		res.status(200).json({ message: "User deleted successfully" });
+	} catch (error) {
+		console.error("Error deleting user:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
 	}
 });
 

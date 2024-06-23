@@ -1,7 +1,7 @@
 SHOW DATABASES;
-USE bookmate;
-
-DESC Book;
+USE flix;
+SHOW TABLES;
+DESC movie;
 
 DROP TABLE Book;
 
