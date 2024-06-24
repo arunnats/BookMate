@@ -5,6 +5,7 @@ import About from "./pages/About";
 import LoginPage from "./pages/LoginPage";
 import Profile from "./pages/Profile";
 import Library from "./pages/Library";
+import Quiz from "./pages/Quiz";
 import Book from "./pages/Book";
 import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
@@ -22,6 +23,7 @@ const App = () => {
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/library" element={<Library />} />
 				<Route path="/book/:isbn" element={<Book />} />
+				<Route path="/quiz" element={<Quiz />} />
 			</Routes>
 			{/* <Footer /> */}
 		</Router>
