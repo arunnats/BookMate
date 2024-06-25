@@ -11,17 +11,17 @@ export default {
 		themes: [
 			{
 				customLight: {
-					primary: "#016180", //
+					primary: "#eeddcc", //
 
 					secondary: "#4A8CB0", //16a34a
 
-					accent: "#F8EDE5", //
+					accent: "#016180", //
 
-					neutral: "#016180", //8C5C47
+					neutral: "#014e66", //8C5C47
 
-					"base-100": "#eeddcc", //4C2C17
+					"base-100": "#016180", //4C2C17
 
-					info: "#0284c7", //0284c7
+					info: "#eeddcc", //0284c7
 
 					success: "#16a34a", //
 

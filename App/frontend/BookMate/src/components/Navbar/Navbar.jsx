@@ -14,7 +14,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="flex">
+		<div className="flex bg-primary">
 			<div className="mx-4 my-2 navbar bg-neutral rounded-full">
 				<div className="navbar-start">
 					<div className="dropdown">
