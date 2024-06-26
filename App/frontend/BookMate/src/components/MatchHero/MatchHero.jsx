@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./SquigglyLine.module.css";
 import heroLogo from "../../assets/images/matchmaker-logo.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
 	const imgRef = useRef(null);
@@ -28,6 +31,25 @@ const Hero = () => {
 			y: 1,
 			x: -1,
 		});
+
+		// gsap.fromTo(
+		// 	imgRef.current,
+		// 	{
+		// 		x: -100,
+		// 		y: -100,
+		// 	},
+		// 	{
+		// 		x: 0,
+		// 		y: 0,
+		// 		scrollTrigger: {
+		// 			trigger: imgRef.current,
+		// 			start: "top 80%", // Adjust as needed
+		// 			end: "top 20%", // Adjust as needed
+		// 			scrub: true,
+		// 			markers: true, // Remove or set to false in production
+		// 		},
+		// 	}
+		// );
 	}, []);
 
 	return (
