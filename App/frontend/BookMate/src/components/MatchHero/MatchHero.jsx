@@ -3,11 +3,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./SquigglyLine.module.css";
 import heroLogo from "../../assets/images/matchmaker-logo.png";
+import doggo from "../../assets/images/doggo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
 	const imgRef = useRef(null);
+	const doggoRef = useRef(null);
 
 	useEffect(() => {
 		const tl = gsap.timeline({
@@ -32,24 +34,24 @@ const Hero = () => {
 			x: -1,
 		});
 
-		// gsap.fromTo(
-		// 	imgRef.current,
-		// 	{
-		// 		x: -100,
-		// 		y: -100,
-		// 	},
-		// 	{
-		// 		x: 0,
-		// 		y: 0,
-		// 		scrollTrigger: {
-		// 			trigger: imgRef.current,
-		// 			start: "top 80%", // Adjust as needed
-		// 			end: "top 20%", // Adjust as needed
-		// 			scrub: true,
-		// 			markers: true, // Remove or set to false in production
-		// 		},
-		// 	}
-		// );
+		gsap.fromTo(
+			doggoRef.current,
+			{
+				x: -100,
+				y: -100,
+			},
+			{
+				x: 0,
+				y: 0,
+				scrollTrigger: {
+					trigger: doggoRef.current,
+					start: "top 80%", // Adjust as needed
+					end: "top 20%", // Adjust as needed
+					scrub: true,
+					markers: true, // Remove or set to false in production
+				},
+			}
+		);
 	}, []);
 
 	return (
@@ -57,8 +59,16 @@ const Hero = () => {
 			className={`relative bg-primary min-h-[90vh] flex items-center justify-center ${styles.box}`}
 		>
 			<div className="text-center text-neutral-content w-full">
-				<div className="flex flex-row max-w-[80vw] m-auto p-4">
-					<div className="min-h-[80vh] w-3/5 flex items-center justify-center">
+				<div className="flex flex-row max-w-[100vw] m-auto">
+					<div className="min-h-[80vh] w-[10%] flex flex-col items-center">
+						<img
+							ref={doggoRef}
+							src={doggo}
+							alt="MapImg"
+							className="max-w-full h-auto object-contain pl-6"
+						/>
+					</div>
+					<div className="min-h-[80vh] w-[48%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={heroLogo}
@@ -66,7 +76,7 @@ const Hero = () => {
 							className="max-w-full h-auto object-contain align-middle justify-center p-10"
 						/>
 					</div>
-					<div className="min-h-[80vh] w-2/5 flex flex-col items-center justify-center">
+					<div className="min-h-[80vh] w-[32%] flex flex-col items-center justify-center">
 						<h1 className="text-4xl font-bold text-secondary">
 							Match Making Model
 						</h1>
@@ -77,6 +87,7 @@ const Hero = () => {
 							<button className="btn btn-secondary m-2">Learn more</button>
 						</div>
 					</div>
+					<div className="min-h-[80vh] w-[10%] flex flex-col-reverse"></div>
 				</div>
 			</div>
 		</div>

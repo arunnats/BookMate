@@ -41,7 +41,7 @@ const Hero = () => {
 			},
 			{
 				x: 0,
-				y: 150,
+				y: 190,
 				rotation: 0,
 				scrollTrigger: {
 					trigger: mapRef.current,
