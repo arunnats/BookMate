@@ -22,13 +22,13 @@ const Hero = () => {
 			rotate: ".8",
 			duration: 1.2,
 			ease: "none",
-			y: -1,
+			y: -6,
 			x: 1,
 		}).to(imgRef.current, {
 			rotate: "-.8",
 			duration: 1.2,
 			ease: "none",
-			y: 1,
+			y: -4,
 			x: -1,
 		});
 
@@ -59,22 +59,22 @@ const Hero = () => {
 			className={`relative bg-primary min-h-[80vh] flex items-center justify-center ${styles.box}`}
 		>
 			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row min-w-[100vw] m-auto p-4">
+				<div className="flex flex-row min-w-[100vw] m-auto p-3">
 					<div className="min-h-[80vh] w-[9%] flex flex-col-reverse"></div>
 					<div className="min-h-[80vh] w-[46%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={heroLogo}
 							alt="Hero"
-							className="max-w-full h-auto object-contain align-middle justify-center p-10"
+							className="max-w-full h-auto object-contain align-middle justify-center p-8"
 						/>
 					</div>
 					<div className="min-h-[80vh] w-[31%] flex flex-col items-center justify-center">
-						<h1 className="text-6xl font-bold text-secondary">
-							Welcome to Book Mate
-						</h1>
-						<p className="text-2xl text-accent">
-							Your one stop destination for all your book needs.
+						{/* <h1 className="text-3xl font-bold text-secondary font-poppins p-1">
+							Welcome to Book Mate!
+						</h1> */}
+						<p className="text-2xl text-accent font-montserrat">
+							Where books come alive
 						</p>
 						<div className="flex flex-row justify-center">
 							<button className="btn btn-secondary m-2">Get Started</button>
