@@ -40,20 +40,26 @@ const Navbar = () => {
 							className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-neutral rounded-box w-52 justify-start align-top"
 						>
 							<li>
-								<Link to="/" className="btn btn-ghost text-m text-primary">
+								<Link
+									to="/"
+									className="btn btn-ghost text-l text-primary font-poppins"
+								>
 									Home
 								</Link>
 							</li>
 							<li>
 								<Link
 									to="/recommendations"
-									className="btn btn-ghost text-m text-primary"
+									className="btn btn-ghost text-l text-primary font-poppins"
 								>
 									Recommendations
 								</Link>
 							</li>
 							<li>
-								<Link to="/about" className="btn btn-ghost text-m text-primary">
+								<Link
+									to="/about"
+									className="btn btn-ghost text-l text-primary font-poppins"
+								>
 									About
 								</Link>
 							</li>
@@ -61,7 +67,7 @@ const Navbar = () => {
 								<>
 									<li>
 										<Link
-											className="btn btn-ghost text-m text-primary"
+											className="btn btn-ghost text-l text-primary font-poppins"
 											to="/Profile"
 										>
 											Profile
@@ -69,7 +75,7 @@ const Navbar = () => {
 									</li>
 									<li>
 										<Link
-											className="btn btn-ghost text-m text-primary"
+											className="btn btn-ghost text-l text-primary font-poppins"
 											to="/Library"
 										>
 											Your Library
@@ -77,7 +83,7 @@ const Navbar = () => {
 									</li>
 									<li>
 										<a
-											className="btn btn-ghost text-m text-primary"
+											className="btn btn-ghost text-l text-primary font-poppins"
 											onClick={handleLogout}
 										>
 											Logout
@@ -87,7 +93,7 @@ const Navbar = () => {
 							) : (
 								<li>
 									<Link
-										className="btn btn-ghost text-m text-primary"
+										className="btn btn-ghost text-l text-primary font-poppins"
 										to="/login"
 									>
 										Login
@@ -96,7 +102,7 @@ const Navbar = () => {
 							)}
 							<li>
 								<a
-									href="https://github.com/arunnats/Flix/"
+									href="https://github.com/arunnats/BookMate/"
 									className="btn btn-ghost text-xl"
 								>
 									<img
@@ -109,21 +115,27 @@ const Navbar = () => {
 						</ul>
 					</div>
 					<a href="https://www.arunnats.com/" className="btn btn-ghost text-xl">
-						<img className="h-6 max-w-lg" src={logo} alt="Logo" />
+						<img className="h-7 max-w-lg" src={logo} alt="Logo" />
 					</a>
 				</div>
 
 				<div className="navbar-center hidden lg:flex">
-					<Link to="/" className="btn btn-ghost text-m text-primary">
+					<Link
+						to="/"
+						className="btn btn-ghost text-l text-primary font-poppins"
+					>
 						Home
 					</Link>
 					<Link
 						to="/recommendations"
-						className="btn btn-ghost text-m text-primary"
+						className="btn btn-ghost text-l text-primary font-poppins"
 					>
 						Recommendations
 					</Link>
-					<Link to="/about" className="btn btn-ghost text-m text-primary">
+					<Link
+						to="/about"
+						className="btn btn-ghost text-l text-primary font-poppins"
+					>
 						About
 					</Link>
 				</div>
@@ -190,18 +202,29 @@ const Navbar = () => {
 							{user ? (
 								<>
 									<li>
-										<Link to="/Profile">Profile</Link>
+										<Link className="text-primary font-poppins" to="/Profile">
+											Profile
+										</Link>
 									</li>
 									<li>
-										<Link to="/Library">Your Library</Link>
+										<Link className="text-primary font-poppins" to="/Library">
+											Your Library
+										</Link>
 									</li>
 									<li>
-										<a onClick={handleLogout}>Logout</a>
+										<a
+											className="text-primary font-poppins"
+											onClick={handleLogout}
+										>
+											Logout
+										</a>
 									</li>
 								</>
 							) : (
 								<li>
-									<Link to="/login">Login</Link>
+									<Link className="text-primary font-poppins" to="/login">
+										Login
+									</Link>
 								</li>
 							)}
 						</ul>
