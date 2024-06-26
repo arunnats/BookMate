@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 import styles from "./SquigglyLine.module.css";
 import heroLogo from "../../assets/images/hero-image.png";
 
 const Hero = () => {
+	const imgRef = useRef(null);
+
+	useEffect(() => {
+		const tl = gsap.timeline({
+			repeat: -1,
+			yoyo: true,
+			onRepeat: () => {
+				tl.invalidate();
+			},
+		});
+
+		tl.to(imgRef.current, {
+			rotate: ".8",
+			duration: 1.2,
+			ease: "none",
+			y: -1,
+			x: 1,
+		}).to(imgRef.current, {
+			rotate: "-.8",
+			duration: 1.2,
+			ease: "none",
+			y: 1,
+			x: -1,
+		});
+	}, []);
+
 	return (
 		<div
 			className={`relative bg-primary min-h-[80vh] flex items-center justify-center ${styles.box}`}
@@ -11,6 +38,7 @@ const Hero = () => {
 				<div className="flex flex-row max-w-[80vw] m-auto p-4">
 					<div className="min-h-[80vh] w-3/5 flex items-center justify-center">
 						<img
+							ref={imgRef}
 							src={heroLogo}
 							alt="Hero"
 							className="max-w-full h-auto object-contain align-middle justify-center p-10"

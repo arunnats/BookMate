@@ -1,4 +1,5 @@
 import React from "react";
+import gsap from "gsap";
 import reccLogo from "../../assets/images/recc-image.png";
 
 const ReccHero = () => {

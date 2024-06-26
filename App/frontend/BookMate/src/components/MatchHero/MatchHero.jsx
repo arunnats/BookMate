@@ -1,4 +1,5 @@
 import React from "react";
+import gsap from "gsap";
 import styles from "./SquigglyLine.module.css";
 import heroLogo from "../../assets/images/matchmaker-logo.png";
 
