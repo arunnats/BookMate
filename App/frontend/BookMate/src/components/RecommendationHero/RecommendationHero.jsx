@@ -90,15 +90,18 @@ const ReccHero = () => {
 							className="max-w-full h-auto object-contain py-20 pr-4"
 						/>
 					</div>
-					<div className="min-h-[80vh] w-[48%] flex flex-col items-center justify-center">
-						<h1 className="text-4xl font-bold text-white">
-							Book Recommendation Model
+					<div className="min-h-[80vh] w-[48%] flex flex-col items-center justify-center p-1">
+						<h1 className="text-4xl font-bold text-primary font-poppins p-1">
+							Book Recommendations
 						</h1>
-						<p className="text-2xl text-white">
-							Your one stop destination for all your book needs.
+						<p className="text-xl text-white font-montserrat text-justify p-1">
+							Find your next favorite book with our meticulous AI model trained
+							on over 1,149,000 ratings from over 278,000 users across the
+							world! Simply choose a book you like and get curated results in an
+							instant!
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-primary m-2">
+							<button className="btn btn-secondary m-2">
 								Get Recommendations
 							</button>
 						</div>
