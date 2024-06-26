@@ -94,7 +94,7 @@ const Navbar = () => {
 						</ul>
 					</div>
 					<a href="https://www.arunnats.com/" className="btn btn-ghost text-xl">
-						<img className="h-9 max-w-lg" src={logo} alt="Logo" />
+						<img className="h-6 max-w-lg" src={logo} alt="Logo" />
 					</a>
 				</div>
 
