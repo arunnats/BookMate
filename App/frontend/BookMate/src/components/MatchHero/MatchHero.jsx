@@ -84,14 +84,16 @@ const Hero = () => {
 						<h1 className="text-4xl font-bold text-secondary font-poppins p-1">
 							Match Making
 						</h1>
-						<p className="text-xl text-accent font-montserrat p-1 text-justify">
+						<p className="text-xl text-accent font-montserrat p-1 font-medium text-justify">
 							Find someone who shares a similar reading profile by adding your
-							favourite books to your library and taking our quirky
+							favorite books to your library and taking our quirky
 							questionnaire. Our super-smart AI model searches far and wide to
 							find your Book Mate!
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2">Let's go!</button>
+							<button className="btn btn-secondary m-2 font-poppins">
+								Let's go!
+							</button>
 						</div>
 					</div>
 					<div className="min-h-[80vh] w-[10%] flex flex-col-reverse"></div>

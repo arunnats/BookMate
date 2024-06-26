@@ -94,14 +94,14 @@ const ReccHero = () => {
 						<h1 className="text-4xl font-bold text-primary font-poppins p-1">
 							Book Recommendations
 						</h1>
-						<p className="text-xl text-white font-montserrat text-justify p-1">
-							Find your next favorite book with our meticulous AI model trained
+						<p className="text-xl text-white font-montserrat font-medium text-justify p-1">
+							Find your next favorite book with our meticulous AI model, trained
 							on over 1,149,000 ratings from over 278,000 users across the
 							world! Simply choose a book you like and get curated results in an
 							instant!
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2">
+							<button className="btn btn-secondary m-2 font-poppins">
 								Get Recommendations
 							</button>
 						</div>

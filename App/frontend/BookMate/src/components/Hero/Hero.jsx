@@ -73,11 +73,16 @@ const Hero = () => {
 						{/* <h1 className="text-3xl font-bold text-secondary font-poppins p-1">
 							Welcome to Book Mate!
 						</h1> */}
-						<p className="text-2xl text-accent font-montserrat">
-							Where books come alive
+						<p className="text-xl text-accent font-montserrat font-medium text-justify p-1">
+							Book Mate is the perfect way to find your next read and the person
+							to read with! Finding individuals with the same taste as yourself
+							has never been easier, thanks to our AI-powered match engine. So
+							what are you waiting for!?
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2">Get Started</button>
+							<button className="btn btn-secondary m-2 font-poppins">
+								Find Your Book Mate!
+							</button>
 						</div>
 					</div>
 					<div className="min-h-[80vh] w-[14%] flex flex-col-reverse items-center">
