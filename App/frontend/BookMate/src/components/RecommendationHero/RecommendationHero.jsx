@@ -1,9 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import reccLogo from "../../assets/images/recc-image.png";
+import handR from "../../assets/images/handR.png";
+import handL from "../../assets/images/handL.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ReccHero = () => {
 	const imgRef = useRef(null);
+	const sideImgR = useRef(null);
+	const sideImgL = useRef(null);
 
 	useEffect(() => {
 		const tl = gsap.timeline({
@@ -27,13 +34,59 @@ const ReccHero = () => {
 			y: -1,
 			x: 1,
 		});
+
+		gsap.fromTo(
+			sideImgR.current,
+			{
+				x: 120,
+				y: 0,
+			},
+			{
+				x: 0,
+				y: 0,
+				scrollTrigger: {
+					trigger: sideImgR.current,
+					start: "top 80%", // Adjust as needed
+					end: "top 20%", // Adjust as needed
+					scrub: true,
+					markers: true, // Remove or set to false in production
+				},
+			}
+		);
+
+		gsap.fromTo(
+			sideImgL.current,
+			{
+				x: -120,
+				y: 0,
+			},
+			{
+				x: 0,
+				y: 0,
+				scrollTrigger: {
+					trigger: sideImgL.current,
+					start: "top 100%", // Adjust as needed
+					end: "top 70%", // Adjust as needed
+					scrub: true,
+					markers: true, // Remove or set to false in production
+				},
+			}
+		);
 	}, []);
 
 	return (
 		<div className={`relative min-h-[90vh] flex items-center justify-center`}>
-			<div className="text-center text-neutral-content w-full">
-				<div className="flex flex-row max-w-[80vw] m-auto p-4">
-					<div className="min-h-[80vh] w-3/5 flex flex-col items-center justify-center">
+			<div className="text-center text-neutral-content w-full overflow-hidden">
+				<div className="flex flex-row m-auto py-4">
+					<div className="min-h-[80vh] w-[10%] flex flex-col-reverse">
+						<img
+							ref={sideImgL}
+							src={handL}
+							alt="Hero"
+							className="max-w-full h-auto object-contain py-4 pr-4"
+						/>
+					</div>
+					<div className="min-h-[80vh] w-[48%] flex flex-col items-center justify-center">
 						<h1 className="text-4xl font-bold text-white">
 							Book Recommendation Model
 						</h1>
@@ -46,12 +99,20 @@ const ReccHero = () => {
 							</button>
 						</div>
 					</div>
-					<div className="min-h-[80vh] w-2/5 flex items-center justify-center">
+					<div className="min-h-[80vh] w-[32%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={reccLogo}
 							alt="Hero"
 							className="max-w-full h-auto object-contain align-middle justify-center p-10"
+						/>
+					</div>
+					<div className="min-h-[80vh] w-[10%] flex flex-col">
+						<img
+							ref={sideImgR}
+							src={handR}
+							alt="Hero"
+							className="max-w-full h-auto object-contain py-4 pl-4"
 						/>
 					</div>
 				</div>
