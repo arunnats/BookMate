@@ -18,7 +18,7 @@ const Hero = () => {
 					</div>
 					<div className="min-h-[80vh] w-2/5 flex flex-col items-center justify-center">
 						<h1 className="text-6xl font-bold text-secondary">
-							Welcome to BookMate
+							Welcome to Book Mate
 						</h1>
 						<p className="text-2xl text-accent">
 							Your one stop destination for all your book needs.
