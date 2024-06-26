@@ -26,7 +26,7 @@ const App = () => {
 					<Route path="/book/:isbn" element={<Book />} />
 					<Route path="/quiz" element={<Quiz />} />
 				</Routes>
-				{/* <Footer /> */}
+				<Footer />
 			</div>
 		</Router>
 	);
