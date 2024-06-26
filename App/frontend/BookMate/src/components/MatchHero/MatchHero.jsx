@@ -37,18 +37,22 @@ const Hero = () => {
 		gsap.fromTo(
 			doggoRef.current,
 			{
-				x: -100,
-				y: -100,
+				x: 25,
+				y: -70,
+				scaleX: 1.6,
+				scaleY: 1.6,
 			},
 			{
-				x: 0,
-				y: 0,
+				x: 25,
+				y: 5,
+				scaleX: 1.6,
+				scaleY: 1.6,
 				scrollTrigger: {
 					trigger: doggoRef.current,
-					start: "top 80%", // Adjust as needed
-					end: "top 20%", // Adjust as needed
+					start: "top 80%",
+					end: "top 20%",
 					scrub: true,
-					markers: true, // Remove or set to false in production
+					markers: false,
 				},
 			}
 		);
