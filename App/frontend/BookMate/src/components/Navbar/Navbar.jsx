@@ -40,41 +40,56 @@ const Navbar = () => {
 							className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-neutral rounded-box w-52 justify-start align-top"
 						>
 							<li>
-								<Link to="/" className="btn btn-ghost text-m">
+								<Link to="/" className="btn btn-ghost text-m text-primary">
 									Home
 								</Link>
 							</li>
 							<li>
-								<Link to="/recommendations" className="btn btn-ghost text-m">
+								<Link
+									to="/recommendations"
+									className="btn btn-ghost text-m text-primary"
+								>
 									Recommendations
 								</Link>
 							</li>
 							<li>
-								<Link to="/about" className="btn btn-ghost text-m">
+								<Link to="/about" className="btn btn-ghost text-m text-primary">
 									About
 								</Link>
 							</li>
 							{user ? (
 								<>
 									<li>
-										<Link className="btn btn-ghost text-m" to="/Profile">
+										<Link
+											className="btn btn-ghost text-m text-primary"
+											to="/Profile"
+										>
 											Profile
 										</Link>
 									</li>
 									<li>
-										<Link className="btn btn-ghost text-m" to="/Library">
+										<Link
+											className="btn btn-ghost text-m text-primary"
+											to="/Library"
+										>
 											Your Library
 										</Link>
 									</li>
 									<li>
-										<a className="btn btn-ghost text-m" onClick={handleLogout}>
+										<a
+											className="btn btn-ghost text-m text-primary"
+											onClick={handleLogout}
+										>
 											Logout
 										</a>
 									</li>
 								</>
 							) : (
 								<li>
-									<Link className="btn btn-ghost text-m" to="/login">
+									<Link
+										className="btn btn-ghost text-m text-primary"
+										to="/login"
+									>
 										Login
 									</Link>
 								</li>
@@ -99,13 +114,16 @@ const Navbar = () => {
 				</div>
 
 				<div className="navbar-center hidden lg:flex">
-					<Link to="/" className="btn btn-ghost text-m">
+					<Link to="/" className="btn btn-ghost text-m text-primary">
 						Home
 					</Link>
-					<Link to="/recommendations" className="btn btn-ghost text-m">
+					<Link
+						to="/recommendations"
+						className="btn btn-ghost text-m text-primary"
+					>
 						Recommendations
 					</Link>
-					<Link to="/about" className="btn btn-ghost text-m">
+					<Link to="/about" className="btn btn-ghost text-m text-primary">
 						About
 					</Link>
 				</div>
@@ -117,7 +135,7 @@ const Navbar = () => {
 					>
 						<img className="mx-1 h-8 max-w-lg" src={githubLogo} alt="Logo" />
 					</a>
-					<label className="flex cursor-pointer gap-2">
+					{/* <label className="flex cursor-pointer gap-2">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="20"
@@ -150,7 +168,7 @@ const Navbar = () => {
 						>
 							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
 						</svg>
-					</label>
+					</label> */}
 					<div className="dropdown dropdown-end">
 						<div
 							tabIndex={0}
