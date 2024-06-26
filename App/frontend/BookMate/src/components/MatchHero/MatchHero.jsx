@@ -17,14 +17,14 @@ const Hero = () => {
 						/>
 					</div>
 					<div className="min-h-[80vh] w-2/5 flex flex-col items-center justify-center">
-						<h1 className="text-6xl font-bold text-secondary">
-							Welcome to BookMate
+						<h1 className="text-4xl font-bold text-secondary">
+							Match Making Model
 						</h1>
 						<p className="text-2xl text-accent">
 							Your one stop destination for all your book needs.
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2">Get Started</button>
+							<button className="btn btn-secondary m-2">Learn more</button>
 						</div>
 					</div>
 				</div>
