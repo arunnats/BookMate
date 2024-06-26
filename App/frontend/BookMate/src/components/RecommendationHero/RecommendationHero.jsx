@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import reccLogo from "../../assets/images/recc-image.png";
 
 const ReccHero = () => {
+	const imgRef = useRef(null);
+
+	useEffect(() => {
+		const tl = gsap.timeline({
+			repeat: -1,
+			yoyo: true,
+			onRepeat: () => {
+				tl.invalidate();
+			},
+		});
+
+		tl.to(imgRef.current, {
+			rotate: "-.8",
+			duration: 1.25,
+			ease: "none",
+			y: 1,
+			x: -1,
+		}).to(imgRef.current, {
+			rotate: ".8",
+			duration: 1.25,
+			ease: "none",
+			y: -1,
+			x: 1,
+		});
+	}, []);
+
 	return (
 		<div className={`relative min-h-[90vh] flex items-center justify-center`}>
 			<div className="text-center text-neutral-content w-full">
@@ -22,6 +48,7 @@ const ReccHero = () => {
 					</div>
 					<div className="min-h-[80vh] w-2/5 flex items-center justify-center">
 						<img
+							ref={imgRef}
 							src={reccLogo}
 							alt="Hero"
 							className="max-w-full h-auto object-contain align-middle justify-center p-10"
