@@ -13,13 +13,13 @@ export default {
 				customLight: {
 					primary: "#eeddcc", //
 
-					secondary: "#4A8CB0", //16a34a
+					secondary: "#4c2c17", //dark brow
 
-					accent: "#016180", //
+					accent: "#8c5c46", //light brow
 
-					neutral: "#014e66", //8C5C47
+					neutral: "#014e66", //darker blue
 
-					"base-100": "#016180", //4C2C17
+					"base-100": "#016180", //backgrounf blue
 
 					info: "#eeddcc", //0284c7
 

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../../userContext";
 import { Link } from "react-router-dom";
 import logo from "../../assets/Logo.png";
+import heroLogo from "../../assets/images/hero-image.png";
 import githubLogo from "../../assets/icons8-github.svg";
 import default_user from "../../assets/images/default_user.jpeg";
 
