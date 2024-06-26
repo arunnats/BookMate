@@ -40,16 +40,18 @@ const ReccHero = () => {
 			{
 				x: 120,
 				y: 0,
+				rotation: 40,
 			},
 			{
 				x: 0,
 				y: 0,
+				rotation: 0,
 				scrollTrigger: {
 					trigger: sideImgR.current,
-					start: "top 80%", // Adjust as needed
-					end: "top 20%", // Adjust as needed
+					start: "top 85%",
+					end: "top 20%",
 					scrub: true,
-					markers: true, // Remove or set to false in production
+					markers: false,
 				},
 			}
 		);
@@ -59,16 +61,18 @@ const ReccHero = () => {
 			{
 				x: -120,
 				y: 0,
+				rotation: -40,
 			},
 			{
 				x: 0,
 				y: 0,
+				rotation: 0,
 				scrollTrigger: {
 					trigger: sideImgL.current,
-					start: "top 100%", // Adjust as needed
-					end: "top 70%", // Adjust as needed
+					start: "top 85%",
+					end: "top 55%",
 					scrub: true,
-					markers: true, // Remove or set to false in production
+					markers: false,
 				},
 			}
 		);
@@ -83,7 +87,7 @@ const ReccHero = () => {
 							ref={sideImgL}
 							src={handL}
 							alt="Hero"
-							className="max-w-full h-auto object-contain py-4 pr-4"
+							className="max-w-full h-auto object-contain py-20 pr-4"
 						/>
 					</div>
 					<div className="min-h-[80vh] w-[48%] flex flex-col items-center justify-center">
@@ -112,7 +116,7 @@ const ReccHero = () => {
 							ref={sideImgR}
 							src={handR}
 							alt="Hero"
-							className="max-w-full h-auto object-contain py-4 pl-4"
+							className="max-w-full h-auto object-contain py-8 pl-4"
 						/>
 					</div>
 				</div>
