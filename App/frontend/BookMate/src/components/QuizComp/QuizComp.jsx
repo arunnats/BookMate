@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../userContext.js";
 import { useNavigate } from "react-router-dom";
 import QuestionCluster from "../QuestionCluster/QuestionCluster";
-import QuestionsData from "../QuestionData"; // Assuming QuestionsData is imported
+import QuestionsData from "../QuestionData";
 
 const QuizComp = ({ setStartQuiz }) => {
 	const { user } = useContext(UserContext);

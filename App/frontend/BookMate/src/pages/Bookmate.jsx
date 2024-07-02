@@ -47,9 +47,15 @@ const BookmatePage = () => {
 
 		const fetchOptInStatus = async () => {
 			try {
-				const response = await axios.post("http://localhost:3000/opt-status", {
-					id: user.id,
-				});
+				const response = await axios.post(
+					"http://localhost:3000/opt-status",
+					null,
+					{
+						params: {
+							id: user.id,
+						},
+					}
+				);
 				setOptedIn(response.data.optedIn);
 			} catch (error) {
 				console.error("Error fetching opt-in status:", error.message);
@@ -73,9 +79,11 @@ const BookmatePage = () => {
 	const handleGetMatch = async () => {
 		try {
 			const response = await axios.post("http://localhost:3000/opt-in", {
-				userId: user.id,
+				id: user.id,
+				optStatus: !optedIn,
 			});
 			console.log(response.data);
+			setOptedIn(!optedIn); // Update local state after successful opt-in/out
 		} catch (error) {
 			console.error("Error opting in for matching:", error.message);
 		}
