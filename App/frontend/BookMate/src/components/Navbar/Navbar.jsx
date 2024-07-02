@@ -57,6 +57,14 @@ const Navbar = () => {
 							</li>
 							<li>
 								<Link
+									to="/find-our-match"
+									className="btn btn-ghost text-l text-primary font-poppins"
+								>
+									Find Your Match
+								</Link>
+							</li>
+							<li>
+								<Link
 									to="/about"
 									className="btn btn-ghost text-l text-primary font-poppins"
 								>
@@ -131,6 +139,12 @@ const Navbar = () => {
 						className="btn btn-ghost text-l text-primary font-poppins"
 					>
 						Recommendations
+					</Link>
+					<Link
+						to="/find-your-match"
+						className="btn btn-ghost text-l text-primary font-poppins"
+					>
+						Get matched
 					</Link>
 					<Link
 						to="/about"

@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Library from "./pages/Library";
 import Quiz from "./pages/Quiz";
 import Book from "./pages/Book";
+import BookmatePage from "./pages/Bookmate";
 import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -25,6 +26,7 @@ const App = () => {
 					<Route path="/library" element={<Library />} />
 					<Route path="/book/:isbn" element={<Book />} />
 					<Route path="/quiz" element={<Quiz />} />
+					<Route path="/find-your-match" element={<BookmatePage />} />
 				</Routes>
 				<Footer />
 			</div>

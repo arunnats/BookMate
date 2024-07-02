@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import styles from "./SquigglyLine.module.css";
+import styles from "../../css/SquigglyLine.module.css";
 import heroLogo from "../../assets/images/hero-image.png";
 import map from "../../assets/images/map.png";
 

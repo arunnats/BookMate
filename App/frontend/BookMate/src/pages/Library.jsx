@@ -25,7 +25,8 @@ const Library = () => {
 				const libraryData = libraryResponse.data;
 				const Fave_Books = new Set(libraryData.Fave_Books || []);
 				const Wish_List = new Set(libraryData.Wish_List || []);
-				setLibraryData({ Fave_Books, Wish_List });
+				const Answers = libraryData.Answers || "";
+				setLibraryData({ Fave_Books, Wish_List, Answers });
 
 				const updatedUser = { ...user, library: libraryData };
 				setUser(updatedUser);
@@ -40,7 +41,8 @@ const Library = () => {
 			console.log(user.library);
 			const Fave_Books = new Set(user.library.Fave_Books || []);
 			const Wish_List = new Set(user.library.Wish_List || []);
-			setLibraryData({ Fave_Books, Wish_List });
+			const Answers = user.library.Answers || "";
+			setLibraryData({ Fave_Books, Wish_List, Answers });
 		} else {
 			navigate("/login");
 		}

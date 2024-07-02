@@ -48,11 +48,13 @@ async function findLibrary(LibID) {
 
 		const wishList = Lib && Lib.Wish_List ? Lib.Wish_List.split(",") : [];
 		const faveBooks = Lib && Lib.Fave_Books ? Lib.Fave_Books.split(",") : [];
+		const answers = Lib && Lib.answers ? Lib.answers : "";
 
 		const response = {
 			LibID: Lib ? Lib.LibID : null,
 			Fave_Books: faveBooks,
 			Wish_List: wishList,
+			Answers: answers,
 		};
 
 		console.log("Returning library response:", response);
