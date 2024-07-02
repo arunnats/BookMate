@@ -5,24 +5,24 @@ import QuestionCluster from "../QuestionCluster/QuestionCluster";
 import QuestionsData from "../QuestionData";
 
 const QuizComp = () => {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [currentCluster, setCurrentCluster] = useState(0);
+
 	const [answers, setAnswers] = useState(() => {
 		const savedAnswers = localStorage.getItem("quizAnswers");
-		return savedAnswers ? JSON.parse(savedAnswers) : {};
+		return savedAnswers ? savedAnswers : {};
 	});
-	const LibID = user.LibID;
 
 	const fetchUserAnswers = async (LibID) => {
 		const response = await fetch(
-			`http://localhost:3000/get-answers?userId=${userId}`
+			`http://localhost:3000/get-answers?LibID=${LibID}`
 		);
 		const data = await response.json();
 		return data.answers;
 	};
 
-	const saveUserAnswers = async (userId, answerString) => {
+	const saveUserAnswers = async (LibID, answerString) => {
 		await fetch("http://localhost:3000/save-answers", {
 			method: "POST",
 			headers: {
@@ -36,9 +36,11 @@ const QuizComp = () => {
 		if (!user) {
 			navigate("/login");
 		} else {
-			fetchUserAnswers(user.id).then((savedAnswers) => {
-				setAnswers(savedAnswers);
-				localStorage.setItem("quizAnswers", JSON.stringify(savedAnswers));
+			fetchUserAnswers(user.LibID).then((savedAnswers) => {
+				if (savedAnswers) {
+					setAnswers(savedAnswers);
+					localStorage.setItem("quizAnswers", JSON.stringify(savedAnswers));
+				}
 			});
 		}
 	}, [user, navigate]);
@@ -54,11 +56,11 @@ const QuizComp = () => {
 	};
 
 	const saveAnswers = (newAnswers) => {
-		setAnswers((prev) => ({ ...prev, ...newAnswers }));
-		localStorage.setItem(
-			"quizAnswers",
-			JSON.stringify({ ...answers, ...newAnswers })
-		);
+		setAnswers((prev) => {
+			const updatedAnswers = { ...prev, ...newAnswers };
+			localStorage.setItem("quizAnswers", JSON.stringify(updatedAnswers));
+			return updatedAnswers;
+		});
 	};
 
 	const handleSubmit = () => {
@@ -67,7 +69,7 @@ const QuizComp = () => {
 			alert("Please choose an option for all questions.");
 		} else {
 			console.log(answerString);
-			saveUserAnswers(user.id, answerString);
+			saveUserAnswers(user.LibID, answerString);
 			localStorage.removeItem("quizAnswers");
 		}
 	};

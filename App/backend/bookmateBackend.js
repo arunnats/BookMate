@@ -293,6 +293,29 @@ app.post("/save-answers", async (req, res) => {
 	}
 });
 
+app.get("/get-answers", async (req, res) => {
+	const { LibID } = req.query;
+
+	try {
+		const connection = await pool.getConnection();
+
+		const [rows] = await connection.query(
+			"SELECT answers FROM library WHERE LibID = ?",
+			[LibID]
+		);
+		// console.log(rows);
+		connection.release();
+		if (rows.length > 0) {
+			res.status(200).json({ answers: rows[0].answers });
+		} else {
+			res.status(404).json({ error: "No answers found for this LibID" });
+		}
+	} catch (error) {
+		console.error("Error getting question data:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 app.get("/book-details", async (req, res) => {
 	const { ISBN } = req.query;
 	try {
