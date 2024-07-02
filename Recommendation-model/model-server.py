@@ -38,6 +38,7 @@ def load_precomputed_data():
     app.state.library_df = pd.read_sql('SELECT * FROM library', con=db_connection)
     app.state.books = pd.read_sql('SELECT * FROM top_books', con=db_connection)
     
+    app.state.users_df = app.state.users_df[app.state.users_df['opted_in'] != 0]
     db_connection.close()
     
     print("Precomputed data loaded successfully.")
