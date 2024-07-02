@@ -27,13 +27,13 @@ const SearchBar = ({ setResults, searchTerm, setSearchTerm }) => {
 
 	return (
 		<div className="flex flex-col mx-auto items-center w-80">
-			<div className="w-full h-10 rounded-lg border-2 shadow-xl border-accent px-4 bg-neutral flex items-center">
-				<FaSearch className="text-accent font-customRoboto" />
+			<div className="w-full h-10 rounded-lg  px-4 bg-neutral flex items-center">
+				<FaSearch className="text-primary font-montserrat" />
 				<input
 					placeholder="Type to search..."
 					value={searchTerm}
 					onChange={(e) => handleChange(e.target.value)}
-					className="text-accent font-customRoboto bg-transparent border-none h-full text-lg w-full ml-2 focus:outline-none"
+					className="text-primary font-poppins bg-transparent border-none h-full text-lg w-full ml-2 focus:outline-none"
 				/>
 			</div>
 		</div>

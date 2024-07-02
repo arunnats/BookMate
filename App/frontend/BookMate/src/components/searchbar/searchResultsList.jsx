@@ -23,7 +23,7 @@ const SearchResultsList = ({ results, onResultClick }) => {
 	return (
 		<div
 			ref={containerRef}
-			className="w-[22rem] text-accent font-customRoboto flex flex-col rounded-box border-2 shadow-xl border-accent px-4 bg-neutral mt-2 max-h-72 overflow-y-auto z-50 absolute top-12"
+			className="w-[22rem] text-primary font-poppins flex flex-col rounded-box border-2 shadow-xl border-primary px-4 bg-neutral mt-2 max-h-72 overflow-y-auto z-50 absolute top-14"
 		>
 			{results.map((result, index) => (
 				<SearchResult

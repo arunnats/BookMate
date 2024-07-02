@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchBar from "../searchbar/searchBar";
 import SearchResultsList from "../searchbar/searchResultsList";
 import Results from "../results/results";
+import styles from "./SquigglyLine.module.css";
 import axios from "axios";
 
 const SearchAndResults = () => {
@@ -52,28 +53,33 @@ const SearchAndResults = () => {
 	}, []);
 
 	return (
-		<div
-			className="search-bar-container w-full flex flex-col justify-center items-center relative"
-			id="recommendations"
-			ref={containerRef}
-		>
-			<SearchBar
-				setResults={setResults}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
-			/>
-			{results && results.length > 0 && (
-				<SearchResultsList
-					results={results}
-					onResultClick={getRecommendations}
+		<div className={`bg-primary ${styles.box}`}>
+			<div className="min-h-[7vh]"></div>
+			<div
+				className={`search-bar-container w-[95vw] flex flex-col m-auto justify-center items-center relative `}
+				id="recommendations"
+				ref={containerRef}
+			>
+				<h1>Recommendations Page</h1>
+				<SearchBar
+					setResults={setResults}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
 				/>
-			)}
-			<br />
-			<Results className="relative z-40" recommendations={recommendations} />
-			<br />
-			<button className="btn btn-primary" onClick={getRandom}>
-				Get Random Books
-			</button>
+				{results && results.length > 0 && (
+					<SearchResultsList
+						results={results}
+						onResultClick={getRecommendations}
+					/>
+				)}
+				<br />
+				<Results className="relative z-40" recommendations={recommendations} />
+				<br />
+				<button className="btn btn-primary" onClick={getRandom}>
+					Get Random Books
+				</button>
+				<div className="min-h-[7vh]"></div>
+			</div>
 		</div>
 	);
 };

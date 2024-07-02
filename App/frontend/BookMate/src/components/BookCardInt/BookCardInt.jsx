@@ -8,17 +8,22 @@ const BookCardInt = ({ bookDetails, removeBook }) => {
 	};
 
 	return (
-		<div className="card card-compact min-w-96 max-w-96 bg-base-100 shadow-xl">
+		<div className="card card-compact w-[300px] bg-secondary border-2 shadow-xl border-primary">
 			<figure>
-				<img src={imageUrl} alt={title} onError={handleError} />
+				<img className="m-3" src={imageUrl} alt={title} onError={handleError} />
 			</figure>
 			<div className="card-body flex flex-col align-middle">
-				<h2 className="card-title justify-center">{title}</h2>
-				<p className="card-text">Author: {author}</p>
-				<p className="card-text">Year: {year}</p>
-				<p className="card-text">ISBN: {ISBN}</p>
-				<div className="card-actions justify-center">
-					<button className="btn btn-primary" onClick={() => removeBook(ISBN)}>
+				<h2 className="card-title justify-center text-primary font-poppins">
+					{title}
+				</h2>
+				<p className="card-text text-primary font-poppins">Author: {author}</p>
+				<p className="card-text text-primary font-poppins">Year: {year}</p>
+				<p className="card-text text-primary font-poppins">ISBN: {ISBN}</p>
+				<div className="card-actions justify-center text-primary font-poppins">
+					<button
+						className="btn btn-accent font-poppins"
+						onClick={() => removeBook(ISBN)}
+					>
 						Remove Book
 					</button>
 				</div>

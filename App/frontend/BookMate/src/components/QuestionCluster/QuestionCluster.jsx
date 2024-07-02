@@ -1,7 +1,7 @@
 import React from "react";
 import QuestionBlock from "../QuestionBlock/QuestionBlock";
 
-const QuestionCluster = ({ cluster, saveAnswers }) => {
+const QuestionCluster = ({ cluster, answers, saveAnswers }) => {
 	const handleAnswerChange = (questionId, answer) => {
 		saveAnswers({ [questionId]: answer });
 	};
@@ -12,6 +12,7 @@ const QuestionCluster = ({ cluster, saveAnswers }) => {
 				<QuestionBlock
 					key={question.id}
 					question={question}
+					selectedAnswer={answers[question.id]}
 					onAnswerChange={handleAnswerChange}
 				/>
 			))}

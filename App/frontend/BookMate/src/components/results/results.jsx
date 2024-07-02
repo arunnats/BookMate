@@ -14,8 +14,8 @@ const Results = ({ recommendations }) => {
 	}
 
 	return (
-		<div className="bg-neutral p-4 rounded-box h-auto w-full max-w-[80rem] min-h-96 flex flex-col border-2 shadow-xl border-accent">
-			<h2 className="text-accent font-customRoboto text-2xl mb-2 text-center">
+		<div className="bg-neutral p-4 rounded-box h-auto w-full max-w-[80rem] min-h-96 flex flex-col border-2 border-accent">
+			<h2 className="text-primary font-poppins font-bold text-4xl m-3 text-center">
 				Results
 			</h2>
 			<div className="flex flex-wrap justify-center">

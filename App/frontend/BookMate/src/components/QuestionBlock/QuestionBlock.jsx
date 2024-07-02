@@ -1,8 +1,8 @@
 import React from "react";
 
-const QuestionBlock = ({ question, onAnswerChange }) => {
+const QuestionBlock = ({ question, selectedAnswer, onAnswerChange }) => {
 	const handleChange = (e) => {
-		onAnswerChange(question.id, e.target.value);
+		onAnswerChange(question.id, e.target.value.charAt(0));
 	};
 
 	return (
@@ -19,6 +19,7 @@ const QuestionBlock = ({ question, onAnswerChange }) => {
 								value={option}
 								className="radio checked:bg-red-500"
 								onChange={handleChange}
+								checked={selectedAnswer === option.charAt(0)}
 							/>
 						</label>
 					</div>

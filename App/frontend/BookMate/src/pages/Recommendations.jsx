@@ -3,8 +3,7 @@ import SearchAndResults from "../components/searchAndResults/searchAndResults";
 
 const Recommendations = () => {
 	return (
-		<div>
-			<h1>Recommendations Page</h1>
+		<div className="min-h-screen ">
 			<SearchAndResults />
 		</div>
 	);

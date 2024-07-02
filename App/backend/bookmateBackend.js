@@ -55,7 +55,7 @@ async function findLibrary(LibID) {
 			Wish_List: wishList,
 		};
 
-		// console.log("Returning library response:", response);
+		console.log("Returning library response:", response);
 		return response;
 	} catch (error) {
 		console.error("Error finding library:", error.message);
@@ -71,7 +71,7 @@ async function findUserBySub(sub) {
 		]);
 		connection.release();
 
-		// console.log("Found user:", rows.length > 0 ? rows[0] : null);
+		console.log("Found user:", rows.length > 0 ? rows[0] : null);
 
 		return rows.length > 0 ? rows[0] : null;
 	} catch (error) {
@@ -266,6 +266,24 @@ app.post("/update-library", async (req, res) => {
 		const [resultLibUpdate] = await connection.query(
 			"UPDATE library SET Fave_Books = ?, Wish_List = ? WHERE LibID = ?",
 			[Fave_Books_Str, Wish_List_Str, LibID]
+		);
+		console.log("Updated library table:", resultLibUpdate);
+		res.status(200).json({ message: "Library data updated successfully" });
+	} catch (error) {
+		console.error("Error updating library data:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/save-answers", async (req, res) => {
+	const connection = await pool.getConnection();
+	const { LibID, answers } = req.body;
+	console.log("Answers update data:", { LibID, answers });
+
+	try {
+		const [resultLibUpdate] = await connection.query(
+			"UPDATE library SET Fave_Books = ?, Wish_List = ? WHERE LibID = ?",
+			[Fave_Books_Str, LibID]
 		);
 		console.log("Updated library table:", resultLibUpdate);
 		res.status(200).json({ message: "Library data updated successfully" });
