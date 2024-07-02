@@ -282,13 +282,13 @@ app.post("/save-answers", async (req, res) => {
 
 	try {
 		const [resultLibUpdate] = await connection.query(
-			"UPDATE library SET Fave_Books = ?, Wish_List = ? WHERE LibID = ?",
-			[Fave_Books_Str, LibID]
+			"UPDATE library SET answers = ? WHERE LibID = ?",
+			[answers, LibID]
 		);
 		console.log("Updated library table:", resultLibUpdate);
-		res.status(200).json({ message: "Library data updated successfully" });
+		res.status(200).json({ message: "Question data updated successfully" });
 	} catch (error) {
-		console.error("Error updating library data:", error.message);
+		console.error("Error updating question data:", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 });

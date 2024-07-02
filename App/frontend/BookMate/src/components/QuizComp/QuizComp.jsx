@@ -14,7 +14,7 @@ const QuizComp = () => {
 	});
 	const LibID = user.LibID;
 
-	const fetchUserAnswers = async (userId) => {
+	const fetchUserAnswers = async (LibID) => {
 		const response = await fetch(
 			`http://localhost:3000/get-answers?userId=${userId}`
 		);
