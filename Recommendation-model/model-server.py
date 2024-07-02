@@ -16,7 +16,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+    
 def load_precomputed_data():
     global app
     print("Loading precomputed correlation matrix and ratings...")
@@ -41,6 +41,42 @@ def load_precomputed_data():
     db_connection.close()
     
     print("Precomputed data loaded successfully.")
+    
+def calculate_library_similarity(lib1, lib2):
+    global app
+    lib1_books = lib1.split(',')
+    lib2_books = lib2.split(',')
+    
+    print("Lib1")
+    print(lib1_books)
+    
+    print("Lib2")
+    print(lib2_books)
+    
+    sim_scores = []
+    for book1 in lib1_books:
+        index1 = np.where(app.state.books['ISBN'] == book1)[0]
+        if len(index1) == 0:
+            print(f"Book {book1} not found in books DataFrame.")
+            continue
+        index1 = index1[0]
+        
+        for book2 in lib2_books:
+            index2 = np.where(app.state.books['ISBN'] == book2)[0]
+            if len(index2) == 0:
+                print(f"Book {book2} not found in books DataFrame.")
+                continue
+            index2 = index2[0]
+            
+            print(index1)
+            print(index2)
+            print(app.state.similarity_scores[index1][index2])
+            sim_scores.append(app.state.similarity_scores[index1][index2])
+    
+    if sim_scores:
+        return np.mean(sim_scores)
+    else:
+        return 0
     
 def calculate_answer_similarity(ans1, ans2):
     if len(ans1) != len(ans2):
@@ -81,48 +117,34 @@ def pair_users(users_df, library_df):
             used_users.add(user2)
     
     return paired_users
-    
-def calculate_library_similarity(lib1, lib2):
-    global app
-    lib1_books = lib1.split(',')
-    lib2_books = lib2.split(',')
-    
-    print("Lib1")
-    print(lib1_books)
-    
-    print("Lib2")
-    print(lib2_books)
-    
-    sim_scores = []
-    for book1 in lib1_books:
-        index1 = np.where(app.state.books['ISBN'] == book1)[0]
-        if len(index1) == 0:
-            print(f"Book {book1} not found in books DataFrame.")
-            continue
-        index1 = index1[0]
-        
-        for book2 in lib2_books:
-            index2 = np.where(app.state.books['ISBN'] == book2)[0]
-            if len(index2) == 0:
-                print(f"Book {book2} not found in books DataFrame.")
-                continue
-            index2 = index2[0]
-            
-            print(index1)
-            print(index2)
-            print(app.state.similarity_scores[index1][index2])
-            sim_scores.append(app.state.similarity_scores[index1][index2])
-    
-    if sim_scores:
-        return np.mean(sim_scores)
-    else:
-        return 0
-
 
 def calculate_matches():
     global app
     
+    paired_users = pair_users(app.state.users_df, app.state.library_df)
+    for user1, user2, similarity in paired_users:
+        print(f"Paired User {user1} with User {user2} (Similarity: {similarity:.2f})")
     
+    update_query = """
+    UPDATE users SET BookmateID = %s WHERE id = %s
+    """
+    
+    db_connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='nats',
+    database='bookmate'
+    )
+    
+    cursor = db_connection.cursor()
+
+    for user1, user2, similarity in paired_users:
+        cursor.execute(update_query, (user2, user1))
+        cursor.execute(update_query, (user1, user2))
+    
+    db_connection.commit()  
+    cursor.close()      
+    db_connection.close()  
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -130,6 +152,14 @@ async def lifespan(app: FastAPI):
     yield
 
 app.router.lifespan_context = lifespan
+
+@app.post("/make-matches/")
+async def make_matches():
+    print("Request received for making matches.")
+    
+    calculate_matches()
+    
+    print("Matches updated successfully")
 
 @app.get("/recommend/")
 async def get_recommendations(book_title: str):
