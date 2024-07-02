@@ -56,7 +56,6 @@ const BookmatePage = () => {
 			}
 		};
 
-		// Always fetch library data on component mount or when user context changes
 		fetchLibraryData();
 	}, []);
 

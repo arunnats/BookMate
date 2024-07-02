@@ -17,6 +17,7 @@ const QuizComp = ({ setStartQuiz }) => {
 				`http://localhost:3000/get-answers?LibID=${user.LibID}`
 			);
 			const data = await response.json();
+			console.log(data);
 			if (data.answers) {
 				setAnswers(data.answers);
 			}
@@ -85,7 +86,7 @@ const QuizComp = ({ setStartQuiz }) => {
 			<h1>Quiz</h1>
 			<button onClick={exitQuiz}>Exit Quiz</button>
 			<QuestionCluster
-				cluster={QuestionsData[currentCluster]} // Replace with your actual component or data source
+				cluster={QuestionsData[currentCluster]}
 				answers={answers}
 				saveAnswers={saveAnswers}
 			/>

@@ -3,7 +3,7 @@ const QuestionsData = [
 		clusterId: 1,
 		questions: [
 			{
-				id: 1,
+				id: 0,
 				question: "Which character would you most like to meet IRL?",
 				options: [
 					"A) Percy Jackson from the 'Camp Half-Blood Chronicles'",
@@ -13,7 +13,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 2,
+				id: 1,
 				question: "Which book-to-movie adaptation do you enjoy the most?",
 				options: [
 					"A) The Lord of the Rings trilogy",
@@ -23,7 +23,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 3,
+				id: 2,
 				question: "Which type of book dedication attracts you?",
 				options: [
 					"A) To the dreamers",
@@ -33,7 +33,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 4,
+				id: 3,
 				question: "What kind of movies/TV do you like to watch the most?",
 				options: [
 					"A) Something with magical creatures, or a different world that I can get lost in",
@@ -43,7 +43,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 5,
+				id: 4,
 				question: "Which of the following sounds like a great getaway?",
 				options: [
 					"A) In a space station determining the course of your next hyperdrive destination",
@@ -58,7 +58,7 @@ const QuestionsData = [
 		clusterId: 2,
 		questions: [
 			{
-				id: 6,
+				id: 5,
 				question: "What kind of ending do you prfer?",
 				options: [
 					"A) A triumphant victory like in 'The Lord of the Rings'",
@@ -68,7 +68,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 7,
+				id: 6,
 				question: "What do you NOT like to read about?",
 				options: [
 					"A) I cannot read anything about boring, regular people. I want suspense!",
@@ -78,7 +78,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 8,
+				id: 7,
 				question: "Which type of narrative conflict do you prefer?",
 				options: [
 					"A) Character vs. supernatural",
@@ -88,7 +88,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 9,
+				id: 8,
 				question: "What type of narrative style do you prefer?",
 				options: [
 					"A) Third-person with multiple perspectives",
@@ -98,7 +98,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 10,
+				id: 9,
 				question: "When’s the best time to read a book?",
 				options: [
 					"A)Round the campfire",
@@ -113,7 +113,7 @@ const QuestionsData = [
 		clusterId: 3,
 		questions: [
 			{
-				id: 11,
+				id: 10,
 				question: "Which type of character do you relate to the most?",
 				options: [
 					"A) The chosen one like 'Harry'",
@@ -123,7 +123,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 12,
+				id: 11,
 				question: "Which fictional general would you appoint to lead the army?",
 				options: [
 					"A) Erwin Smith",
@@ -133,7 +133,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 13,
+				id: 12,
 				question: "What kind of book do you prefer for a long read?",
 				options: [
 					"A) Epic fantasy series like 'The Wheel of Time'",
@@ -143,7 +143,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 14,
+				id: 13,
 				question: "Which kind of plot devices do you enjoy?",
 				options: [
 					"A) Magical artifacts or prophecies",
@@ -153,7 +153,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 15,
+				id: 14,
 				question: "Which type of book setting appeals to you?",
 				options: [
 					"A) A magical school like in Hogwarts",
@@ -168,7 +168,7 @@ const QuestionsData = [
 		clusterId: 4,
 		questions: [
 			{
-				id: 16,
+				id: 15,
 				question: "Which type of book title intrigues you?",
 				options: [
 					"A) Titles with magical or mythical elements like 'The Priory of the Orange Tree'",
@@ -178,7 +178,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 17,
+				id: 16,
 				question: "When reading, you care most about...",
 				options: [
 					"A) The world",
@@ -188,7 +188,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 18,
+				id: 17,
 				question: "Which time period do you prefer your books to be set in?",
 				options: [
 					"A) A distant past or future like in 'The Chronicles of Narnia'",
@@ -198,7 +198,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 19,
+				id: 18,
 				question: "Which type of character relationships do you enjoy?",
 				options: [
 					"A) Allies and foes",
@@ -208,7 +208,7 @@ const QuestionsData = [
 				],
 			},
 			{
-				id: 20,
+				id: 10,
 				question: "And lastly, what's your favorite part about reading a book?",
 				options: [
 					"A) I love when books make my heart beat faster",
