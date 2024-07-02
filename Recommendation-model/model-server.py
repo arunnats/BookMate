@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import pandas as pd
+import mysql.connector
 
 app = FastAPI()
 
@@ -19,11 +20,109 @@ app.add_middleware(
 def load_precomputed_data():
     global app
     print("Loading precomputed correlation matrix and ratings...")
-    app.state.books = pd.read_pickle('./books.pkl')
+    # app.state.books = pd.read_pickle('./books.pkl')
     app.state.pt = pd.read_pickle('./pivot_table.pkl')
     app.state.similarity_scores = np.load('./similarity_scores.npy')
     app.state.top_50 = pd.read_csv('./popular_books.csv')
+    
+    print("Connecting to database...")
+    
+    db_connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='nats',
+    database='bookmate'
+    )
+        
+    app.state.users_df = pd.read_sql('SELECT * FROM users', con=db_connection)
+    app.state.library_df = pd.read_sql('SELECT * FROM library', con=db_connection)
+    app.state.books = pd.read_sql('SELECT * FROM top_books', con=db_connection)
+    
+    db_connection.close()
+    
     print("Precomputed data loaded successfully.")
+    
+def calculate_answer_similarity(ans1, ans2):
+    if len(ans1) != len(ans2):
+        raise ValueError("Answer strings must be of the same length.")
+    
+    matches = sum(1 for a, b in zip(ans1, ans2) if a == b)
+    return matches / len(ans1)
+
+def pair_users(users_df, library_df):
+    user_similarities = {}
+    
+    for i, user1 in users_df.iterrows():
+        lib1 = library_df[library_df['id'] == user1['id']]['Fave_Books'].values[0]
+        ans1 = library_df[library_df['id'] == user1['id']]['answers'].values[0]
+        
+        for j, user2 in users_df.iterrows():
+            if i >= j:
+                continue
+            
+            lib2 = library_df[library_df['id'] == user2['id']]['Fave_Books'].values[0]
+            ans2 = library_df[library_df['id'] == user2['id']]['answers'].values[0]
+            
+            lib_similarity = calculate_library_similarity(lib1, lib2)
+            ans_similarity = calculate_answer_similarity(ans1, ans2)
+            
+            overall_similarity = (lib_similarity + ans_similarity) / 2
+            user_similarities[(user1['id'], user2['id'])] = overall_similarity
+    
+    sorted_pairs = sorted(user_similarities.items(), key=lambda x: x[1], reverse=True)
+    
+    paired_users = []
+    used_users = set()
+    
+    for (user1, user2), similarity in sorted_pairs:
+        if user1 not in used_users and user2 not in used_users:
+            paired_users.append((user1, user2, similarity))
+            used_users.add(user1)
+            used_users.add(user2)
+    
+    return paired_users
+    
+def calculate_library_similarity(lib1, lib2):
+    global app
+    lib1_books = lib1.split(',')
+    lib2_books = lib2.split(',')
+    
+    print("Lib1")
+    print(lib1_books)
+    
+    print("Lib2")
+    print(lib2_books)
+    
+    sim_scores = []
+    for book1 in lib1_books:
+        index1 = np.where(app.state.books['ISBN'] == book1)[0]
+        if len(index1) == 0:
+            print(f"Book {book1} not found in books DataFrame.")
+            continue
+        index1 = index1[0]
+        
+        for book2 in lib2_books:
+            index2 = np.where(app.state.books['ISBN'] == book2)[0]
+            if len(index2) == 0:
+                print(f"Book {book2} not found in books DataFrame.")
+                continue
+            index2 = index2[0]
+            
+            print(index1)
+            print(index2)
+            print(app.state.similarity_scores[index1][index2])
+            sim_scores.append(app.state.similarity_scores[index1][index2])
+    
+    if sim_scores:
+        return np.mean(sim_scores)
+    else:
+        return 0
+
+
+def calculate_matches():
+    global app
+    
+    
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
