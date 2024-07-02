@@ -242,7 +242,7 @@ app.get("/library", async (req, res) => {
 		console.log("Fetching library for LibID:", LibID);
 		let library = await findLibrary(LibID);
 		if (library) {
-			console.log("Library found:", library);
+			// console.log("Library found:", library);
 			res.json(library);
 		} else {
 			console.log("Library not found for LibID:", LibID);
@@ -303,10 +303,16 @@ app.get("/get-answers", async (req, res) => {
 			"SELECT answers FROM library WHERE LibID = ?",
 			[LibID]
 		);
-		// console.log(rows);
-		connection.release();
+
+		let answers = "";
 		if (rows.length > 0) {
-			res.status(200).json({ answers: rows[0].answers });
+			answers = rows[0].answers || "";
+		}
+
+		connection.release();
+
+		if (rows.length > 0) {
+			res.status(200).json({ answers: answers });
 		} else {
 			res.status(404).json({ error: "No answers found for this LibID" });
 		}

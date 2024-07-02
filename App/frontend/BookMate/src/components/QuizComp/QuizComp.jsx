@@ -2,83 +2,90 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../userContext.js";
 import { useNavigate } from "react-router-dom";
 import QuestionCluster from "../QuestionCluster/QuestionCluster";
-import QuestionsData from "../QuestionData";
+import QuestionsData from "../QuestionData"; // Assuming QuestionsData is imported
 
-const QuizComp = () => {
+const QuizComp = ({ setStartQuiz }) => {
 	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [currentCluster, setCurrentCluster] = useState(0);
+	const [answers, setAnswers] = useState({});
+	const [loading, setLoading] = useState(true);
 
-	const [answers, setAnswers] = useState(() => {
-		const savedAnswers = localStorage.getItem("quizAnswers");
-		return savedAnswers ? savedAnswers : {};
-	});
-
-	const fetchUserAnswers = async (LibID) => {
-		const response = await fetch(
-			`http://localhost:3000/get-answers?LibID=${LibID}`
-		);
-		const data = await response.json();
-		return data.answers;
-	};
-
-	const saveUserAnswers = async (LibID, answerString) => {
-		await fetch("http://localhost:3000/save-answers", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ LibID, answers: answerString }),
-		});
+	const fetchQuizData = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:3000/get-answers?LibID=${user.LibID}`
+			);
+			const data = await response.json();
+			if (data.answers) {
+				setAnswers(data.answers);
+			}
+		} catch (error) {
+			console.error("Error fetching quiz data:", error.message);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	useEffect(() => {
 		if (!user) {
 			navigate("/login");
 		} else {
-			fetchUserAnswers(user.LibID).then((savedAnswers) => {
-				if (savedAnswers) {
-					setAnswers(savedAnswers);
-					localStorage.setItem("quizAnswers", JSON.stringify(savedAnswers));
-				}
-			});
+			fetchQuizData();
 		}
 	}, [user, navigate]);
 
 	const handleNext = () => {
 		setCurrentCluster((prev) => prev + 1);
-		localStorage.setItem("quizAnswers", JSON.stringify(answers));
 	};
 
 	const handlePrevious = () => {
 		setCurrentCluster((prev) => prev - 1);
-		localStorage.setItem("quizAnswers", JSON.stringify(answers));
 	};
 
 	const saveAnswers = (newAnswers) => {
 		setAnswers((prev) => {
 			const updatedAnswers = { ...prev, ...newAnswers };
-			localStorage.setItem("quizAnswers", JSON.stringify(updatedAnswers));
 			return updatedAnswers;
 		});
 	};
 
-	const handleSubmit = () => {
+	const exitQuiz = () => {
+		navigate("/quiz");
+		setStartQuiz(false);
+	};
+
+	const handleSubmit = async () => {
 		const answerString = Object.values(answers).join("");
 		if (answerString.length < 20) {
 			alert("Please choose an option for all questions.");
 		} else {
-			console.log(answerString);
-			saveUserAnswers(user.LibID, answerString);
-			localStorage.removeItem("quizAnswers");
+			try {
+				await fetch("http://localhost:3000/save-answers", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ LibID: user.LibID, answers: answerString }),
+				});
+				navigate("/quiz");
+				setStartQuiz(false);
+			} catch (error) {
+				console.error("Error saving answers:", error.message);
+			}
 		}
 	};
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div>
 			<h1>Quiz</h1>
+			<button onClick={exitQuiz}>Exit Quiz</button>
 			<QuestionCluster
-				cluster={QuestionsData[currentCluster]}
+				cluster={QuestionsData[currentCluster]} // Replace with your actual component or data source
 				answers={answers}
 				saveAnswers={saveAnswers}
 			/>

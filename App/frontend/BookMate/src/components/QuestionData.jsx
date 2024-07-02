@@ -204,7 +204,7 @@ const QuestionsData = [
 					"A) Allies and foes",
 					"B) Suspects and detectives",
 					"C) Lovers and friends",
-					"C) Lovers and friends",
+					"D) Lovers and friends",
 				],
 			},
 			{
