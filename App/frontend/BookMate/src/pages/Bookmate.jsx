@@ -25,17 +25,20 @@ const BookmatePage = () => {
 				const libraryResponse = await axios.get(
 					`http://localhost:3000/library?LibID=${user.LibID}`
 				);
-				const libraryData = libraryResponse.data;
-				setLibraryData(libraryData);
-				const Fave_Books = new Set(libraryData.Fave_Books || []);
-				const Wish_List = new Set(libraryData.Wish_List || []);
-				const Answers = libraryData.Answers || "";
+				const fetchedLibraryData = libraryResponse.data;
+				console.log(fetchedLibraryData);
+
+				// Update local state with fetched data
+				const Fave_Books = new Set(fetchedLibraryData.Fave_Books || []);
+				const Wish_List = new Set(fetchedLibraryData.Wish_List || []);
+				const Answers = fetchedLibraryData.Answers || "";
 				setLibraryData({ Fave_Books, Wish_List, Answers });
 
-				const updatedUser = { ...user, library: libraryData };
+				// Update user context with fetched library data
+				const updatedUser = { ...user, library: fetchedLibraryData };
 				setUser(updatedUser);
 
-				// Fetch opt-in status after fetching library data
+				// Fetch and update opt-in status
 				fetchOptInStatus();
 			} catch (error) {
 				console.error("Error fetching library details:", error.message);
@@ -53,18 +56,9 @@ const BookmatePage = () => {
 			}
 		};
 
-		if (!user.library) {
-			fetchLibraryData();
-		} else {
-			const Fave_Books = new Set(user.library.Fave_Books || []);
-			const Wish_List = new Set(user.library.Wish_List || []);
-			const Answers = user.library.Answers || "";
-			setLibraryData({ Fave_Books, Wish_List, Answers });
-
-			// Fetch opt-in status if library data is already present
-			fetchOptInStatus();
-		}
-	}, [user, navigate, setUser]);
+		// Always fetch library data on component mount or when user context changes
+		fetchLibraryData();
+	}, []);
 
 	const isButtonDisabled = () => {
 		if (!user || !user.library) {

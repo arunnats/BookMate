@@ -16,7 +16,7 @@ const QuestionBlock = ({ question, selectedAnswer, onAnswerChange }) => {
 							<input
 								type="radio"
 								name={`question-${question.id}`}
-								value={option}
+								value={option.charAt(0)}
 								className="radio checked:bg-red-500"
 								onChange={handleChange}
 								checked={selectedAnswer === option.charAt(0)}
