@@ -12,6 +12,7 @@ const BookmatePage = () => {
 		Wish_List: new Set(),
 		Answers: "",
 	});
+	const [optedIn, setOptedIn] = useState(false); // State to hold opt-in status
 
 	useEffect(() => {
 		if (!user) {
@@ -32,10 +33,23 @@ const BookmatePage = () => {
 				setLibraryData({ Fave_Books, Wish_List, Answers });
 
 				const updatedUser = { ...user, library: libraryData };
-				// console.log(setLibraryData);
 				setUser(updatedUser);
+
+				// Fetch opt-in status after fetching library data
+				fetchOptInStatus();
 			} catch (error) {
 				console.error("Error fetching library details:", error.message);
+			}
+		};
+
+		const fetchOptInStatus = async () => {
+			try {
+				const response = await axios.post("http://localhost:3000/opt-status", {
+					id: user.id,
+				});
+				setOptedIn(response.data.optedIn);
+			} catch (error) {
+				console.error("Error fetching opt-in status:", error.message);
 			}
 		};
 
@@ -46,6 +60,9 @@ const BookmatePage = () => {
 			const Wish_List = new Set(user.library.Wish_List || []);
 			const Answers = user.library.Answers || "";
 			setLibraryData({ Fave_Books, Wish_List, Answers });
+
+			// Fetch opt-in status if library data is already present
+			fetchOptInStatus();
 		}
 	}, [user, navigate, setUser]);
 
@@ -53,14 +70,22 @@ const BookmatePage = () => {
 		if (!user || !user.library) {
 			return true;
 		}
-		// console.log(user.library);
 		const { Fave_Books, Wish_List, Answers } = libraryData;
 		const faveBooksLength = Fave_Books.size;
 		const wishListLength = Wish_List.size;
 
-		// console.log(Answers);
-
 		return Answers.length !== 20 || faveBooksLength + wishListLength <= 3;
+	};
+
+	const handleGetMatch = async () => {
+		try {
+			const response = await axios.post("http://localhost:3000/opt-in", {
+				userId: user.id,
+			});
+			console.log(response.data);
+		} catch (error) {
+			console.error("Error opting in for matching:", error.message);
+		}
 	};
 
 	if (!user) {
@@ -154,8 +179,12 @@ const BookmatePage = () => {
 							</div>
 						</div>
 					)}
-					<button className={`btn`} disabled={isButtonDisabled()}>
-						Get your match!
+					<button
+						className="btn"
+						onClick={handleGetMatch}
+						disabled={isButtonDisabled()}
+					>
+						{optedIn ? "Opt Out of Matchmaking" : "Get Your Match!"}
 					</button>
 				</div>
 			</div>

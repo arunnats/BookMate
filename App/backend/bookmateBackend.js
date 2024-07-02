@@ -238,6 +238,66 @@ app.post("/delete-user", async (req, res) => {
 	}
 });
 
+app.post("/opt-in", async (req, res) => {
+	const { id, optStatus } = req.body;
+
+	try {
+		console.log("Updating opt Status");
+
+		const connection = await pool.getConnection();
+		await connection.query("UPDATE users SET opted_in = ? WHERE id = ?", [
+			optStatus,
+			id,
+		]);
+		connection.release();
+
+		res.status(200).json({ message: "Opt status updated successfully" });
+	} catch (error) {
+		console.error("Error updating opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/opt-status", async (req, res) => {
+	const { id } = req.body;
+
+	try {
+		console.log("Getting opt Status");
+
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query(
+			"SELECT opted_in FROM users WHERE id = ?",
+			[id]
+		);
+		connection.release();
+
+		if (rows.length > 0) {
+			const optStatus = rows[0].opted_in;
+			res.status(200).json({ optedIn: optStatus });
+		} else {
+			res.status(404).json({ error: "User not found" });
+		}
+	} catch (error) {
+		console.error("Error fetching opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/delete-user", async (req, res) => {
+	const { id, LibID } = req.body;
+	try {
+		console.log("Deleting user by id:", id, "and LibID:", LibID);
+
+		await deleteLibraryById(LibID);
+		await deleteUserById(id);
+
+		res.status(200).json({ message: "User deleted successfully" });
+	} catch (error) {
+		console.error("Error deleting user:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 app.get("/library", async (req, res) => {
 	const { LibID } = req.query;
 	try {
