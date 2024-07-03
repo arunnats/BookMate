@@ -17,7 +17,7 @@ const BookmatePage = () => {
 		Answers: "",
 	});
 	const [optedIn, setOptedIn] = useState(false);
-	const [bookmateStatus, setBookmateStatus] = useState(false);
+	const [bookmateStatus, setBookmateStatus] = useState(0);
 
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
@@ -58,53 +58,47 @@ const BookmatePage = () => {
 	useEffect(() => {
 		if (!user) {
 			navigate("/login");
-			return;
+		} else {
+			fetchLibraryData();
 		}
-
-		const fetchLibraryData = async () => {
-			try {
-				const libraryResponse = await axios.get(
-					`http://localhost:3000/library?LibID=${user.LibID}`
-				);
-				const fetchedLibraryData = libraryResponse.data;
-				console.log(fetchedLibraryData);
-
-				// Update local state with fetched data
-				const Fave_Books = new Set(fetchedLibraryData.Fave_Books || []);
-				const Wish_List = new Set(fetchedLibraryData.Wish_List || []);
-				const Answers = fetchedLibraryData.Answers || "";
-				setLibraryData({ Fave_Books, Wish_List, Answers });
-
-				// Update user context with fetched library data
-				const updatedUser = { ...user, library: fetchedLibraryData };
-				setUser(updatedUser);
-
-				// Fetch and update opt-in status
-				fetchOptInStatus();
-			} catch (error) {
-				console.error("Error fetching library details:", error.message);
-			}
-		};
-
-		const fetchOptInStatus = async () => {
-			try {
-				const response = await axios.post(
-					"http://localhost:3000/opt-status",
-					null,
-					{
-						params: {
-							id: user.id,
-						},
-					}
-				);
-				setOptedIn(response.data.optedIn);
-			} catch (error) {
-				console.error("Error fetching opt-in status:", error.message);
-			}
-		};
-
-		fetchLibraryData();
 	}, []);
+
+	const fetchLibraryData = async () => {
+		try {
+			const libraryResponse = await axios.get(
+				`http://localhost:3000/library?LibID=${user.LibID}`
+			);
+			const fetchedLibraryData = libraryResponse.data;
+			console.log(fetchedLibraryData);
+
+			const Fave_Books = new Set(fetchedLibraryData.Fave_Books || []);
+			const Wish_List = new Set(fetchedLibraryData.Wish_List || []);
+			const Answers = fetchedLibraryData.Answers || "";
+			setLibraryData({ Fave_Books, Wish_List, Answers });
+
+			const updatedUser = { ...user, library: fetchedLibraryData };
+			setUser(updatedUser);
+
+			fetchOptInStatus();
+		} catch (error) {
+			console.error("Error fetching library details:", error.message);
+		}
+	};
+
+	const fetchOptInStatus = async () => {
+		try {
+			const response = await axios.post(
+				"http://localhost:3000/opt-status",
+				null,
+				{
+					params: { id: user.id },
+				}
+			);
+			setOptedIn(response.data.optedIn);
+		} catch (error) {
+			console.error("Error fetching opt-in status:", error.message);
+		}
+	};
 
 	const isButtonDisabled = () => {
 		if (!user || !user.library) {
@@ -119,10 +113,10 @@ const BookmatePage = () => {
 
 	const isButtonVisible = () => {
 		if (!user || !user.library) {
-			return true;
+			return false;
 		}
 
-		return bookmateStatus;
+		return bookmateStatus !== 0; // Show button only if status is not 0
 	};
 
 	const handleGetMatch = async () => {
@@ -132,7 +126,7 @@ const BookmatePage = () => {
 				optStatus: !optedIn,
 			});
 			console.log(response.data);
-			setOptedIn(!optedIn); // Update local state after successful opt-in/out
+			setOptedIn(!optedIn);
 		} catch (error) {
 			console.error("Error opting in for matching:", error.message);
 		}

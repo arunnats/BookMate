@@ -28,16 +28,67 @@ app.use((req, res, next) => {
 	next();
 });
 
-let deadline = new Date(2025, 1, 14, 0, 0);
+let deadline = null;
+let starttime = null;
 let active = false;
 let intervalId = null;
 let bookmateSet = false;
 
 intervalId = setInterval(checkDeadline, 1000);
 
+app.post("/update-starttime", (req, res) => {
+	const { date, month, year, hour, minute } = req.body;
+
+	if (
+		typeof date !== "number" ||
+		typeof month !== "number" ||
+		typeof year !== "number" ||
+		typeof hour !== "number" ||
+		typeof minute !== "number"
+	) {
+		return res
+			.status(400)
+			.json({ error: "Invalid input. All fields must be numbers." });
+	}
+
+	try {
+		const now = new Date();
+		const newStarttime = new Date(year, month - 1, date, hour, minute);
+
+		if (newStarttime <= now) {
+			return res.status(400).json({
+				error: "Start time needs to be after the current date and time",
+			});
+		}
+
+		starttime = newStarttime;
+
+		res
+			.status(200)
+			.json({ message: "Start time updated successfully", starttime });
+	} catch (error) {
+		console.error("Error updating start time:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.get("/get-starttime", (req, res) => {
+	try {
+		if (starttime) {
+			res.status(200).json({ starttime });
+		} else {
+			res.status(404).json({ error: "Start time not set" });
+		}
+	} catch (error) {
+		console.error("Error getting start time:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 function checkDeadline() {
 	const now = new Date();
-	if (now >= deadline && !active) {
+
+	if (deadline && now >= deadline && !active) {
 		active = true;
 		console.log("Deadline reached. Executing functions...");
 
@@ -116,12 +167,57 @@ app.post("/update-deadline", (req, res) => {
 app.get("/get-bookmate-status", (req, res) => {
 	try {
 		const now = new Date();
+		let status = 0;
 
-		if (now >= deadline && bookmateSet) {
-			res.status(200).json({ status: true });
-		} else {
-			res.status(200).json({ status: false });
+		if (!deadline && !starttime) {
+			status = 0;
+		} else if (starttime && now < starttime) {
+			status = 1;
+		} else if (starttime && deadline && starttime < now && now < deadline) {
+			status = 2;
+		} else if (deadline && now >= deadline) {
+			status = 4;
 		}
+
+		res.status(200).json({ status });
+	} catch (error) {
+		console.error("Error getting bookmate status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.get("/get-bookmate-details", (req, res) => {
+	try {
+		const now = new Date();
+		let status = {
+			canStart: false,
+			errors: [],
+		};
+
+		if (!deadline) {
+			status.errors.push("Deadline not set");
+		}
+		if (!starttime) {
+			status.errors.push("Start time not set");
+		}
+
+		if (deadline && starttime && now >= deadline && bookmateSet) {
+			status.canStart = true;
+		}
+
+		if (starttime && deadline && starttime >= deadline) {
+			status.errors.push("Start time should be before the deadline");
+		}
+
+		if (starttime && now < starttime) {
+			status.errors.push("Cannot start yet, wait until start time");
+		}
+
+		if (status.errors.length === 0 && !status.canStart) {
+			status.errors.push("Cannot start due to unknown reasons");
+		}
+
+		res.status(200).json(status);
 	} catch (error) {
 		console.error("Error getting bookmate status:", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
