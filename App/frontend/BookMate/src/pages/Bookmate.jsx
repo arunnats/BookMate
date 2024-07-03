@@ -12,7 +12,25 @@ const BookmatePage = () => {
 		Wish_List: new Set(),
 		Answers: "",
 	});
-	const [optedIn, setOptedIn] = useState(false); // State to hold opt-in status
+	const [optedIn, setOptedIn] = useState(false);
+	const [bookmateStatus, setBookmateStatus] = useState(false);
+
+	useEffect(() => {
+		const bookmateStatusGet = async () => {
+			try {
+				const response = await axios.get(
+					"http://localhost:3000/get-bookmate-status"
+				);
+				const { status } = response.data;
+				console.log(status);
+				setBookmateStatus(status);
+			} catch (error) {
+				console.error("Error fetching bookmate status:", error.message);
+			}
+		};
+
+		bookmateStatusGet();
+	}, []);
 
 	useEffect(() => {
 		if (!user) {
@@ -112,6 +130,23 @@ const BookmatePage = () => {
 			<div
 				className={`bg-primary mx-auto min-h-[85vh] flex items-center justify-center ${styles.box}`}
 			>
+				{bookmateStatus ? (
+					<div className="flex flex-col">
+						<h1 className="text-3xl  text-white font-bold my-3">
+							Book Mate results are out!
+						</h1>
+						<div>
+							<Link
+								to="/view-bookmate"
+								className="btn text-l text-primary font-poppins"
+							>
+								See your bookmate!
+							</Link>
+						</div>
+					</div>
+				) : (
+					<div></div>
+				)}
 				<div className="text-white text-center m-3 my-6">
 					<h1 className="text-4xl font-bold">Hello, {user.name}</h1>
 					{[...libraryData.Fave_Books, ...libraryData.Wish_List].length > 3 ? (

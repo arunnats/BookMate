@@ -1,10 +1,29 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../../userContext.js";
+import axios from "axios";
 
 const UserProfile = () => {
 	const { user, setUser } = useContext(UserContext);
 	const navigate = useNavigate();
+	const [bookmateStatus, setBookmateStatus] = useState(false);
+
+	useEffect(() => {
+		const bookmateStatusGet = async () => {
+			try {
+				const response = await axios.get(
+					"http://localhost:3000/get-bookmate-status"
+				);
+				const { status } = response.data;
+				console.log(status);
+				setBookmateStatus(status);
+			} catch (error) {
+				console.error("Error fetching bookmate status:", error.message);
+			}
+		};
+
+		bookmateStatusGet();
+	}, []);
 
 	useEffect(() => {
 		if (!user) {
@@ -46,6 +65,23 @@ const UserProfile = () => {
 
 	return (
 		<div>
+			{bookmateStatus ? (
+				<div className="flex flex-col">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						Book Mate results are out!
+					</h1>
+					<div>
+						<Link
+							to="/view-bookmate"
+							className="btn text-l text-primary font-poppins"
+						>
+							See your bookmate!
+						</Link>
+					</div>
+				</div>
+			) : (
+				<div></div>
+			)}
 			<h2>User Profile</h2>
 			{user ? (
 				<div>

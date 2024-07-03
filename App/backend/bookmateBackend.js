@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-let deadline = new Date(2024, 1, 14, 0, 0);
+let deadline = new Date(2025, 1, 14, 0, 0);
 let active = false;
 let intervalId = null;
 let bookmateSet = false;
