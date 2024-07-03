@@ -166,28 +166,24 @@ const BookmatePage = () => {
 	}
 
 	return (
-		<div>
-			{deadLine && <Countdown targetDateTime={deadLine} />}
-			<div
-				className={`bg-primary mx-auto min-h-[85vh] flex flex-col items-center justify-center ${styles.box}`}
-			>
-				{bookmateStatus && (
-					<div className="flex flex-col">
-						<h1 className="text-3xl  text-white font-bold my-3">
-							Book Mate results are out!
-						</h1>
-						<div>
-							<Link
-								to="/view-bookmate"
-								className="btn text-l text-primary font-poppins"
-							>
-								See your bookmate!
-							</Link>
-						</div>
-					</div>
-				)}
+		<div
+			className={`bg-primary mx-auto min-h-[85vh] flex flex-col items-center justify-center ${styles.box}`}
+		>
+			{bookmateStatus === 0 && (
 				<div className="text-white text-center m-3 my-6">
-					<h1 className="text-4xl font-bold">Hello, {user.name}</h1>
+					<h1 className="text-4xl font-bold">Under Maintenance</h1>
+					<p className="text-2xl mt-2">
+						Book Mate is currently under maintenance. Please check back later.
+					</p>
+				</div>
+			)}
+
+			{bookmateStatus === 1 && (
+				<div className="flex flex-col justify-center align-middle margin-auto">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						The next round of Bookmate starts in:
+					</h1>
+					{startTime && <Countdown targetDateTime={startTime} />}
 					<LibraryStatus
 						faveBooksSize={libraryData.Fave_Books.size}
 						wishListSize={libraryData.Wish_List.size}
@@ -200,8 +196,52 @@ const BookmatePage = () => {
 						isButtonVisible={isButtonVisible}
 					/>
 				</div>
-			</div>
-			<div className="mx-auto h-[20vh] flex items-center justify-center"></div>
+			)}
+
+			{bookmateStatus === 2 && (
+				<div className="flex flex-col justify-center align-middle margin-auto">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						Get your Bookmates in:
+					</h1>
+					{deadLine && <Countdown targetDateTime={deadLine} />}
+					<LibraryStatus
+						faveBooksSize={libraryData.Fave_Books.size}
+						wishListSize={libraryData.Wish_List.size}
+						bookmateStatus={bookmateStatus}
+					/>
+					<QuizStatus
+						answersLength={libraryData.Answers.length}
+						bookmateStatus={bookmateStatus}
+					/>
+					<BookmateActions
+						optedIn={optedIn}
+						handleGetMatch={handleGetMatch}
+						isButtonDisabled={isButtonDisabled}
+						isButtonVisible={isButtonVisible}
+					/>
+				</div>
+			)}
+
+			{bookmateStatus === 3 && (
+				<div className="flex flex-col justify-center align-middle margin-auto">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						Book Mate results are out!
+					</h1>
+					<div>
+						<Link
+							to="/view-bookmate"
+							className="btn text-l text-primary font-poppins"
+						>
+							See your bookmate!
+						</Link>
+					</div>
+					<LibraryStatus
+						faveBooksSize={libraryData.Fave_Books.size}
+						wishListSize={libraryData.Wish_List.size}
+						bookmateStatus={bookmateStatus}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

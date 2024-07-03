@@ -30,7 +30,7 @@ const Countdown = ({ targetDateTime }) => {
 	const { days, hours, minutes, seconds } = timeLeft;
 
 	return (
-		<div className="grid grid-flow-col gap-5 text-center auto-cols-max">
+		<div className="grid grid-flow-col gap-5 text-center auto-cols-max mx-auto">
 			{days !== undefined ? (
 				<>
 					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">

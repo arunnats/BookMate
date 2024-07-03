@@ -7,7 +7,7 @@ const BookmateActions = ({
 	isButtonVisible,
 }) => {
 	return (
-		!isButtonVisible() && (
+		!isButtonVisible && (
 			<button
 				className="btn"
 				onClick={handleGetMatch}
