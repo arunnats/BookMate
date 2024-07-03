@@ -3,6 +3,7 @@ const mysql = require("mysql2/promise");
 const { OAuth2Client } = require("google-auth-library");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
+const axios = require("axios");
 
 const app = express();
 app.use(express.json());
@@ -37,7 +38,17 @@ function checkDeadline() {
 	const now = new Date();
 	if (now >= deadline && !active) {
 		active = true;
-		console.log("Deadline reached. Executing function...");
+		console.log("Deadline reached. Executing functions...");
+
+		axios
+			.post("http://127.0.0.1:8000/make-matches")
+			.then((response) => {
+				console.log("Matches made with response", response.data);
+			})
+			.catch((error) => {
+				console.error("Error making matches", error);
+			});
+
 		clearInterval(intervalId);
 	}
 }
@@ -75,11 +86,9 @@ app.post("/update-deadline", (req, res) => {
 		const newDeadline = new Date(year, month - 1, date, hour, minute);
 
 		if (newDeadline <= now) {
-			return res
-				.status(400)
-				.json({
-					error: "Deadline needs to be after the current date and time",
-				});
+			return res.status(400).json({
+				error: "Deadline needs to be after the current date and time",
+			});
 		}
 
 		deadline = newDeadline;
