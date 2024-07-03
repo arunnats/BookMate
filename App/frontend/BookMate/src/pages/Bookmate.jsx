@@ -7,6 +7,7 @@ import LoginPrompt from "../components/LoginPrompt/LoginPrompt.jsx";
 import LibraryStatus from "../components/LibraryStatus/LibraryStatus.jsx";
 import QuizStatus from "../components/QuizStatus/QuixStatus.jsx";
 import BookmateActions from "../components/BookmateActions/BookmateActions.jsx";
+import Countdown from "../components/Countdown/Countdown.jsx";
 
 const BookmatePage = () => {
 	const { user, setUser } = useContext(UserContext);
@@ -18,7 +19,35 @@ const BookmatePage = () => {
 	});
 	const [optedIn, setOptedIn] = useState(false);
 	const [bookmateStatus, setBookmateStatus] = useState(0);
+	const [startTime, setStartTime] = useState(null);
+	const [deadLine, setDeadLine] = useState(null);
 
+	useEffect(() => {
+		const startTimeGet = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/get-starttime");
+				const { starttime } = response.data;
+				setStartTime(starttime);
+				console.log(starttime);
+			} catch (error) {
+				console.error("Error fetching start time:", error.message);
+			}
+		};
+
+		const deadLineGet = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/get-deadline");
+				const { deadline } = response.data;
+				setDeadLine(deadline);
+				console.log(deadline);
+			} catch (error) {
+				console.error("Error fetching deadline:", error.message);
+			}
+		};
+
+		startTimeGet();
+		deadLineGet();
+	}, []);
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
 			try {
@@ -138,6 +167,7 @@ const BookmatePage = () => {
 
 	return (
 		<div>
+			{deadLine && <Countdown targetDateTime={deadLine} />}
 			<div
 				className={`bg-primary mx-auto min-h-[85vh] flex flex-col items-center justify-center ${styles.box}`}
 			>
