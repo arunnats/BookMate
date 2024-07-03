@@ -128,7 +128,7 @@ const BookmatePage = () => {
 	return (
 		<div>
 			<div
-				className={`bg-primary mx-auto min-h-[85vh] flex items-center justify-center ${styles.box}`}
+				className={`bg-primary mx-auto min-h-[85vh] flex flex-col items-center justify-center ${styles.box}`}
 			>
 				{bookmateStatus ? (
 					<div className="flex flex-col">
