@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 let deadline = new Date(2024, 1, 14, 0, 0);
 let active = false;
 let intervalId = null;
+let bookmateSet = false;
 
 intervalId = setInterval(checkDeadline, 1000);
 
@@ -48,6 +49,9 @@ function checkDeadline() {
 			.catch((error) => {
 				console.error("Error making matches", error);
 			});
+
+		console.log("Bookmates updated.");
+		bookmateSet = true;
 
 		clearInterval(intervalId);
 	}
@@ -105,6 +109,21 @@ app.post("/update-deadline", (req, res) => {
 			.json({ message: "Deadline updated successfully", deadline });
 	} catch (error) {
 		console.error("Error updating deadline:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.get("/get-bookmate-status", (req, res) => {
+	try {
+		const now = new Date();
+
+		if (now >= deadline && bookmateSet) {
+			res.status(200).json({ status: true });
+		} else {
+			res.status(200).json({ status: false });
+		}
+	} catch (error) {
+		console.error("Error getting bookmate status:", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 });
