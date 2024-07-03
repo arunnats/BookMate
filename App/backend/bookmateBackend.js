@@ -27,6 +27,79 @@ app.use((req, res, next) => {
 	next();
 });
 
+let deadline = new Date(2024, 1, 14, 0, 0);
+let active = false;
+let intervalId = null;
+
+intervalId = setInterval(checkDeadline, 1000);
+
+function checkDeadline() {
+	const now = new Date();
+	if (now >= deadline && !active) {
+		active = true;
+		console.log("Deadline reached. Executing function...");
+		clearInterval(intervalId);
+	}
+}
+
+app.get("/get-deadline", (req, res) => {
+	try {
+		if (deadline) {
+			res.status(200).json({ deadline });
+		} else {
+			res.status(404).json({ error: "Deadline not set" });
+		}
+	} catch (error) {
+		console.error("Error getting deadline:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/update-deadline", (req, res) => {
+	const { date, month, year, hour, minute } = req.body;
+
+	if (
+		typeof date !== "number" ||
+		typeof month !== "number" ||
+		typeof year !== "number" ||
+		typeof hour !== "number" ||
+		typeof minute !== "number"
+	) {
+		return res
+			.status(400)
+			.json({ error: "Invalid input. All fields must be numbers." });
+	}
+
+	try {
+		const now = new Date();
+		const newDeadline = new Date(year, month - 1, date, hour, minute);
+
+		if (newDeadline <= now) {
+			return res
+				.status(400)
+				.json({
+					error: "Deadline needs to be after the current date and time",
+				});
+		}
+
+		deadline = newDeadline;
+		active = false;
+
+		if (intervalId) {
+			clearInterval(intervalId);
+		}
+
+		intervalId = setInterval(checkDeadline, 1000);
+
+		res
+			.status(200)
+			.json({ message: "Deadline updated successfully", deadline });
+	} catch (error) {
+		console.error("Error updating deadline:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 function generateLibraryId() {
 	const timestamp = new Date().toISOString().slice(0, 19).replace(/[-T:]/g, "");
 	const uuidPart = uuidv4().split("-")[0];
