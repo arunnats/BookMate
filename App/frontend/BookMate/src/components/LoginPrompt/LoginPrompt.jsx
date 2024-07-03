@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "../css/SquigglyLine.module.css";
+import styles from "../../css/SquigglyLine.module.css";
 
 const LoginPrompt = () => {
 	return (

@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const LibraryStatus = ({ faveBooksSize, wishListSize }) => {
+const LibraryStatus = ({ faveBooksSize, wishListSize, isButtonVisible }) => {
 	return (
 		<>
-			{faveBooksSize + wishListSize > 3 ? (
+			{isButtonVisible ? (
 				<div className="flex flex-col justify-center align-middle">
 					<p className="text-2xl mt-2">
 						You have {faveBooksSize + wishListSize} books in your library! The
@@ -22,8 +22,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize }) => {
 			) : (
 				<div className="flex flex-col justify-center align-middle">
 					<p className="text-2xl mt-2">
-						You need to have at least 4 books across your wish list and
-						favourites!
+						You can add or remove books for the next round of Bookmate.
 					</p>
 					<div>
 						<Link
