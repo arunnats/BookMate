@@ -140,14 +140,6 @@ const BookmatePage = () => {
 		return Answers.length !== 20 || faveBooksLength + wishListLength <= 3;
 	};
 
-	const isButtonVisible = () => {
-		if (!user || !user.library) {
-			return false;
-		}
-
-		return bookmateStatus !== 0; // Show button only if status is not 0
-	};
-
 	const handleGetMatch = async () => {
 		try {
 			const response = await axios.post("http://localhost:3000/opt-in", {
@@ -193,7 +185,6 @@ const BookmatePage = () => {
 						optedIn={optedIn}
 						handleGetMatch={handleGetMatch}
 						isButtonDisabled={isButtonDisabled}
-						isButtonVisible={isButtonVisible}
 					/>
 				</div>
 			)}
@@ -217,7 +208,6 @@ const BookmatePage = () => {
 						optedIn={optedIn}
 						handleGetMatch={handleGetMatch}
 						isButtonDisabled={isButtonDisabled}
-						isButtonVisible={isButtonVisible}
 					/>
 				</div>
 			)}
