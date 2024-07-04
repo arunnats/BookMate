@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../userContext";
 import { useNavigate } from "react-router-dom";
+import AppOffline from "../components/AppOffline/AppOffline";
 
 const LoginPage = () => {
 	const { user, setUser } = useContext(UserContext);

@@ -28,6 +28,8 @@ app.use((req, res, next) => {
 	next();
 });
 
+let isAppOn = false;
+
 let deadline = null;
 let starttime = null;
 let active = false;
@@ -35,6 +37,43 @@ let intervalId = null;
 let bookmateSet = false;
 
 intervalId = setInterval(checkDeadline, 1000);
+
+app.get("/app-status", (req, res) => {
+	try {
+		if (isAppOn) {
+			res.status(200).json({ status: true });
+		} else {
+			res.status(200).json({ status: false });
+		}
+	} catch (error) {
+		console.error("Error getting app status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.get("/turn-on-app", (req, res) => {
+	try {
+		isAppOn = true;
+		console.log("App turned on");
+
+		res.status(200).json({ message: "App turned on" });
+	} catch (error) {
+		console.error("Error getting app status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.get("/turn-off-app", (req, res) => {
+	try {
+		isAppOn = false;
+		console.log("App turned off");
+
+		res.status(200).json({ message: "App turned off" });
+	} catch (error) {
+		console.error("Error getting app status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
 
 app.post("/update-starttime", (req, res) => {
 	const { date, month, year, hour, minute } = req.body;
