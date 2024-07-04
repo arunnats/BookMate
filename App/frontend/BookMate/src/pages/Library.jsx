@@ -94,7 +94,7 @@ const Library = () => {
 
 	return (
 		<div className="library-container">
-			{bookmateStatus ? (
+			{bookmateStatus === 3 && user.BookmateID && (
 				<div className="flex flex-col">
 					<h1 className="text-3xl  text-white font-bold my-3">
 						Book Mate results are out!
@@ -108,8 +108,6 @@ const Library = () => {
 						</Link>
 					</div>
 				</div>
-			) : (
-				<div></div>
 			)}
 			<div className="flex flex-col items-center py-8 min-h-screen">
 				<h1 className="text-center">Library Page</h1>

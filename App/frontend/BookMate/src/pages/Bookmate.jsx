@@ -137,7 +137,7 @@ const BookmatePage = () => {
 		const faveBooksLength = Fave_Books.size;
 		const wishListLength = Wish_List.size;
 
-		return Answers.length !== 20 || faveBooksLength + wishListLength <= 3;
+		return Answers.length !== 20 || faveBooksLength + wishListLength < 3;
 	};
 
 	const handleGetMatch = async () => {
@@ -176,11 +176,16 @@ const BookmatePage = () => {
 						The next round of Bookmate starts in:
 					</h1>
 					{startTime && <Countdown targetDateTime={startTime} />}
+
 					<LibraryStatus
 						faveBooksSize={libraryData.Fave_Books.size}
 						wishListSize={libraryData.Wish_List.size}
+						bookmateStatus={bookmateStatus}
 					/>
-					<QuizStatus answersLength={libraryData.Answers.length} />
+					<QuizStatus
+						answersLength={libraryData.Answers.length}
+						bookmateStatus={bookmateStatus}
+					/>
 					<BookmateActions
 						optedIn={optedIn}
 						handleGetMatch={handleGetMatch}

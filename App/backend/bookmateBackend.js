@@ -66,6 +66,11 @@ app.get("/turn-on-app", (req, res) => {
 app.get("/turn-off-app", (req, res) => {
 	try {
 		isAppOn = false;
+		deadline = null;
+		starttime = null;
+		active = false;
+		intervalId = null;
+
 		console.log("App turned off");
 
 		res.status(200).json({ message: "App turned off" });
@@ -215,7 +220,7 @@ app.get("/get-bookmate-status", (req, res) => {
 		} else if (starttime && deadline && starttime < now && now < deadline) {
 			status = 2;
 		} else if (deadline && now >= deadline) {
-			status = 4;
+			status = 3;
 		}
 
 		res.status(200).json({ status });
@@ -240,7 +245,7 @@ app.get("/get-bookmate-details", (req, res) => {
 			status.errors.push("Start time not set");
 		}
 
-		if (deadline && starttime && now >= deadline && bookmateSet) {
+		if (deadline && starttime && now >= deadline) {
 			status.canStart = true;
 		}
 

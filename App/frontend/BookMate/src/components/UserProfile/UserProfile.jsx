@@ -65,7 +65,7 @@ const UserProfile = () => {
 
 	return (
 		<div>
-			{bookmateStatus ? (
+			{bookmateStatus === 3 && user.BookmateID && (
 				<div className="flex flex-col">
 					<h1 className="text-3xl  text-white font-bold my-3">
 						Book Mate results are out!
@@ -79,8 +79,6 @@ const UserProfile = () => {
 						</Link>
 					</div>
 				</div>
-			) : (
-				<div></div>
 			)}
 			<h2>User Profile</h2>
 			{user ? (

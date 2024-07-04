@@ -10,6 +10,24 @@ const SearchAndResults = () => {
 	const [recommendations, setRecommendations] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const containerRef = useRef(null);
+	const [bookmateStatus, setBookmateStatus] = useState(false);
+
+	useEffect(() => {
+		const bookmateStatusGet = async () => {
+			try {
+				const response = await axios.get(
+					"http://localhost:3000/get-bookmate-status"
+				);
+				const { status } = response.data;
+				console.log(status);
+				setBookmateStatus(status);
+			} catch (error) {
+				console.error("Error fetching bookmate status:", error.message);
+			}
+		};
+
+		bookmateStatusGet();
+	}, []);
 
 	const getRecommendations = async (result) => {
 		try {
@@ -54,6 +72,21 @@ const SearchAndResults = () => {
 
 	return (
 		<div className={`bg-primary ${styles.box}`}>
+			{bookmateStatus === 3 && user.BookmateID && (
+				<div className="flex flex-col">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						Book Mate results are out!
+					</h1>
+					<div>
+						<Link
+							to="/view-bookmate"
+							className="btn text-l text-primary font-poppins"
+						>
+							See your bookmate!
+						</Link>
+					</div>
+				</div>
+			)}
 			<div className="min-h-[7vh]"></div>
 			<div
 				className={`search-bar-container w-[95vw] flex flex-col m-auto justify-center items-center relative `}
