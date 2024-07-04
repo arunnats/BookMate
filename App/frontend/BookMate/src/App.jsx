@@ -13,6 +13,7 @@ import Recommendations from "./pages/Recommendations";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppOffline from "./components/AppOffline/AppOffline";
+import ViewBookmate from "./components/ViewBookmate/ViewBookmate";
 
 const App = () => {
 	const [activated, setactivated] = useState(false);
@@ -67,6 +68,10 @@ const App = () => {
 					<Route
 						path="/find-your-match"
 						element={activated ? <BookmatePage /> : <AppOffline />}
+					/>
+					<Route
+						path="/view-bookmate"
+						element={activated ? <ViewBookmate /> : <AppOffline />}
 					/>
 				</Routes>
 				<Footer />
