@@ -16,6 +16,7 @@ const UpdateDetails = () => {
 	const [nickname, setNickname] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [instagramId, setInstagramId] = useState("");
+	const [disabled, setDisabled] = useState(true);
 
 	const profilePictures = [
 		{
@@ -64,6 +65,12 @@ const UpdateDetails = () => {
 		bookmateStatusGetInit();
 	}, []);
 
+	useEffect(() => {
+		if (instagramId.length > 0 && phoneNumber.length === 10) {
+			setDisabled(false);
+		}
+	}, [phoneNumber, instagramId]);
+
 	const handleSave = async () => {
 		try {
 			const response = await axios.post("http://localhost:3000/update-user", {
@@ -76,6 +83,22 @@ const UpdateDetails = () => {
 			});
 			user.profile_done = 1;
 			console.log(response.data.message);
+
+			const responseUser = await axios.post(
+				"http://localhost:3000/user-details",
+				{
+					id: user.id,
+				}
+			);
+			const updatedUser = responseUser.data.user;
+
+			console.log(updatedUser);
+
+			setUser(updatedUser);
+
+			console.log(user);
+
+			navigate("/find-your-match");
 		} catch (error) {
 			console.error("Error updating user data:", error.message);
 		}
@@ -101,8 +124,6 @@ const UpdateDetails = () => {
 			.slice(0, 30);
 		setInstagramId(sanitizedValue);
 	};
-
-	let isSaveDisabled = !phoneNumber || !nickname;
 
 	return (
 		<div
@@ -164,7 +185,7 @@ const UpdateDetails = () => {
 					<button
 						className="btn btn-primary mt-4"
 						onClick={handleSave}
-						disabled={isSaveDisabled}
+						disabled={disabled}
 					>
 						Save
 					</button>

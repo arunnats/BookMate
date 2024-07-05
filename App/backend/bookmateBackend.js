@@ -513,11 +513,12 @@ app.post("/auth/google", async (req, res) => {
 });
 
 app.post("/user-details", async (req, res) => {
-	const { id } = req.query;
+	const { id } = req.body;
 	try {
 		console.log("Getting user details");
 
-		const user = findUserBySub(id);
+		const user = await findUserBySub(id);
+		console.log(user);
 
 		res.status(200).json({ user: user });
 	} catch (error) {
@@ -547,7 +548,7 @@ app.post("/update-user", async (req, res) => {
 
 	try {
 		const [resultUserUpdate] = await connection.query(
-			"UPDATE library SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1 WHERE LibID = ?",
+			"UPDATE users SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1 WHERE LibID = ?",
 			[picture_url, nickname, phone_number, instagram_id, id]
 		);
 		console.log("Updated user table:", resultUserUpdate);
