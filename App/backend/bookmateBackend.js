@@ -483,11 +483,72 @@ app.post("/auth/google", async (req, res) => {
 			// User doesn't exist, create a new user in the database
 			console.log("Creating new user...");
 			user = await createUser(sub, email, given_name, family_name, picture);
+
+			const connection = await pool.getConnection();
+			try {
+				const [rows] = await connection.query(
+					"SELECT phone_num, instagram, opted_in, profile_done FROM users WHERE id = ?",
+					[user.id]
+				);
+				if (rows.length > 0) {
+					const userDetails = rows[0];
+					user.phone_num = userDetails.phone_num;
+					user.instagram = userDetails.instagram;
+					user.opted_in = userDetails.opted_in;
+					user.profile_done = userDetails.profile_done;
+				}
+			} finally {
+				connection.release();
+			}
+
+			console.log(user);
+
 			res.status(200).json({ message: "User created and authenticated", user });
 		}
 	} catch (error) {
 		console.error("Error authenticating user:", error.message);
 		res.status(401).json({ error: "Invalid token" });
+	}
+});
+
+app.post("/user-details", async (req, res) => {
+	const { id } = req.query;
+	try {
+		console.log("Getting user details");
+
+		const user = findUserBySub(id);
+
+		res.status(200).json({ user: user });
+	} catch (error) {
+		console.error("Error fetching opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/profile-status", async (req, res) => {
+	const { id } = req.query;
+
+	try {
+		console.log("Getting opt Status");
+
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query(
+			"SELECT profile_done FROM users WHERE id = ?",
+			[id]
+		);
+		connection.release();
+
+		console.log(rows[0]);
+
+		if (rows.length > 0) {
+			const profStatus = rows[0].profile_done;
+			res.status(200).json({ profStatus: profStatus });
+		} else {
+			res.status(404).json({ error: "User not found" });
+		}
+	} catch (error) {
+		console.error("Error fetching opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
 	}
 });
 

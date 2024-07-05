@@ -10,6 +10,7 @@ import Quiz from "./pages/Quiz";
 import Book from "./pages/Book";
 import BookmatePage from "./pages/Bookmate";
 import Recommendations from "./pages/Recommendations";
+import UpdateDetails from "./pages/UpdateProfile";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppOffline from "./components/AppOffline/AppOffline";

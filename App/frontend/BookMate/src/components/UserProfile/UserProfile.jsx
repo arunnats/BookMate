@@ -8,6 +8,8 @@ const UserProfile = () => {
 	const navigate = useNavigate();
 	const [bookmateStatus, setBookmateStatus] = useState(false);
 
+	console.log(user);
+
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {

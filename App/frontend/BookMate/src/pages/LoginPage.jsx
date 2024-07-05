@@ -24,6 +24,9 @@ const LoginPage = () => {
 				body: JSON.stringify({ token: credentialResponse.credential }),
 			});
 			const data = await response.json();
+
+			console.log(data);
+
 			const libraryResponse = await fetch(
 				`http://localhost:3000/library?LibID=${data.user.LibID}`
 			);
