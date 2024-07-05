@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppOffline from "./components/AppOffline/AppOffline";
 import ViewBookmate from "./components/ViewBookmate/ViewBookmate";
+import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
 	const [activated, setactivated] = useState(false);
@@ -41,10 +42,7 @@ const App = () => {
 				<Navbar />
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route
-						path="/about"
-						element={activated ? <About /> : <AppOffline />}
-					/>
+					<Route path="/about" element={<About />} />
 					<Route
 						path="/recommendations"
 						element={activated ? <Recommendations /> : <AppOffline />}
@@ -55,25 +53,53 @@ const App = () => {
 					/>
 					<Route
 						path="/profile"
-						element={activated ? <Profile /> : <AppOffline />}
+						element={
+							<PrivateRoute activated={activated}>
+								<Profile />
+							</PrivateRoute>
+						}
 					/>
 					<Route
 						path="/library"
-						element={activated ? <Library /> : <AppOffline />}
+						element={
+							<PrivateRoute activated={activated}>
+								<Library />
+							</PrivateRoute>
+						}
 					/>
 					<Route
 						path="/book/:isbn"
-						element={activated ? <Book /> : <AppOffline />}
+						element={
+							<PrivateRoute activated={activated}>
+								<Book />
+							</PrivateRoute>
+						}
 					/>
-					<Route path="/quiz" element={activated ? <Quiz /> : <AppOffline />} />
+					<Route
+						path="/quiz"
+						element={
+							<PrivateRoute activated={activated}>
+								<Quiz />
+							</PrivateRoute>
+						}
+					/>
 					<Route
 						path="/find-your-match"
-						element={activated ? <BookmatePage /> : <AppOffline />}
+						element={
+							<PrivateRoute activated={activated}>
+								<BookmatePage />
+							</PrivateRoute>
+						}
 					/>
 					<Route
 						path="/view-bookmate"
-						element={activated ? <ViewBookmate /> : <AppOffline />}
+						element={
+							<PrivateRoute activated={activated}>
+								<ViewBookmate />
+							</PrivateRoute>
+						}
 					/>
+					<Route path="/update-profile" element={<UpdateDetails />} />
 				</Routes>
 				<Footer />
 			</div>

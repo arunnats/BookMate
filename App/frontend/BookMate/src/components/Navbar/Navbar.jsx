@@ -57,7 +57,7 @@ const Navbar = () => {
 							</li>
 							<li>
 								<Link
-									to="/find-our-match"
+									to="/find-your-match"
 									className="btn btn-ghost text-l text-primary font-poppins"
 								>
 									Find Your Match

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { UserContext } from "../userContext";
+import { UserContext } from "./userContext.js";
+import AppOffline from "./components/AppOffline/AppOffline";
 
 const PrivateRoute = ({ children, activated }) => {
 	const { user } = useContext(UserContext);
