@@ -268,6 +268,33 @@ app.get("/get-bookmate-details", (req, res) => {
 	}
 });
 
+app.post("/profile-status", async (req, res) => {
+	const { id } = req.query;
+
+	try {
+		console.log("Getting opt Status");
+
+		const connection = await pool.getConnection();
+		const [rows] = await connection.query(
+			"SELECT profile_done FROM users WHERE id = ?",
+			[id]
+		);
+		connection.release();
+
+		console.log(rows[0]);
+
+		if (rows.length > 0) {
+			const profStatus = rows[0].profile_done;
+			res.status(200).json({ profStatus: profStatus });
+		} else {
+			res.status(404).json({ error: "User not found" });
+		}
+	} catch (error) {
+		console.error("Error fetching opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
 function generateLibraryId() {
 	const timestamp = new Date().toISOString().slice(0, 19).replace(/[-T:]/g, "");
 	const uuidPart = uuidv4().split("-")[0];
