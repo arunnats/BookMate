@@ -1,19 +1,52 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../css/SquigglyLine.module.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../userContext.js";
-import pfp1 from "../../assets/images/profilePictures/profilePicture1.svg";
-import pfp2 from "../../assets/images/profilePictures/profilePicture2.svg";
-import pfp3 from "../../assets/images/profilePictures/profilePicture3.svg";
-import pfp4 from "../../assets/images/profilePictures/profilePicture4.svg";
-import pfp5 from "../../assets/images/profilePictures/profilePicture5.svg";
-import pfp6 from "../../assets/images/profilePictures/profilePicture6.svg";
 
 const UpdateDetails = () => {
 	const { user, setUser } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [bookmateStatus, setBookmateStatus] = useState(0);
+	const [selectedProfilePicture, setSelectedProfilePicture] = useState(
+		user?.picture_url || user?.profile_done
+			? user.picture_url
+			: profilePictures[6].url
+	);
+	const [nickname, setNickname] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState("");
+	const [instagramId, setInstagramId] = useState("");
+
+	const profilePictures = [
+		{
+			id: 1,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture1.svg?sanitize=true",
+		},
+		{
+			id: 2,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture2.svg?sanitize=true",
+		},
+		{
+			id: 3,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture3.svg?sanitize=true",
+		},
+		{
+			id: 4,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture4.svg?sanitize=true",
+		},
+		{
+			id: 5,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture5.svg?sanitize=true",
+		},
+		{
+			id: 6,
+			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture6.svg?sanitize=true",
+		},
+		{
+			id: 7,
+			url: user.picture_url,
+		},
+	];
 
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
@@ -22,7 +55,6 @@ const UpdateDetails = () => {
 					"http://localhost:3000/get-bookmate-status"
 				);
 				const { status } = response.data;
-				console.log(status);
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -32,30 +64,45 @@ const UpdateDetails = () => {
 		bookmateStatusGetInit();
 	}, []);
 
-	useEffect(() => {
-		const bookmateStatusGet = async () => {
-			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
-				const { status } = response.data;
-				console.log(status);
-				setBookmateStatus(status);
-			} catch (error) {
-				console.error("Error fetching bookmate status:", error.message);
-			}
-		};
-
-		const intervalId = setInterval(bookmateStatusGet, 5000);
-
-		return () => clearInterval(intervalId);
-	}, []);
-
-	useEffect(() => {
-		if (!user) {
-			navigate("/login");
+	const handleSave = async () => {
+		try {
+			const response = await axios.post("http://localhost:3000/update-user", {
+				id: user.LibID,
+				picture_url: selectedProfilePicture,
+				nickname: nickname,
+				phone_number: phoneNumber,
+				instagram_id: instagramId,
+				profile_done: 1,
+			});
+			user.profile_done = 1;
+			console.log(response.data.message);
+		} catch (error) {
+			console.error("Error updating user data:", error.message);
 		}
-	}, []);
+	};
+
+	const handleProfilePictureChange = (event) => {
+		setSelectedProfilePicture(event.target.value);
+	};
+
+	const handleNicknameChange = (event) => {
+		const sanitizedValue = event.target.value.replace(/[^A-Za-z]/gi, "");
+		setNickname(sanitizedValue);
+	};
+
+	const handlePhoneNumberChange = (event) => {
+		const sanitizedValue = event.target.value.replace(/\D/g, "").slice(0, 10);
+		setPhoneNumber(sanitizedValue);
+	};
+
+	const handleInstagramIdChange = (event) => {
+		const sanitizedValue = event.target.value
+			.replace(/[^A-Za-z0-9._]/gi, "")
+			.slice(0, 30);
+		setInstagramId(sanitizedValue);
+	};
+
+	let isSaveDisabled = !phoneNumber || !nickname;
 
 	return (
 		<div
@@ -70,7 +117,57 @@ const UpdateDetails = () => {
 				</div>
 			) : (
 				<div className="text-white text-center m-3 my-6">
-					<h1 className="text-4xl font-bold">Update details</h1>
+					<h1 className="text-4xl font-bold">Update Details</h1>
+					<div className="flex flex-wrap justify-center items-center space-x-4 mt-4">
+						{profilePictures.map((profile) => (
+							<label key={profile.id} className="flex items-center">
+								<input
+									type="radio"
+									name="profilePicture"
+									className="radio"
+									value={profile.url}
+									checked={selectedProfilePicture === profile.url}
+									onChange={handleProfilePictureChange}
+								/>
+								<img
+									src={profile.url}
+									alt={`Profile ${profile.id}`}
+									className="w-20 h-20 rounded-full shadow-md mx-auto"
+								/>
+								<span className="ml-2 text-sm">{`Option ${profile.id}`}</span>
+							</label>
+						))}
+					</div>
+					<input
+						type="text"
+						placeholder="Nickname (optional)"
+						className="input input-bordered w-full max-w-xs mt-4"
+						value={nickname}
+						onChange={handleNicknameChange}
+					/>
+					<input
+						type="text"
+						placeholder="Phone Number"
+						className="input input-bordered w-full max-w-xs mt-4"
+						value={phoneNumber}
+						onChange={handlePhoneNumberChange}
+						required
+					/>
+					<input
+						type="text"
+						placeholder="Instagram ID"
+						className="input input-bordered w-full max-w-xs mt-4"
+						value={instagramId}
+						onChange={handleInstagramIdChange}
+						required
+					/>
+					<button
+						className="btn btn-primary mt-4"
+						onClick={handleSave}
+						disabled={isSaveDisabled}
+					>
+						Save
+					</button>
 				</div>
 			)}
 		</div>

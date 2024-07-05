@@ -494,6 +494,7 @@ app.post("/auth/google", async (req, res) => {
 					const userDetails = rows[0];
 					user.phone_num = userDetails.phone_num;
 					user.instagram = userDetails.instagram;
+					user.nickname = userDetails.nickname;
 					user.opted_in = userDetails.opted_in;
 					user.profile_done = userDetails.profile_done;
 				}
@@ -521,6 +522,38 @@ app.post("/user-details", async (req, res) => {
 		res.status(200).json({ user: user });
 	} catch (error) {
 		console.error("Error fetching opt status:", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+});
+
+app.post("/update-user", async (req, res) => {
+	const connection = await pool.getConnection();
+	const {
+		id,
+		picture_url,
+		nickname,
+		phone_number,
+		instagram_id,
+		profile_done,
+	} = req.body;
+
+	console.log("Library user data:", {
+		picture_url,
+		nickname,
+		phone_number,
+		instagram_id,
+		profile_done,
+	});
+
+	try {
+		const [resultUserUpdate] = await connection.query(
+			"UPDATE library SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1 WHERE LibID = ?",
+			[picture_url, nickname, phone_number, instagram_id, id]
+		);
+		console.log("Updated user table:", resultUserUpdate);
+		res.status(200).json({ message: "User data updated successfully" });
+	} catch (error) {
+		console.error("Error updating User data:", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 });

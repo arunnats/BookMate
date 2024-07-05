@@ -99,7 +99,10 @@ const App = () => {
 							</PrivateRoute>
 						}
 					/>
-					<Route path="/update-profile" element={<UpdateDetails />} />
+					<Route
+						path="/update-profile"
+						element={activated ? <UpdateDetails /> : <AppOffline />}
+					/>
 				</Routes>
 				<Footer />
 			</div>
