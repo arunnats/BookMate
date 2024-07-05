@@ -3,6 +3,12 @@ import axios from "axios";
 import styles from "../css/SquigglyLine.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../userContext.js";
+import pfp1 from "../../assets/images/profilePictures/profilePicture1.svg";
+import pfp2 from "../../assets/images/profilePictures/profilePicture2.svg";
+import pfp3 from "../../assets/images/profilePictures/profilePicture3.svg";
+import pfp4 from "../../assets/images/profilePictures/profilePicture4.svg";
+import pfp5 from "../../assets/images/profilePictures/profilePicture5.svg";
+import pfp6 from "../../assets/images/profilePictures/profilePicture6.svg";
 
 const UpdateDetails = () => {
 	const { user, setUser } = useContext(UserContext);
