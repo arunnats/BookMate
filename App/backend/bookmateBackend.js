@@ -129,12 +129,38 @@ app.get("/get-starttime", (req, res) => {
 	}
 });
 
-function checkDeadline() {
+async function checkDeadline() {
 	const now = new Date();
 
 	if (deadline && now >= deadline && !active) {
 		active = true;
-		console.log("Deadline reached. Executing functions...");
+		console.log("Deadline reached. Executing matching...");
+
+		const connection = await pool.getConnection();
+
+		try {
+			const [result] = await connection.query(
+				"SELECT COUNT(*) AS count FROM users WHERE opted_in = TRUE"
+			);
+
+			const count = result[0].count;
+
+			console.log(count);
+
+			if (count % 2 === 1) {
+				console.log("Odd number of users. Adding dummy");
+
+				const [response] = await connection.query(
+					"UPDATE users SET opted_in = TRUE WHERE email = 'arunnats2004@gmail.com'"
+				);
+
+				console.log(response);
+			}
+		} catch (error) {
+			console.error("Database error:", error);
+		} finally {
+			connection.release();
+		}
 
 		axios
 			.post("http://127.0.0.1:8000/make-matches")
