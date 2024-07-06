@@ -17,6 +17,9 @@ const UpdateDetails = () => {
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [instagramId, setInstagramId] = useState("");
 	const [disabled, setDisabled] = useState(true);
+	const [instagramPublic, setInstagramPublic] = useState(true);
+	const [emailPublic, setEmailPublic] = useState(true);
+	const [phonePublic, setPhonePublic] = useState(true);
 
 	const profilePictures = [
 		{
@@ -66,10 +69,16 @@ const UpdateDetails = () => {
 	}, []);
 
 	useEffect(() => {
-		if (instagramId.length > 0 && phoneNumber.length === 10) {
+		if (
+			instagramId.length > 0 &&
+			phoneNumber.length === 10 &&
+			(instagramPublic || emailPublic || phonePublic)
+		) {
 			setDisabled(false);
+		} else {
+			setDisabled(true);
 		}
-	}, [phoneNumber, instagramId]);
+	}, [phoneNumber, instagramId, instagramPublic, emailPublic, phonePublic]);
 
 	const handleSave = async () => {
 		try {
@@ -123,6 +132,18 @@ const UpdateDetails = () => {
 			.replace(/[^A-Za-z0-9._]/gi, "")
 			.slice(0, 30);
 		setInstagramId(sanitizedValue);
+	};
+
+	const handleInstagramToggle = () => {
+		setInstagramPublic(!instagramPublic);
+	};
+
+	const handlePhoneToggle = () => {
+		setPhonePublic(!phonePublic);
+	};
+
+	const handleEmailToggle = () => {
+		setEmailPublic(!emailPublic);
 	};
 
 	return (
@@ -182,6 +203,47 @@ const UpdateDetails = () => {
 						onChange={handleInstagramIdChange}
 						required
 					/>
+					<div className="w-[300px] flex flex-col items-center">
+						<div className="form-control my-2">
+							<label className="label cursor-pointer flex justify-between">
+								<span className="label-text">Make Instagram ID public?</span>
+								<input
+									type="checkbox"
+									className={`toggle ${
+										instagramPublic ? "toggle-accent" : "toggle-gray"
+									}`}
+									checked={instagramPublic}
+									onChange={handleInstagramToggle}
+								/>
+							</label>
+						</div>
+						<div className="form-control my-2">
+							<label className="label cursor-pointer flex justify-between">
+								<span className="label-text">Make phone number public?</span>
+								<input
+									type="checkbox"
+									className={`toggle ${
+										phonePublic ? "toggle-accent" : "toggle-gray"
+									}`}
+									checked={phonePublic}
+									onChange={handlePhoneToggle}
+								/>
+							</label>
+						</div>
+						<div className="form-control my-2">
+							<label className="label cursor-pointer flex justify-between">
+								<span className="label-text">Make email public?</span>
+								<input
+									type="checkbox"
+									className={`toggle ${
+										emailPublic ? "toggle-accent" : "toggle-gray"
+									}`}
+									checked={emailPublic}
+									onChange={handleEmailToggle}
+								/>
+							</label>
+						</div>
+					</div>
 					<button
 						className="btn btn-primary mt-4"
 						onClick={handleSave}

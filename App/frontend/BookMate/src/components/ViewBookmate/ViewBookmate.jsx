@@ -7,6 +7,7 @@ const ViewBookmate = () => {
 	const { user, setUser } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [bookmateStatus, setBookmateStatus] = useState(false);
+	const [bookmateDetails, setBookmateDetails] = useState(null);
 
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
@@ -26,6 +27,24 @@ const ViewBookmate = () => {
 	}, []);
 
 	useEffect(() => {
+		const bookmateDetailsGet = async () => {
+			try {
+				const response = await axios.post(
+					"http://localhost:3000/user-details",
+					{ id: user.BookmateID }
+				);
+				setBookmateDetails(response.data.user);
+			} catch (error) {
+				console.error("Error fetching bookmate details:", error.message);
+			}
+		};
+
+		if (user && user.BookmateID) {
+			bookmateDetailsGet();
+		}
+	}, [user]);
+
+	useEffect(() => {
 		if (!user) {
 			navigate("/login");
 		} else {
@@ -42,10 +61,21 @@ const ViewBookmate = () => {
 			<h1 className="text-3xl text-white font-bold my-3">
 				Hey {user.first_name}
 			</h1>
-			{bookmateStatus === 3 && user.BookmateID ? (
-				<h1 className="text-3xl text-white font-bold my-3">
-					Your bookmate is {user.BookmateID}
-				</h1>
+			{bookmateStatus === 3 && user.BookmateID && bookmateDetails ? (
+				<div className="flex flex-col">
+					<h1 className="text-3xl text-white font-bold my-3">
+						Your bookmate is {bookmateDetails.first_name}
+					</h1>
+					<h1 className="text-3xl text-white font-bold my-3">
+						Instagram: {bookmateDetails.instagram}
+					</h1>
+					<h1 className="text-3xl text-white font-bold my-3">
+						Phone number: {bookmateDetails.phone_num}
+					</h1>
+					<h1 className="text-3xl text-white font-bold my-3">
+						Email: {bookmateDetails.email}
+					</h1>
+				</div>
 			) : (
 				<h1 className="text-3xl text-white font-bold my-3">
 					You didnt sign up for the last round of bookmate. You can try next
