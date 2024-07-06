@@ -13,13 +13,13 @@ const UpdateDetails = () => {
 			? user.picture_url
 			: profilePictures[6].url
 	);
-	const [nickname, setNickname] = useState("");
-	const [phoneNumber, setPhoneNumber] = useState("");
-	const [instagramId, setInstagramId] = useState("");
+	const [nickname, setNickname] = useState(user.nickname);
+	const [phoneNumber, setPhoneNumber] = useState(user.phone_num);
+	const [instagramId, setInstagramId] = useState(user.instagram);
 	const [disabled, setDisabled] = useState(true);
-	const [instagramPublic, setInstagramPublic] = useState(true);
-	const [emailPublic, setEmailPublic] = useState(true);
-	const [phonePublic, setPhonePublic] = useState(true);
+	const [instagramPublic, setInstagramPublic] = useState(user.instagram_public);
+	const [emailPublic, setEmailPublic] = useState(user.email_public);
+	const [phonePublic, setPhonePublic] = useState(user.phone_public);
 
 	const profilePictures = [
 		{
@@ -89,6 +89,9 @@ const UpdateDetails = () => {
 				phone_number: phoneNumber,
 				instagram_id: instagramId,
 				profile_done: 1,
+				instagram_public: instagramPublic,
+				phone_public: phoneNumber,
+				email_public: emailPublic,
 			});
 			user.profile_done = 1;
 			console.log(response.data.message);
@@ -107,7 +110,7 @@ const UpdateDetails = () => {
 
 			console.log(user);
 
-			navigate("/find-your-match");
+			navigate("/Profile");
 		} catch (error) {
 			console.error("Error updating user data:", error.message);
 		}

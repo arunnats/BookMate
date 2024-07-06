@@ -160,6 +160,9 @@ const UserProfile = () => {
 					<button className="btn btn-primary" onClick={handleLogout}>
 						Logout
 					</button>
+					<Link to="/update-profile" className="btn btn-primary ">
+						Update Profile
+					</Link>
 				</div>
 			) : (
 				<p>User not logged in.</p>

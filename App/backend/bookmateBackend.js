@@ -536,6 +536,9 @@ app.post("/update-user", async (req, res) => {
 		phone_number,
 		instagram_id,
 		profile_done,
+		instagram_public,
+		phone_public,
+		email_public,
 	} = req.body;
 
 	console.log("Library user data:", {
@@ -544,12 +547,24 @@ app.post("/update-user", async (req, res) => {
 		phone_number,
 		instagram_id,
 		profile_done,
+		instagram_public,
+		phone_public,
+		email_public,
 	});
 
 	try {
 		const [resultUserUpdate] = await connection.query(
-			"UPDATE users SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1 WHERE LibID = ?",
-			[picture_url, nickname, phone_number, instagram_id, id]
+			"UPDATE users SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1, instagram_public = ?, phone_public = ?, email_public = ?, WHERE id = ?",
+			[
+				picture_url,
+				nickname,
+				phone_number,
+				instagram_id,
+				instagram_public,
+				phone_public,
+				email_public,
+				id,
+			]
 		);
 		console.log("Updated user table:", resultUserUpdate);
 		res.status(200).json({ message: "User data updated successfully" });
