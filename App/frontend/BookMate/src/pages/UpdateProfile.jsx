@@ -13,13 +13,15 @@ const UpdateDetails = () => {
 			? user.picture_url
 			: profilePictures[6].url
 	);
-	const [nickname, setNickname] = useState(user.nickname);
-	const [phoneNumber, setPhoneNumber] = useState(user.phone_num);
-	const [instagramId, setInstagramId] = useState(user.instagram);
+	const [nickname, setNickname] = useState(user?.nickname || "");
+	const [phoneNumber, setPhoneNumber] = useState(user?.phone_num || "");
+	const [instagramId, setInstagramId] = useState(user?.instagram || "");
 	const [disabled, setDisabled] = useState(true);
-	const [instagramPublic, setInstagramPublic] = useState(user.instagram_public);
-	const [emailPublic, setEmailPublic] = useState(user.email_public);
-	const [phonePublic, setPhonePublic] = useState(user.phone_public);
+	const [instagramPublic, setInstagramPublic] = useState(
+		user?.instagram_public || false
+	);
+	const [emailPublic, setEmailPublic] = useState(user?.email_public || false);
+	const [phonePublic, setPhonePublic] = useState(user?.phone_public || false);
 
 	const profilePictures = [
 		{
@@ -70,8 +72,8 @@ const UpdateDetails = () => {
 
 	useEffect(() => {
 		if (
-			instagramId.length > 0 &&
-			phoneNumber.length === 10 &&
+			instagramId?.length > 0 &&
+			phoneNumber?.length === 10 &&
 			(instagramPublic || emailPublic || phonePublic)
 		) {
 			setDisabled(false);
@@ -90,7 +92,7 @@ const UpdateDetails = () => {
 				instagram_id: instagramId,
 				profile_done: 1,
 				instagram_public: instagramPublic,
-				phone_public: phoneNumber,
+				phone_public: phonePublic,
 				email_public: emailPublic,
 			});
 			user.profile_done = 1;
