@@ -34,11 +34,10 @@ def load_precomputed_data():
     database='bookmate'
     )
         
-    app.state.users_df = pd.read_sql('SELECT * FROM users', con=db_connection)
-    app.state.library_df = pd.read_sql('SELECT * FROM library', con=db_connection)
+    
     app.state.books = pd.read_sql('SELECT * FROM top_books', con=db_connection)
     
-    app.state.users_df = app.state.users_df[app.state.users_df['opted_in'] != 0]
+    
     db_connection.close()
     
     print("Precomputed data loaded successfully.")
@@ -87,6 +86,9 @@ def calculate_answer_similarity(ans1, ans2):
     return matches / len(ans1)
 
 def pair_users(users_df, library_df):
+    
+    
+    
     user_similarities = {}
     
     for i, user1 in users_df.iterrows():
@@ -122,6 +124,18 @@ def pair_users(users_df, library_df):
 def calculate_matches():
     global app
     
+    db_connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='nats',
+    database='bookmate'
+    )
+    
+    app.state.users_df = pd.read_sql('SELECT * FROM users', con=db_connection)
+    app.state.library_df = pd.read_sql('SELECT * FROM library', con=db_connection)
+    
+    app.state.users_df = app.state.users_df[app.state.users_df['opted_in'] != 0]
+    
     paired_users = pair_users(app.state.users_df, app.state.library_df)
     for user1, user2, similarity in paired_users:
         print(f"Paired User {user1} with User {user2} (Similarity: {similarity:.2f})")
@@ -129,13 +143,6 @@ def calculate_matches():
     update_query = """
     UPDATE users SET BookmateID = %s WHERE id = %s
     """
-    
-    db_connection = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='nats',
-    database='bookmate'
-    )
     
     cursor = db_connection.cursor()
 

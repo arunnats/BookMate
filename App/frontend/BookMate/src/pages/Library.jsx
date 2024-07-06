@@ -3,6 +3,7 @@ import { UserContext } from "../userContext.js";
 import { useNavigate, Link } from "react-router-dom";
 import LibraryPage from "../components/LibraryPage/LibraryPage";
 import EditLibrary from "../components/EditLibrary/EditLibrary";
+import Countdown from "../components/Countdown/Countdown.jsx";
 import axios from "axios";
 
 const Library = () => {
@@ -14,6 +15,35 @@ const Library = () => {
 		Wish_List: new Set(),
 	});
 	const [bookmateStatus, setBookmateStatus] = useState(false);
+	const [startTime, setStartTime] = useState(null);
+	const [deadLine, setDeadLine] = useState(null);
+
+	useEffect(() => {
+		const startTimeGet = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/get-starttime");
+				const { starttime } = response.data;
+				setStartTime(starttime);
+				console.log(starttime);
+			} catch (error) {
+				console.error("Error fetching start time:", error.message);
+			}
+		};
+
+		const deadLineGet = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/get-deadline");
+				const { deadline } = response.data;
+				setDeadLine(deadline);
+				console.log(deadline);
+			} catch (error) {
+				console.error("Error fetching deadline:", error.message);
+			}
+		};
+
+		startTimeGet();
+		deadLineGet();
+	}, []);
 
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
@@ -94,6 +124,38 @@ const Library = () => {
 
 	return (
 		<div className="library-container">
+			{bookmateStatus === 1 && (
+				<div className="flex flex-col">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						The next round of Bookmate starts in:
+					</h1>
+					{startTime && <Countdown targetDateTime={startTime} />}
+					<div>
+						<Link
+							to="/find-your-match"
+							className="btn text-l text-primary font-poppins"
+						>
+							Let's Go!
+						</Link>
+					</div>
+				</div>
+			)}
+			{bookmateStatus === 2 && (
+				<div className="flex flex-col">
+					<h1 className="text-3xl  text-white font-bold my-3">
+						The next round of Bookmate starts in:
+					</h1>
+					{startTime && <Countdown targetDateTime={deadLine} />}
+					<div>
+						<Link
+							to="/find-your-match"
+							className="btn text-l text-primary font-poppins"
+						>
+							Let's Go!
+						</Link>
+					</div>
+				</div>
+			)}
 			{bookmateStatus === 3 && user.BookmateID && (
 				<div className="flex flex-col">
 					<h1 className="text-3xl  text-white font-bold my-3">

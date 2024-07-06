@@ -85,6 +85,14 @@ const QuizComp = ({ setStartQuiz }) => {
 		<div>
 			<h1>Quiz</h1>
 			<button onClick={exitQuiz}>Exit Quiz</button>
+			<button onClick={handlePrevious} disabled={currentCluster === 0}>
+				Previous
+			</button>
+			{currentCluster === QuestionsData.length - 1 ? (
+				<button onClick={handleSubmit}>Submit</button>
+			) : (
+				<button onClick={handleNext}>Next</button>
+			)}
 			<QuestionCluster
 				cluster={QuestionsData[currentCluster]}
 				answers={answers}
