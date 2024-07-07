@@ -52,7 +52,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 			{bookmateStatus === 3 && (
 				<div className="text-center w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
-						1) Manage your library
+						Manage your library
 					</h1>
 					<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 						You've found your Bookmate! You can still manage and add to your

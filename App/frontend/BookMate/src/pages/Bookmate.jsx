@@ -49,6 +49,7 @@ const BookmatePage = () => {
 		startTimeGet();
 		deadLineGet();
 	}, []);
+
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
 			try {
@@ -202,7 +203,7 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 2 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden ">
 					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						Get your Bookmates in:
 					</h1>
@@ -231,27 +232,29 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 3 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden min-h-[100vh]">
 					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						Book Mate results are out!
 					</h1>
-					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
-						Find your match!
-					</h1>
-					<BookMateHero />
-					<div>
+					<div className="mx-auto">
 						<Link
 							to="/view-bookmate"
-							className="btn text-l text-primary font-poppins"
+							className="btn btn-secondary m-2 font-poppins"
 						>
 							See your bookmate!
 						</Link>
 					</div>
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
+						Find your match!
+					</h1>
+					<BookMateHero />
+
 					<LibraryStatus
 						faveBooksSize={libraryData.Fave_Books.size}
 						wishListSize={libraryData.Wish_List.size}
 						bookmateStatus={bookmateStatus}
 					/>
+					<div className="h-[8vh]"></div>
 				</div>
 			)}
 		</div>

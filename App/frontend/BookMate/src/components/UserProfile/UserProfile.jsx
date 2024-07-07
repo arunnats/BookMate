@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../../userContext.js";
+import styles from "../../css/SquigglyLine.module.css";
 import axios from "axios";
 import Countdown from "../Countdown/Countdown.jsx";
+import AppOffline from "../AppOffline/AppOffline";
 
 const UserProfile = () => {
 	const { user, setUser } = useContext(UserContext);
@@ -10,6 +12,10 @@ const UserProfile = () => {
 	const [bookmateStatus, setBookmateStatus] = useState(false);
 	const [startTime, setStartTime] = useState(null);
 	const [deadLine, setDeadLine] = useState(null);
+	const [confirmDelete, setConfirmDelete] = useState(false);
+	const [confirmLogout, setConfirmLogout] = useState(false);
+
+	console.log(user);
 
 	useEffect(() => {
 		const startTimeGet = async () => {
@@ -64,110 +70,166 @@ const UserProfile = () => {
 	}, [user, navigate]);
 
 	const handleLogout = () => {
-		localStorage.removeItem("user");
-		setUser(null);
-		navigate("/");
-	};
-
-	const deleteAccount = async () => {
-		try {
-			const userID = user.id;
-			const LibID = user.LibID;
-			console.log(LibID);
-
-			const response = await fetch("http://localhost:3000/delete-user", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ id: userID, LibID: LibID }),
-			});
-
-			console.log(response);
-
+		if (!confirmLogout) {
+			setConfirmLogout(true);
+			setConfirmDelete(false);
+		} else {
 			localStorage.removeItem("user");
 			setUser(null);
 			navigate("/");
-		} catch (error) {
-			console.error("Delete failed", error);
+		}
+	};
+
+	const deleteAccount = async () => {
+		if (!confirmDelete) {
+			setConfirmDelete(true);
+			setConfirmLogout(false);
+		} else {
+			try {
+				const userID = user.id;
+				const LibID = user.LibID;
+				console.log(LibID);
+
+				const response = await fetch("http://localhost:3000/delete-user", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ id: userID, LibID: LibID }),
+				});
+
+				console.log(response);
+
+				localStorage.removeItem("user");
+				setUser(null);
+				navigate("/");
+			} catch (error) {
+				console.error("Delete failed", error);
+			}
 		}
 	};
 
 	return (
-		<div>
-			{bookmateStatus === 1 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						The next round of Bookmate starts in:
-					</h1>
-					{startTime && <Countdown targetDateTime={startTime} />}
-					<div>
-						<Link
-							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
-						>
-							Let's Go!
-						</Link>
-					</div>
-				</div>
-			)}
-			{bookmateStatus === 2 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						The next round of Bookmate starts in:
-					</h1>
-					{startTime && <Countdown targetDateTime={deadLine} />}
-					<div>
-						<Link
-							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
-						>
-							Let's Go!
-						</Link>
-					</div>
-				</div>
-			)}
-			{bookmateStatus === 3 && user.BookmateID && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						Book Mate results are out!
-					</h1>
-					<div>
-						<Link
-							to="/view-bookmate"
-							className="btn text-l text-primary font-poppins"
-						>
-							See your bookmate!
-						</Link>
-					</div>
-				</div>
-			)}
-			<h2>User Profile</h2>
-			{user ? (
-				<div>
-					<p>
-						<img
-							src={user.picture_url}
-							referrerPolicy="no-referrer"
-							alt="Profile"
-						/>
-						Name: {user.first_name} {user.last_name}
-					</p>
-					<p>Email: {user.email}</p>
-					<button className="btn btn-primary" onClick={deleteAccount}>
-						Delete Account
-					</button>
-					<button className="btn btn-primary" onClick={handleLogout}>
-						Logout
-					</button>
-					<Link to="/update-profile" className="btn btn-primary ">
-						Update Profile
-					</Link>
-				</div>
+		<>
+			{bookmateStatus === 0 ? (
+				<AppOffline />
 			) : (
-				<p>User not logged in.</p>
+				<div
+					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box}`}
+				>
+					{bookmateStatus === 1 && (
+						<div className="flex flex-col">
+							<h1 className="text-3xl  text-white font-bold my-3">
+								The next round of Bookmate starts in:
+							</h1>
+							{startTime && <Countdown targetDateTime={startTime} />}
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									Let's Go!
+								</Link>
+							</div>
+						</div>
+					)}
+					{bookmateStatus === 2 && (
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+								Get your Bookmates in:
+							</h1>
+							{startTime && <Countdown targetDateTime={deadLine} />}
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									Let's Go!
+								</Link>
+							</div>
+						</div>
+					)}
+					{bookmateStatus === 3 && user.BookmateID && (
+						<div className="flex flex-col">
+							<h1 className="text-3xl  text-white font-bold my-3">
+								Book Mate results are out!
+							</h1>
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									See your bookmate!
+								</Link>
+							</div>
+						</div>
+					)}
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						User Profile
+					</h1>
+					{user ? (
+						<div>
+							<div className="flex">
+								<img
+									src={user.picture_url}
+									referrerPolicy="no-referrer"
+									alt="Profile"
+									className="w-auto h-[20vh]"
+								/>
+								<div className="flex flex-col font-montserrat text-accent font-medium justify-center align-middle text-lg">
+									<p>
+										Name: {user.first_name} {user.last_name}
+									</p>
+									<p>Nickname: {user.nickname}</p>
+									<p>Email: {user.email}</p>
+									<p>Phone: {user.phone_num}</p>
+									<p>Instagram: {user.instagram}</p>
+
+									<br />
+								</div>
+							</div>
+							<div className="flex flex-col font-montserrat text-accent font-medium justify-center align-middle text-lg">
+								<p>
+									Email visible to your Bookmate?:{" "}
+									{user.email_public ? "Yes" : "No"}
+								</p>
+
+								<p>
+									Phone number visible to your Bookmate?:{" "}
+									{user.phone_public ? "Yes" : "No"}
+								</p>
+								<p>
+									Instagram visible to your Bookmate?:{" "}
+									{user.instagram_public ? "Yes" : "No"}
+								</p>
+								<Link
+									to="/update-profile"
+									className="btn btn-secondary m-2 font-poppins "
+								>
+									Update Profile
+								</Link>
+							</div>
+							<div className="flex flex-row justify-center align-middle mb-20">
+								<button
+									className="btn btn-secondary m-2 font-poppins w-[200px]"
+									onClick={deleteAccount}
+								>
+									{confirmDelete ? "Confirm Delete?" : "Delete Account"}
+								</button>
+								<button
+									className="btn btn-secondary m-2 font-poppins w-[200px]"
+									onClick={handleLogout}
+								>
+									{confirmLogout ? "Confirm Logout?" : "Logout"}
+								</button>
+							</div>
+						</div>
+					) : (
+						<p>User not logged in.</p>
+					)}
+				</div>
 			)}
-		</div>
+		</>
 	);
 };
 
