@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import reccLogo from "../../assets/images/recc-image.png";
 import handR from "../../assets/images/handR.png";
 import handL from "../../assets/images/handL.png";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,9 +102,12 @@ const ReccHero = () => {
 							instant!
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2 font-poppins">
-								Get Recommendations
-							</button>
+							<Link
+								className="btn btn-secondary m-2 font-poppins"
+								to="/recommendations"
+							>
+								Get Recommendations!
+							</Link>
 						</div>
 					</div>
 					<div className="min-h-[80vh] w-[32%] flex items-center justify-center">

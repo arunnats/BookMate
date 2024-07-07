@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import styles from "../../css/SquigglyLine.module.css";
+import styles from "./SquigglyLine.module.css";
 import heroLogo from "../../assets/images/matchmaker-logo.png";
 import doggo from "../../assets/images/doggo.png";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,9 +92,12 @@ const Hero = () => {
 							find your Book Mate!
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2 font-poppins">
+							<Link
+								className="btn btn-secondary m-2 font-poppins"
+								to="/find-your-match"
+							>
 								Let's go!
-							</button>
+							</Link>
 						</div>
 					</div>
 					<div className="min-h-[80vh] w-[10%] flex flex-col-reverse"></div>

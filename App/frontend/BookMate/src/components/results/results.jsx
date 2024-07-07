@@ -22,7 +22,7 @@ const Results = ({ recommendations }) => {
 				{recommendations.length > 0 ? (
 					bookCards
 				) : (
-					<p className="text-accent font-customRoboto">
+					<p className="text-primary font-montserrat">
 						Search for a Book or press the button for random recommendations
 					</p>
 				)}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import SearchBar from "../searchbar/searchBar";
 import SearchResultsList from "../searchbar/searchResultsList";
+import ReccInfo from "../ReccInfo/ReccInfo";
 import Results from "../results/results";
-import styles from "./SquigglyLine.module.css";
+import styles from "../../css/SquigglyLine.module.css";
 import axios from "axios";
 
 const SearchAndResults = () => {
@@ -54,13 +55,17 @@ const SearchAndResults = () => {
 
 	return (
 		<div className={`bg-primary ${styles.box}`}>
-			<div className="min-h-[7vh]"></div>
+			<div className="min-h-[4vh]"></div>
+
+			<ReccInfo />
 			<div
-				className={`search-bar-container w-[95vw] flex flex-col m-auto justify-center items-center relative `}
+				className={`search-bar-container w-[95vw] flex flex-col m-auto justify-center items-center relative overflow-hidden`}
 				id="recommendations"
 				ref={containerRef}
 			>
-				<h1>Recommendations Page</h1>
+				<h1 className="text-secondary font-poppins font-bold text-3xl my-2 mt-0">
+					Enter the title of a Book:
+				</h1>
 				<SearchBar
 					setResults={setResults}
 					searchTerm={searchTerm}
@@ -75,7 +80,10 @@ const SearchAndResults = () => {
 				<br />
 				<Results className="relative z-40" recommendations={recommendations} />
 				<br />
-				<button className="btn btn-primary" onClick={getRandom}>
+				<button
+					className="btn btn-secondary m-2 font-poppins mb-8"
+					onClick={getRandom}
+				>
 					Get Random Books
 				</button>
 				<div className="min-h-[7vh]"></div>

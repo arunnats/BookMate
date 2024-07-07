@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "../../css/SquigglyLine.module.css";
 import heroLogo from "../../assets/images/hero-image.png";
 import map from "../../assets/images/map.png";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
 	const imgRef = useRef(null);
@@ -80,9 +81,12 @@ const Hero = () => {
 							what are you waiting for!?
 						</p>
 						<div className="flex flex-row justify-center">
-							<button className="btn btn-secondary m-2 font-poppins">
+							<Link
+								className="btn btn-secondary m-2 font-poppins"
+								to="/find-your-match"
+							>
 								Find Your Book Mate!
-							</button>
+							</Link>
 						</div>
 					</div>
 					<div className="min-h-[80vh] w-[14%] flex flex-col-reverse items-center">

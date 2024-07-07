@@ -5,6 +5,7 @@ const Recommendations = () => {
 	return (
 		<div className="min-h-screen ">
 			<SearchAndResults />
+			<div className="h-4"></div>
 		</div>
 	);
 };
