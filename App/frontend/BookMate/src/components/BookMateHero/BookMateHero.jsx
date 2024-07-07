@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import reccLogo from "../../assets/images/recc-image.png";
+import reccLogo from "../../assets/images/matchmaker-logo.png";
 import gsap from "gsap";
 
 const ReccInfo = () => {
@@ -31,10 +31,9 @@ const ReccInfo = () => {
 
 	return (
 		<div className={`relative bg-primary  flex items-center justify-center `}>
-			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row min-w-[100vw] m-auto p-3">
-					<div className=" w-[4%] flex flex-col-reverse"></div>
-					<div className=" w-[36%] flex items-center justify-center">
+			<div className="text-center text-neutral-content w-full overflow-hidden my-3">
+				<div className="flex flex-row m-auto p-3">
+					<div className=" w-[30%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={reccLogo}
@@ -42,9 +41,9 @@ const ReccInfo = () => {
 							className="max-h-[50vh] object-contain align-middle justify-center p-5"
 						/>
 					</div>
-					<div className=" w-[52%] flex flex-col items-center justify-center">
+					<div className=" w-[70%] flex flex-col items-center justify-center">
 						<h1 className="text-secondary font-poppins font-bold text-4xl">
-							Book Recommendations
+							Find your match!
 						</h1>
 						<p className="text-lg text-accent font-montserrat font-medium text-justify p-1">
 							Find your next favorite book with our meticulous AI model, trained
@@ -56,7 +55,6 @@ const ReccInfo = () => {
 							to get random book titles.
 						</p>
 					</div>
-					<div className=" w-[8%] flex flex-col-reverse items-center"></div>
 				</div>
 			</div>
 		</div>

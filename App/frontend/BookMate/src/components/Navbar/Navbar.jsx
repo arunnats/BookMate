@@ -63,14 +63,14 @@ const Navbar = () => {
 									Find Your Match
 								</Link>
 							</li>
-							<li>
+							{/* <li>
 								<Link
 									to="/about"
 									className="btn btn-ghost text-l text-primary font-poppins"
 								>
 									About
 								</Link>
-							</li>
+							</li> */}
 							{user ? (
 								<>
 									<li>
@@ -146,12 +146,12 @@ const Navbar = () => {
 					>
 						Get matched
 					</Link>
-					<Link
+					{/* <Link
 						to="/about"
 						className="btn btn-ghost text-l text-primary font-poppins"
 					>
 						About
-					</Link>
+					</Link> */}
 				</div>
 
 				<div className="navbar-end hidden lg:flex">

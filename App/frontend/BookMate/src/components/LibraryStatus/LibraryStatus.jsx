@@ -5,16 +5,16 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 	return (
 		<div>
 			{bookmateStatus === 1 && (
-				<div className="flex flex-col justify-center align-middle">
-					<p className="text-2xl mt-2 text-white">
-						Add more than 3 books to your Library so we can find your match!
+				<div className="text-center w-[45%] m-auto my-1">
+					<h1 className="text-secondary font-poppins font-bold text-3xl">
+						Manage your library
+					</h1>
+					<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
+						Add at least 3 books to your Library so we can find your match!
 					</p>
 					<div className="mx-auto">
-						<Link
-							to="/library"
-							className="btn text-l w-[120px] text-white font-poppins"
-						>
-							Go to your Library!
+						<Link to="/library" className="btn btn-secondary m-2 font-poppins">
+							Add books!
 						</Link>
 					</div>
 				</div>
@@ -22,8 +22,11 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 			{bookmateStatus === 2 && (
 				<div className="flex flex-col justify-center align-middle">
 					{faveBooksSize + wishListSize >= 3 ? (
-						<div>
-							<p className="text-2xl mt-2 text-white">
+						<div className="text-center w-[45%] m-auto my-1">
+							<h1 className="text-secondary font-poppins font-bold text-3xl">
+								Manage your library
+							</h1>
+							<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 								You have {faveBooksSize + wishListSize} books in your library!
 								The more you add, the better the accuracy of the match!
 							</p>
@@ -37,26 +40,23 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 						</div>
 					)}
 					<div className="mx-auto">
-						<Link
-							to="/library"
-							className="btn text-l w-[120px] text-white font-poppins"
-						>
+						<Link to="/library" className="btn btn-secondary m-2 font-poppins">
 							Go to your Library!
 						</Link>
 					</div>
 				</div>
 			)}
 			{bookmateStatus === 3 && (
-				<div className="flex flex-col justify-center align-middle">
-					<p className="text-2xl mt-2 text-white">
+				<div className="text-center w-[45%] m-auto my-1">
+					<h1 className="text-secondary font-poppins font-bold text-3xl">
+						Manage your library
+					</h1>
+					<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 						You've found your Bookmate! You can still manage and add to your
 						Library!
 					</p>
 					<div className="mx-auto">
-						<Link
-							to="/library"
-							className="btn text-l w-[120px] text-white font-poppins"
-						>
+						<Link to="/library" className="btn btn-secondary m-2 font-poppins">
 							Go to your Library!
 						</Link>
 					</div>

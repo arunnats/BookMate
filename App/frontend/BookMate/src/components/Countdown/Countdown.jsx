@@ -33,36 +33,50 @@ const Countdown = ({ targetDateTime }) => {
 		<div className="grid grid-flow-col gap-5 text-center auto-cols-max mx-auto">
 			{days !== undefined ? (
 				<>
-					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-						<span className="countdown font-mono text-5xl">
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">
 							<span style={{ "--value": days }}>{days}</span>
 						</span>
 						days
 					</div>
-					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-						<span className="countdown font-mono text-5xl">
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">
 							<span style={{ "--value": hours }}>{hours}</span>
 						</span>
 						hours
 					</div>
-					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-						<span className="countdown font-mono text-5xl">
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">
 							<span style={{ "--value": minutes }}>{minutes}</span>
 						</span>
 						min
 					</div>
-					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-						<span className="countdown font-mono text-5xl">
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown  text-5xl">
 							<span style={{ "--value": seconds }}>{seconds}</span>
 						</span>
 						sec
 					</div>
 				</>
 			) : (
-				<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-					<span className="countdown font-mono text-5xl">00</span>
-					seconds
-				</div>
+				<>
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">00 </span>
+						days
+					</div>
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">00 </span>
+						hours
+					</div>
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown text-5xl">00 </span>
+						min
+					</div>
+					<div className="flex flex-col p-2 bg-secondary rounded-box font-poppins text-primary">
+						<span className="countdown  text-5xl">00 </span>
+						sec
+					</div>
+				</>
 			)}
 		</div>
 	);

@@ -7,7 +7,7 @@ const QuizStatus = ({ answersLength, bookmateStatus }) => {
 			{bookmateStatus === 1 && (
 				<div className="flex flex-col justify-center align-middle">
 					{answersLength === 20 ? (
-						<p className="text-2xl mt-2 text-white">
+						<p className="text-2xl mt-2 text-secondary font-poppins">
 							You've answered the Quiz! You can review your answers before the
 							matchmaking starts!
 						</p>
@@ -17,10 +17,7 @@ const QuizStatus = ({ answersLength, bookmateStatus }) => {
 						</p>
 					)}
 					<div className="mx-auto">
-						<Link
-							to="/quiz"
-							className="btn text-l w-[120px] text-white font-poppins"
-						>
+						<Link to="/quiz" className="btn btn-secondary m-2 font-poppins">
 							Go to the Quiz!
 						</Link>
 					</div>
@@ -39,10 +36,7 @@ const QuizStatus = ({ answersLength, bookmateStatus }) => {
 						</p>
 					)}
 					<div className="mx-auto">
-						<Link
-							to="/quiz"
-							className="btn text-l w-[120px] text-white font-poppins"
-						>
+						<Link to="/quiz" className="btn btn-secondary m-2 font-poppins">
 							Go to the Quiz!
 						</Link>
 					</div>

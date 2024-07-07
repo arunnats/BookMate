@@ -7,6 +7,7 @@ import LoginPrompt from "../components/LoginPrompt/LoginPrompt.jsx";
 import LibraryStatus from "../components/LibraryStatus/LibraryStatus.jsx";
 import QuizStatus from "../components/QuizStatus/QuixStatus.jsx";
 import BookmateActions from "../components/BookmateActions/BookmateActions.jsx";
+import BookMateHero from "../components/BookMateHero/BookMateHero.jsx";
 import Countdown from "../components/Countdown/Countdown.jsx";
 
 const BookmatePage = () => {
@@ -159,11 +160,13 @@ const BookmatePage = () => {
 
 	return (
 		<div
-			className={`bg-primary mx-auto min-h-[85vh] flex flex-col items-center justify-center ${styles.box}`}
+			className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box}`}
 		>
 			{bookmateStatus === 0 && (
-				<div className="text-white text-center m-3 my-6">
-					<h1 className="text-4xl font-bold">Under Maintenance</h1>
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						Under Maintenance
+					</h1>
 					<p className="text-2xl mt-2">
 						Book Mate is currently under maintenance. Please check back later.
 					</p>
@@ -171,8 +174,8 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 1 && (
-				<div className="flex flex-col justify-center align-middle margin-auto">
-					<h1 className="text-3xl  text-white font-bold my-3">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						The next round of Bookmate starts in:
 					</h1>
 					{startTime && <Countdown targetDateTime={startTime} />}
@@ -195,11 +198,13 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 2 && (
-				<div className="flex flex-col justify-center align-middle margin-auto">
-					<h1 className="text-3xl  text-white font-bold my-3">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						Get your Bookmates in:
 					</h1>
 					{deadLine && <Countdown targetDateTime={deadLine} />}
+					<BookMateHero />
+
 					<LibraryStatus
 						faveBooksSize={libraryData.Fave_Books.size}
 						wishListSize={libraryData.Wish_List.size}
@@ -214,12 +219,13 @@ const BookmatePage = () => {
 						handleGetMatch={handleGetMatch}
 						isButtonDisabled={isButtonDisabled}
 					/>
+					<div className="min-h-[7vh]"></div>
 				</div>
 			)}
 
 			{bookmateStatus === 3 && (
-				<div className="flex flex-col justify-center align-middle margin-auto">
-					<h1 className="text-3xl  text-white font-bold my-3">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						Book Mate results are out!
 					</h1>
 					<div>
