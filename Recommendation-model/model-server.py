@@ -105,7 +105,7 @@ def pair_users(users_df, library_df):
             lib_similarity = calculate_library_similarity(lib1, lib2)
             ans_similarity = calculate_answer_similarity(ans1, ans2)
             
-            overall_similarity = (lib_similarity + ans_similarity) / 2
+            overall_similarity = (lib_similarity * 0.65) + (ans_similarity * 0.35)
             user_similarities[(user1['id'], user2['id'])] = overall_similarity
     
     sorted_pairs = sorted(user_similarities.items(), key=lambda x: x[1], reverse=True)

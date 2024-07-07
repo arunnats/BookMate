@@ -580,7 +580,7 @@ app.post("/update-user", async (req, res) => {
 
 	try {
 		const [resultUserUpdate] = await connection.query(
-			"UPDATE users SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1, instagram_public = ?, phone_public = ?, email_public = ?, WHERE id = ?",
+			"UPDATE users SET picture_url = ?, nickname = ? , phone_num = ?, instagram = ?, profile_done = 1, instagram_public = ?, phone_public = ?, email_public = ? WHERE id = ?",
 			[
 				picture_url,
 				nickname,

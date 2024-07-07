@@ -85,7 +85,7 @@ const UpdateDetails = () => {
 	const handleSave = async () => {
 		try {
 			const response = await axios.post("http://localhost:3000/update-user", {
-				id: user.LibID,
+				id: user.id,
 				picture_url: selectedProfilePicture,
 				nickname: nickname,
 				phone_number: phoneNumber,

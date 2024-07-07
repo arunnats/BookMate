@@ -46,7 +46,7 @@ const LoginPage = () => {
 	};
 
 	return (
-		<div>
+		<div className="bg-primary min-h-[80vh]">
 			<h1>Login Page</h1>
 			<GoogleLogin
 				onSuccess={handleLoginSuccess}

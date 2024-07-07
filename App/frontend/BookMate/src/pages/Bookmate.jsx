@@ -164,7 +164,7 @@ const BookmatePage = () => {
 		>
 			{bookmateStatus === 0 && (
 				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
-					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						Under Maintenance
 					</h1>
 					<p className="text-2xl mt-2">
@@ -175,10 +175,14 @@ const BookmatePage = () => {
 
 			{bookmateStatus === 1 && (
 				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
-					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						The next round of Bookmate starts in:
 					</h1>
 					{startTime && <Countdown targetDateTime={startTime} />}
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
+						Find your match!
+					</h1>
+					<BookMateHero />
 
 					<LibraryStatus
 						faveBooksSize={libraryData.Fave_Books.size}
@@ -203,6 +207,9 @@ const BookmatePage = () => {
 						Get your Bookmates in:
 					</h1>
 					{deadLine && <Countdown targetDateTime={deadLine} />}
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
+						Find your match!
+					</h1>
 					<BookMateHero />
 
 					<LibraryStatus
@@ -225,9 +232,13 @@ const BookmatePage = () => {
 
 			{bookmateStatus === 3 && (
 				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
-					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						Book Mate results are out!
 					</h1>
+					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
+						Find your match!
+					</h1>
+					<BookMateHero />
 					<div>
 						<Link
 							to="/view-bookmate"

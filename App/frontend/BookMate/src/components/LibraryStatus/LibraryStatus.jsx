@@ -7,7 +7,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 			{bookmateStatus === 1 && (
 				<div className="text-center w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
-						Manage your library
+						1) Manage your library
 					</h1>
 					<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 						Add at least 3 books to your Library so we can find your match!
@@ -24,7 +24,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 					{faveBooksSize + wishListSize >= 3 ? (
 						<div className="text-center w-[45%] m-auto my-1">
 							<h1 className="text-secondary font-poppins font-bold text-3xl">
-								Manage your library
+								1) Manage your library
 							</h1>
 							<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 								You have {faveBooksSize + wishListSize} books in your library!
@@ -32,8 +32,11 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 							</p>
 						</div>
 					) : (
-						<div>
-							<p className="text-2xl mt-2 text-white">
+						<div className="text-center w-[45%] m-auto my-1">
+							<h1 className="text-secondary font-poppins font-bold text-3xl">
+								1) Manage your library
+							</h1>
+							<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 								You need to have at least 3 books in your library so we can find
 								your Bookmate!
 							</p>
@@ -49,7 +52,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 			{bookmateStatus === 3 && (
 				<div className="text-center w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
-						Manage your library
+						1) Manage your library
 					</h1>
 					<p className="text-xl mt-2 font-montserrat text-accent font-medium text-justify">
 						You've found your Bookmate! You can still manage and add to your
