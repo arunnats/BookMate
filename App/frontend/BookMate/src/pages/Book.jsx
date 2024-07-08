@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BookInfoPage from "../components/BookInfoPage/BookInfoPage";
+import { useNavigate, Link } from "react-router-dom";
 
 const Book = () => {
 	const { isbn } = useParams();
