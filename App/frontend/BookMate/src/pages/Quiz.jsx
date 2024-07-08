@@ -77,7 +77,7 @@ const Quiz = () => {
 
 	return (
 		<div
-			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 min-h-[85vh]`}
+			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 `}
 		>
 			{bookmateStatus === 1 && (
 				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
