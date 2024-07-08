@@ -101,6 +101,7 @@ const Quiz = () => {
 					<div className="flex flex-row justify-center">
 						<Link
 							to="/find-your-match"
+							//red
 							className="btn btn-secondary m-2 font-poppins"
 						>
 							Let's Go!
