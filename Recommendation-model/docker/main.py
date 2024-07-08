@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -5,6 +6,8 @@ import numpy as np
 import pandas as pd
 import mysql.connector
 from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -29,13 +32,12 @@ def load_precomputed_data():
     print("Connecting to database...")
     
     db_connection = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='nats',
-    database='bookmate'
+        host=os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME')
     )
         
-    
     app.state.books = pd.read_sql('SELECT * FROM top_books', con=db_connection)
     
     
@@ -126,10 +128,10 @@ def calculate_matches():
     global app
     
     db_connection = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='nats',
-    database='bookmate'
+        host=os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME')
     )
     
     app.state.users_df = pd.read_sql('SELECT * FROM users', con=db_connection)

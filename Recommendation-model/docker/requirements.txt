@@ -1,0 +1,5 @@
+fastapi==0.111.0
+mysql-connector-python==9.0.0
+numpy==2.0.0
+pandas==2.2.2
+python-dotenv==1.0.1
