@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../userContext.js";
 import { useNavigate } from "react-router-dom";
 
-const QuizLanding = ({ onStartQuiz }) => {
+const QuizLanding = ({ onStartQuiz, isQuizActive }) => {
 	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [answeredCount, setAnsweredCount] = useState(0);
@@ -37,35 +37,33 @@ const QuizLanding = ({ onStartQuiz }) => {
 	}
 
 	return (
-		<div className="relative bg-primary flex  justify-center min-h-screen my-10">
+		<div className="relative bg-primary flex justify-center mt-10">
 			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row m-auto p-3">
-					<div className="flex flex-col items-center justify-center">
-						<h1 className="text-secondary font-poppins font-bold text-4xl">
-							Quiz
-						</h1>
-						{answeredCount === 0 && (
-							<h3 className="text-lg text-accent font-montserrat font-medium p-1">
-								Take the quiz now
-							</h3>
-						)}
-						{answeredCount > 0 && answeredCount < 20 && (
-							<h3 className="text-lg text-accent font-montserrat font-medium p-1">
-								You have answered {answeredCount}/20 questions
-							</h3>
-						)}
-						{answeredCount === 20 && (
-							<h3 className="text-lg text-accent font-montserrat font-medium p-1">
-								You have answered all the questions, you can change the answers
-							</h3>
-						)}
-						<button
-							onClick={onStartQuiz}
-							className="btn text-l text-primary font-poppins mt-4"
-						>
-							Take Quiz
-						</button>
-					</div>
+				<div className="flex flex-col items-center justify-center p-3">
+					<h1 className="text-secondary font-poppins font-bold text-4xl mb-4">
+						Quiz
+					</h1>
+					{answeredCount === 0 && !isQuizActive && (
+						<h3 className="text-lg text-accent font-montserrat font-medium p-1">
+							Take the quiz now
+						</h3>
+					)}
+					{answeredCount > 0 && answeredCount < 20 && !isQuizActive && (
+						<h3 className="text-lg text-accent font-montserrat font-medium p-1">
+							You have answered {answeredCount}/20 questions
+						</h3>
+					)}
+					{answeredCount === 20 && !isQuizActive && (
+						<h3 className="text-lg text-accent font-montserrat font-medium p-1">
+							You have answered all the questions, you can change the answers
+						</h3>
+					)}
+					<button
+						onClick={onStartQuiz}
+						className="btn btn-secondary text-lg text-primary font-poppins mt-4 mb-4"
+					>
+						{isQuizActive ? "Exit Quiz" : "Take Quiz"}
+					</button>
 				</div>
 			</div>
 		</div>

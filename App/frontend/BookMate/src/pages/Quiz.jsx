@@ -72,12 +72,12 @@ const Quiz = () => {
 	}, [bookmateStatus, navigate]);
 
 	const handleStartQuiz = () => {
-		setStartQuiz(true);
+		setStartQuiz((prev) => !prev);
 	};
 
 	return (
 		<div
-			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 `}
+			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 min-h-[88vh]`}
 		>
 			{bookmateStatus === 1 && (
 				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
@@ -112,13 +112,10 @@ const Quiz = () => {
 				</div>
 			)}
 
-			{startQuiz ? (
-				<QuizComp setStartQuiz={setStartQuiz} />
-			) : (
-				<QuizLanding onStartQuiz={handleStartQuiz} />
-			)}
+			<QuizLanding onStartQuiz={handleStartQuiz} isQuizActive={startQuiz} />
+			{startQuiz && <QuizComp setStartQuiz={setStartQuiz} />}
 
-			<div className="min-h-[9vh]"></div>
+			<div className="min-h-[8vh]"></div>
 		</div>
 	);
 };

@@ -83,11 +83,7 @@ const QuizComp = ({ setStartQuiz }) => {
 
 	return (
 		<>
-			<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
-				The Quiz
-			</h1>
-
-			<div className="flex justify-center space-x-4 mt-4">
+			<div className="flex justify-center space-x-4">
 				<button
 					onClick={handlePrevious}
 					disabled={currentCluster === 0}
@@ -148,11 +144,6 @@ const QuizComp = ({ setStartQuiz }) => {
 						</button>
 					)}
 				</div>
-			</div>
-			<div className="flex justify-center mt-4">
-				<button onClick={exitQuiz} className="btn btn-secondary">
-					Exit Quiz
-				</button>
 			</div>
 		</>
 	);
