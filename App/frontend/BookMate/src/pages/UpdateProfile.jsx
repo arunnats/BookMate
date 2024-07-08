@@ -245,7 +245,7 @@ const UpdateDetails = () => {
 								<input
 									type="checkbox"
 									className={`toggle ${
-										instagramPublic ? "toggle-primary" : "toggle-gray"
+										instagramPublic ? "toggle-accent" : "toggle-gray"
 									}`}
 									checked={instagramPublic}
 									onChange={handleInstagramToggle}
@@ -260,7 +260,7 @@ const UpdateDetails = () => {
 								<input
 									type="checkbox"
 									className={`toggle ${
-										phonePublic ? "toggle-primary" : "toggle-gray"
+										phonePublic ? "toggle-accent" : "toggle-gray"
 									}`}
 									checked={phonePublic}
 									onChange={handlePhoneToggle}
@@ -275,7 +275,7 @@ const UpdateDetails = () => {
 								<input
 									type="checkbox"
 									className={`toggle ${
-										emailPublic ? "toggle-primary" : "toggle-gray"
+										emailPublic ? "toggle-accent" : "toggle-gray"
 									}`}
 									checked={emailPublic}
 									onChange={handleEmailToggle}
