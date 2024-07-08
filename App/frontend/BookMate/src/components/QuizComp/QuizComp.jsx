@@ -82,31 +82,79 @@ const QuizComp = ({ setStartQuiz }) => {
 	}
 
 	return (
-		<div>
-			<h1>Quiz</h1>
-			<button onClick={exitQuiz}>Exit Quiz</button>
-			<button onClick={handlePrevious} disabled={currentCluster === 0}>
-				Previous
-			</button>
-			{currentCluster === QuestionsData.length - 1 ? (
-				<button onClick={handleSubmit}>Submit</button>
-			) : (
-				<button onClick={handleNext}>Next</button>
-			)}
-			<QuestionCluster
-				cluster={QuestionsData[currentCluster]}
-				answers={answers}
-				saveAnswers={saveAnswers}
-			/>
-			<button onClick={handlePrevious} disabled={currentCluster === 0}>
-				Previous
-			</button>
-			{currentCluster === QuestionsData.length - 1 ? (
-				<button onClick={handleSubmit}>Submit</button>
-			) : (
-				<button onClick={handleNext}>Next</button>
-			)}
-		</div>
+		<>
+			<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+				The Quiz
+			</h1>
+
+			<div className="flex justify-center space-x-4 mt-4">
+				<button
+					onClick={handlePrevious}
+					disabled={currentCluster === 0}
+					className="btn btn-secondary"
+					style={{ width: "120px" }}
+				>
+					Previous
+				</button>
+				{currentCluster === QuestionsData.length - 1 ? (
+					<button
+						onClick={handleSubmit}
+						className="btn btn-secondary"
+						style={{ width: "120px" }}
+					>
+						Submit
+					</button>
+				) : (
+					<button
+						onClick={handleNext}
+						className="btn btn-secondary"
+						style={{ width: "120px" }}
+					>
+						Next
+					</button>
+				)}
+			</div>
+
+			<div>
+				<QuestionCluster
+					cluster={QuestionsData[currentCluster]}
+					answers={answers}
+					saveAnswers={saveAnswers}
+				/>
+				<div className="flex justify-center space-x-4 mt-4">
+					<button
+						onClick={handlePrevious}
+						disabled={currentCluster === 0}
+						className="btn btn-secondary"
+						style={{ width: "120px" }}
+					>
+						Previous
+					</button>
+					{currentCluster === QuestionsData.length - 1 ? (
+						<button
+							onClick={handleSubmit}
+							className="btn btn-secondary"
+							style={{ width: "120px" }}
+						>
+							Submit
+						</button>
+					) : (
+						<button
+							onClick={handleNext}
+							className="btn btn-secondary"
+							style={{ width: "120px" }}
+						>
+							Next
+						</button>
+					)}
+				</div>
+			</div>
+			<div className="flex justify-center mt-4">
+				<button onClick={exitQuiz} className="btn btn-secondary">
+					Exit Quiz
+				</button>
+			</div>
+		</>
 	);
 };
 

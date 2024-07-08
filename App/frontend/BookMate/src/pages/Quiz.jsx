@@ -5,12 +5,13 @@ import axios from "axios";
 import QuizComp from "../components/QuizComp/QuizComp";
 import QuizLanding from "../components/QuizLanding/QuizLanding";
 import Countdown from "../components/Countdown/Countdown.jsx";
+import styles from "../css/SquigglyLine.module.css";
 
 const Quiz = () => {
 	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [startQuiz, setStartQuiz] = useState(false);
-	const [bookmateStatus, setBookmateStatus] = useState(false);
+	const [bookmateStatus, setBookmateStatus] = useState(1);
 	const [startTime, setStartTime] = useState(null);
 	const [deadLine, setDeadLine] = useState(null);
 
@@ -64,22 +65,30 @@ const Quiz = () => {
 		}
 	}, [user, navigate]);
 
+	useEffect(() => {
+		if (bookmateStatus === 0 || bookmateStatus === 3) {
+			navigate("/");
+		}
+	}, [bookmateStatus, navigate]);
+
 	const handleStartQuiz = () => {
 		setStartQuiz(true);
 	};
 
 	return (
-		<div>
+		<div
+			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 min-h-[85vh]`}
+		>
 			{bookmateStatus === 1 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						The next round of Bookmate starts in:
 					</h1>
 					{startTime && <Countdown targetDateTime={startTime} />}
-					<div>
+					<div className="flex flex-row justify-center">
 						<Link
 							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
+							className="btn btn-secondary m-2 font-poppins"
 						>
 							Let's Go!
 						</Link>
@@ -87,41 +96,29 @@ const Quiz = () => {
 				</div>
 			)}
 			{bookmateStatus === 2 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
+				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						The next round of Bookmate starts in:
 					</h1>
 					{startTime && <Countdown targetDateTime={deadLine} />}
-					<div>
+					<div className="flex flex-row justify-center">
 						<Link
 							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
+							className="btn btn-secondary m-2 font-poppins"
 						>
 							Let's Go!
 						</Link>
 					</div>
 				</div>
 			)}
-			{bookmateStatus === 3 && user.BookmateID && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						Book Mate results are out!
-					</h1>
-					<div>
-						<Link
-							to="/view-bookmate"
-							className="btn text-l text-primary font-poppins"
-						>
-							See your bookmate!
-						</Link>
-					</div>
-				</div>
-			)}
+
 			{startQuiz ? (
 				<QuizComp setStartQuiz={setStartQuiz} />
 			) : (
 				<QuizLanding onStartQuiz={handleStartQuiz} />
 			)}
+
+			<div className="min-h-[9vh]"></div>
 		</div>
 	);
 };

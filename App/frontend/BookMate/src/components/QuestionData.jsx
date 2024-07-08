@@ -59,7 +59,7 @@ const QuestionsData = [
 		questions: [
 			{
 				id: 5,
-				question: "What kind of ending do you prfer?",
+				question: "What kind of ending do you prefer?",
 				options: [
 					"A) A triumphant victory like in 'The Lord of the Rings'",
 					"B) An unexpected but logical conclusion like in 'Shutter Island'",
@@ -101,10 +101,10 @@ const QuestionsData = [
 				id: 9,
 				question: "When’s the best time to read a book?",
 				options: [
-					"A)Round the campfire",
-					"B)In class",
-					"C)On the bus",
-					"D)All the time",
+					"A) Round the campfire",
+					"B) In class",
+					"C) On the bus",
+					"D) All the time",
 				],
 			},
 		],

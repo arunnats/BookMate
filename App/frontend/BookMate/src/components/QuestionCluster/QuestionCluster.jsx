@@ -7,7 +7,7 @@ const QuestionCluster = ({ cluster, answers, saveAnswers }) => {
 	};
 
 	return (
-		<div>
+		<div className="my-2">
 			{cluster.questions.map((question) => (
 				<QuestionBlock
 					key={question.id}
