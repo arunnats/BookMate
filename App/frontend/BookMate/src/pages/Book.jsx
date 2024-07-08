@@ -30,8 +30,8 @@ const Book = () => {
 					throw new Error("Failed to fetch data");
 				}
 
-				const imageBlob = await imageResponse.blob(); // Get image blob
-				const bookData = await bookDataResponse.json(); // Parse book data JSON
+				const imageBlob = await imageResponse.blob();
+				const bookData = await bookDataResponse.json();
 
 				const isbnDetails = bookData[`ISBN:${isbn}`];
 				const title = isbnDetails.details.title;
@@ -52,7 +52,7 @@ const Book = () => {
 					publishDate: publishDate,
 					physicalFormat: physicalFormat,
 					genres: genres,
-					imageUrl: URL.createObjectURL(imageBlob), // Create image URL from blob
+					imageUrl: URL.createObjectURL(imageBlob),
 				};
 
 				setBookDetails(fetchedBookDetails);
@@ -67,10 +67,17 @@ const Book = () => {
 		fetchBookData();
 	}, [isbn]);
 
-	if (loading) return <div>Loading...</div>;
+	if (loading)
+		return (
+			<div className="bg-primary min-h-[85vh] flex flex-col items-center justify-center">
+				<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
+					Book data unavailable
+				</h1>
+			</div>
+		);
 	if (error)
 		return (
-			<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
+			<div className="bg-primary min-h-[85vh] flex flex-col items-center justify-center">
 				<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
 					Book data unavailable
 				</h1>
@@ -79,7 +86,7 @@ const Book = () => {
 						to="/recommendations"
 						className="btn btn-secondary m-2 font-poppins"
 					>
-						Let's Go!
+						Go back
 					</Link>
 				</div>
 			</div>

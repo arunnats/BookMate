@@ -22,11 +22,11 @@ const BookCard = ({ bookDetails }) => {
 				<p className="card-text text-primary font-poppins">Year: {year}</p>
 				<p className="card-text text-primary font-poppins">ISBN: {ISBN}</p>
 				<div className="card-actions justify-center font-poppins">
-					<button className="btn btn-accent">
+					{/* <button className="btn btn-accent">
 						<Link className="font-poppins" to={`/book/${ISBN}`}>
 							View Book
 						</Link>
-					</button>
+					</button> */}
 				</div>
 			</div>
 		</div>
