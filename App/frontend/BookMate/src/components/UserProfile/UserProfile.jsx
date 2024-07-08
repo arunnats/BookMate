@@ -118,8 +118,8 @@ const UserProfile = () => {
 					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box}`}
 				>
 					{bookmateStatus === 1 && (
-						<div className="flex flex-col">
-							<h1 className="text-3xl  text-white font-bold my-3">
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								The next round of Bookmate starts in:
 							</h1>
 							{startTime && <Countdown targetDateTime={startTime} />}
@@ -150,8 +150,8 @@ const UserProfile = () => {
 						</div>
 					)}
 					{bookmateStatus === 3 && user.BookmateID && (
-						<div className="flex flex-col">
-							<h1 className="text-3xl  text-white font-bold my-3">
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Book Mate results are out!
 							</h1>
 							<div className="flex flex-row justify-center">

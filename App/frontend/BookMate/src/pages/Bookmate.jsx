@@ -199,6 +199,7 @@ const BookmatePage = () => {
 						handleGetMatch={handleGetMatch}
 						isButtonDisabled={isButtonDisabled}
 					/>
+					<div className="min-h-[8svh]"></div>
 				</div>
 			)}
 
@@ -227,7 +228,7 @@ const BookmatePage = () => {
 						handleGetMatch={handleGetMatch}
 						isButtonDisabled={isButtonDisabled}
 					/>
-					<div className="min-h-[7vh]"></div>
+					<div className="min-h-[8vh]"></div>
 				</div>
 			)}
 

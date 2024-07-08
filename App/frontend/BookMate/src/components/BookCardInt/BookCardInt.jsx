@@ -8,7 +8,7 @@ const BookCardInt = ({ bookDetails, removeBook }) => {
 	};
 
 	return (
-		<div className="card card-compact w-[300px] bg-secondary border-2 shadow-xl border-primary">
+		<div className="card card-compact w-[300px] bg-secondary border-2 shadow-xl border-primary m-2">
 			<figure>
 				<img className="m-3" src={imageUrl} alt={title} onError={handleError} />
 			</figure>

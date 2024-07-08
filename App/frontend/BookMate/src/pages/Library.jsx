@@ -4,6 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import LibraryPage from "../components/LibraryPage/LibraryPage";
 import EditLibrary from "../components/EditLibrary/EditLibrary";
 import Countdown from "../components/Countdown/Countdown.jsx";
+import AppOffline from "../components/AppOffline/AppOffline";
+import styles from "../css/SquigglyLine.module.css";
 import axios from "axios";
 
 const Library = () => {
@@ -123,76 +125,91 @@ const Library = () => {
 	};
 
 	return (
-		<div className="library-container">
-			{bookmateStatus === 1 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						The next round of Bookmate starts in:
-					</h1>
-					{startTime && <Countdown targetDateTime={startTime} />}
-					<div>
-						<Link
-							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
-						>
-							Let's Go!
-						</Link>
+		<>
+			{bookmateStatus === 0 ? (
+				<AppOffline />
+			) : (
+				<div
+					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box} mb-8`}
+				>
+					{bookmateStatus === 1 && (
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+								The next round of Bookmate starts in:
+							</h1>
+							{startTime && <Countdown targetDateTime={startTime} />}
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									Let's Go!
+								</Link>
+							</div>
+						</div>
+					)}
+					{bookmateStatus === 2 && (
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+								Get your Bookmates in:
+							</h1>
+							{startTime && <Countdown targetDateTime={deadLine} />}
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									Let's Go!
+								</Link>
+							</div>
+						</div>
+					)}
+					{bookmateStatus === 3 && user.BookmateID && (
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+								Book Mate results are out!
+							</h1>
+							<div className="flex flex-row justify-center">
+								<Link
+									to="/find-your-match"
+									className="btn btn-secondary m-2 font-poppins"
+								>
+									See your bookmate!
+								</Link>
+							</div>
+						</div>
+					)}
+					<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+						<h1 className="text-4xl text-secondary font-poppins font-bold mt-6 text-center">
+							Library Page
+						</h1>
+						<div className="m-auto">
+							<button
+								className="btn btn-secondary m-3 font-poppins "
+								onClick={handleButtonClick}
+							>
+								{isEditing ? "Save Changes" : "Edit Library"}
+							</button>
+						</div>
+
+						{isEditing ? (
+							<EditLibrary
+								libraryData={libraryData}
+								setLibraryData={setLibraryData}
+							/>
+						) : (
+							<LibraryPage
+								libraryData={{
+									Fave_Books: Array.from(libraryData.Fave_Books),
+									Wish_List: Array.from(libraryData.Wish_List),
+								}}
+							/>
+						)}
+						<div className="min-h-[9vh]"></div>
 					</div>
 				</div>
 			)}
-			{bookmateStatus === 2 && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						The next round of Bookmate starts in:
-					</h1>
-					{startTime && <Countdown targetDateTime={deadLine} />}
-					<div>
-						<Link
-							to="/find-your-match"
-							className="btn text-l text-primary font-poppins"
-						>
-							Let's Go!
-						</Link>
-					</div>
-				</div>
-			)}
-			{bookmateStatus === 3 && user.BookmateID && (
-				<div className="flex flex-col">
-					<h1 className="text-3xl  text-white font-bold my-3">
-						Book Mate results are out!
-					</h1>
-					<div>
-						<Link
-							to="/view-bookmate"
-							className="btn text-l text-primary font-poppins"
-						>
-							See your bookmate!
-						</Link>
-					</div>
-				</div>
-			)}
-			<div className="flex flex-col items-center py-8 min-h-screen">
-				<h1 className="text-center">Library Page</h1>
-				<br />
-				<button className="btn btn-primary" onClick={handleButtonClick}>
-					{isEditing ? "Save Changes" : "Edit Library"}
-				</button>
-				<br />
-				{isEditing ? (
-					<EditLibrary
-						libraryData={libraryData}
-						setLibraryData={setLibraryData}
-					/>
-				) : (
-					<LibraryPage
-						libraryData={{
-							Fave_Books: Array.from(libraryData.Fave_Books),
-							Wish_List: Array.from(libraryData.Wish_List),
-						}}
-					/>
-				)}
-			</div>
-		</div>
+		</>
 	);
 };
 

@@ -5,6 +5,8 @@ import BookCardInt from "../BookCardInt/BookCardInt.jsx";
 const LibraryShelf = ({ books, editState, removeBook }) => {
 	const [bookDetailsList, setBookDetailsList] = useState([]);
 
+	console.log(bookDetailsList);
+
 	useEffect(() => {
 		const fetchBookDetails = async () => {
 			try {
@@ -35,22 +37,32 @@ const LibraryShelf = ({ books, editState, removeBook }) => {
 
 	return (
 		<div>
-			<div className="carousel carousel-center max-w-[80rem] p-4 space-x-4 bg-neutral rounded-box">
-				{bookDetailsList.length > 0 ? (
-					bookDetailsList.map(({ isbn, bookDetails }) =>
-						editState === 0 ? (
-							<BookCard key={isbn} bookDetails={bookDetails} />
-						) : (
-							<BookCardInt
-								key={isbn}
-								bookDetails={bookDetails}
-								removeBook={removeBook}
-							/>
+			<div className="bg-neutral p-4 rounded-box h-auto w-full max-w-[80rem] min-h-96 flex flex-col border-2 border-accent">
+				<h2 className="text-primary font-poppins font-bold text-4xl m-3 text-center">
+					Results
+				</h2>
+				<div className="flex flex-wrap justify-center">
+					{bookDetailsList.length > 0 ? (
+						bookDetailsList.map(({ isbn, bookDetails }) =>
+							editState === 0 ? (
+								<div key={isbn} className="p-2">
+									<BookCard bookDetails={bookDetails} />
+								</div>
+							) : (
+								<div key={isbn} className="p-2">
+									<BookCardInt
+										bookDetails={bookDetails}
+										removeBook={removeBook}
+									/>
+								</div>
+							)
 						)
-					)
-				) : (
-					<p>No books available or loading...</p>
-				)}
+					) : (
+						<p className="text-primary font-montserrat">
+							Search for a Book or press the button for random recommendations
+						</p>
+					)}
+				</div>
 			</div>
 		</div>
 	);
