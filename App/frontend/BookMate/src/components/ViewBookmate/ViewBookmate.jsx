@@ -10,6 +10,7 @@ const ViewBookmate = () => {
 	const [bookmateDetails, setBookmateDetails] = useState(null);
 	const nodeURL = import.meta.env.VITE_NODE_URL;
 	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
+
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
@@ -53,6 +54,9 @@ const ViewBookmate = () => {
 	if (!user) {
 		return <p>Loading...</p>;
 	}
+
+	console.log(user);
+	console.log(bookmateDetails);
 
 	return (
 		<div className="flex flex-col align-middle justify-center">

@@ -164,7 +164,7 @@ async def lifespan(app: FastAPI):
 
 app.router.lifespan_context = lifespan
 
-@app.post("/make-matches/")
+@app.get("/make-matches/")
 async def make_matches():
     print("Request received for making matches.")
     
