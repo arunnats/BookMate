@@ -50,10 +50,6 @@ const UpdateDetails = () => {
 			id: 6,
 			url: "https://raw.githubusercontent.com/arunnats/BookMate/main/App/frontend/BookMate/src/assets/images/profilePictures/profilePicture6.svg?sanitize=true",
 		},
-		{
-			id: 7,
-			url: user.picture_url,
-		},
 	];
 
 	useEffect(() => {
@@ -160,59 +156,96 @@ const UpdateDetails = () => {
 					</p>
 				</div>
 			) : (
-				<div className="text-white text-center m-3 my-6">
-					<h1 className="text-4xl font-bold">Update Details</h1>
-					<div className="flex flex-wrap justify-center items-center space-x-4 mt-4">
-						{profilePictures.map((profile) => (
-							<label key={profile.id} className="flex items-center">
-								<input
-									type="radio"
-									name="profilePicture"
-									className="radio"
-									value={profile.url}
-									checked={selectedProfilePicture === profile.url}
-									onChange={handleProfilePictureChange}
-								/>
+				<div className=" text-center m-3 my-6">
+					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						Update Details
+					</h1>
+					<div className="flex flex-wrap justify-center items-center space-x-4 mt-4 w-[60vw] m-3">
+						{profilePictures.slice(0, 6).map((profile) => (
+							<label key={profile.id} className="flex items-center mx-4">
 								<img
 									src={profile.url}
 									alt={`Profile ${profile.id}`}
 									className="w-20 h-20 rounded-full shadow-md mx-auto"
 								/>
-								<span className="ml-2 text-sm">{`Option ${profile.id}`}</span>
+								<input
+									type="radio"
+									name="profilePicture"
+									className={`radio mx-2 ${
+										selectedProfilePicture === profile.url
+											? "text-primary"
+											: "text-gray-400"
+									}`}
+									value={profile.url}
+									checked={selectedProfilePicture === profile.url}
+									onChange={handleProfilePictureChange}
+								/>
+								<span
+									className={`font-poppins font-bold mx-2 ${
+										selectedProfilePicture === profile.url
+											? "text-secondary"
+											: "text-gray-400"
+									}`}
+								>{`Option ${profile.id}`}</span>
 							</label>
 						))}
+
+						{user.picture_url >= 1 && user.picture_url <= 6 && (
+							<label key={7} className="flex items-center mx-4">
+								<input
+									type="radio"
+									name="profilePicture"
+									className="radio"
+									value={profilePictures[6].url}
+									checked={selectedProfilePicture === profilePictures[6].url}
+									onChange={handleProfilePictureChange}
+								/>
+								<img
+									src={profilePictures[6].url}
+									alt={`Profile ${7}`}
+									className="w-20 h-20 rounded-full shadow-md mx-auto"
+								/>
+								<span className="text-secondary font-poppins font-bold mx-4">{`Option ${7}`}</span>
+							</label>
+						)}
 					</div>
-					<input
-						type="text"
-						placeholder="Nickname (optional)"
-						className="input input-bordered w-full max-w-xs mt-4"
-						value={nickname}
-						onChange={handleNicknameChange}
-					/>
-					<input
-						type="text"
-						placeholder="Phone Number"
-						className="input input-bordered w-full max-w-xs mt-4"
-						value={phoneNumber}
-						onChange={handlePhoneNumberChange}
-						required
-					/>
-					<input
-						type="text"
-						placeholder="Instagram ID"
-						className="input input-bordered w-full max-w-xs mt-4"
-						value={instagramId}
-						onChange={handleInstagramIdChange}
-						required
-					/>
-					<div className="w-[300px] flex flex-col items-center">
+
+					<div className="flex flex-col justify-center items-center mt-4">
+						<input
+							type="text"
+							placeholder="Nickname (optional)"
+							className="input input-bordered w-full max-w-xs mt-4"
+							value={nickname}
+							onChange={handleNicknameChange}
+						/>
+						<input
+							type="text"
+							placeholder="Phone Number"
+							className="input input-bordered w-full max-w-xs mt-4"
+							value={phoneNumber}
+							onChange={handlePhoneNumberChange}
+							required
+						/>
+						<input
+							type="text"
+							placeholder="Instagram ID"
+							className="input input-bordered w-full max-w-xs mt-4"
+							value={instagramId}
+							onChange={handleInstagramIdChange}
+							required
+						/>
+					</div>
+
+					<div className="w-[350px] flex flex-col items-center mx-auto">
 						<div className="form-control my-2">
 							<label className="label cursor-pointer flex justify-between">
-								<span className="label-text">Make Instagram ID public?</span>
+								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
+									Make Instagram ID public?
+								</span>
 								<input
 									type="checkbox"
 									className={`toggle ${
-										instagramPublic ? "toggle-accent" : "toggle-gray"
+										instagramPublic ? "toggle-primary" : "toggle-gray"
 									}`}
 									checked={instagramPublic}
 									onChange={handleInstagramToggle}
@@ -221,11 +254,13 @@ const UpdateDetails = () => {
 						</div>
 						<div className="form-control my-2">
 							<label className="label cursor-pointer flex justify-between">
-								<span className="label-text">Make phone number public?</span>
+								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
+									Make phone number public?
+								</span>
 								<input
 									type="checkbox"
 									className={`toggle ${
-										phonePublic ? "toggle-accent" : "toggle-gray"
+										phonePublic ? "toggle-primary" : "toggle-gray"
 									}`}
 									checked={phonePublic}
 									onChange={handlePhoneToggle}
@@ -234,11 +269,13 @@ const UpdateDetails = () => {
 						</div>
 						<div className="form-control my-2">
 							<label className="label cursor-pointer flex justify-between">
-								<span className="label-text">Make email public?</span>
+								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
+									Make email public?
+								</span>
 								<input
 									type="checkbox"
 									className={`toggle ${
-										emailPublic ? "toggle-accent" : "toggle-gray"
+										emailPublic ? "toggle-primary" : "toggle-gray"
 									}`}
 									checked={emailPublic}
 									onChange={handleEmailToggle}
@@ -246,15 +283,18 @@ const UpdateDetails = () => {
 							</label>
 						</div>
 					</div>
-					<button
-						className="btn btn-primary mt-4"
-						onClick={handleSave}
-						disabled={disabled}
-					>
-						Save
-					</button>
+					<div className="mx-auto">
+						<button
+							className="btn btn-secondary m-2 font-poppins"
+							onClick={handleSave}
+							disabled={disabled}
+						>
+							Save
+						</button>
+					</div>
 				</div>
 			)}
+			<div className="min-h-[7vh]"></div>
 		</div>
 	);
 };
