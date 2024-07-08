@@ -7,6 +7,8 @@ const Book = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [bookDetails, setBookDetails] = useState(null); // State to hold book details
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const fetchBookData = async () => {

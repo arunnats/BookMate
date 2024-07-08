@@ -10,14 +10,13 @@ const QuizComp = ({ setStartQuiz }) => {
 	const [currentCluster, setCurrentCluster] = useState(0);
 	const [answers, setAnswers] = useState({});
 	const [loading, setLoading] = useState(true);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	const fetchQuizData = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:3000/get-answers?LibID=${user.LibID}`
-			);
+			const response = await fetch(`${nodeURL}get-answers?LibID=${user.LibID}`);
 			const data = await response.json();
-			console.log(data);
 			if (data.answers) {
 				setAnswers(data.answers);
 			}
@@ -62,7 +61,7 @@ const QuizComp = ({ setStartQuiz }) => {
 			alert("Please choose an option for all questions.");
 		} else {
 			try {
-				await fetch("http://localhost:3000/save-answers", {
+				await fetch(`${nodeURL}save-answers`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",

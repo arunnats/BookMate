@@ -11,15 +11,17 @@ const SearchAndResults = () => {
 	const [recommendations, setRecommendations] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const containerRef = useRef(null);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	const getRecommendations = async (result) => {
 		try {
-			console.log(result);
+			// console.log(result);
 			const Title = result["Book-Title"];
 			const response = await axios.get(
-				`http://localhost:8000/recommend/?book_title=${Title}`
+				`${fastAPIURL}recommend/?book_title=${Title}`
 			);
-			console.log(response.data);
+			// console.log(response.data);
 			const recommendationsData = response.data;
 			setRecommendations(recommendationsData);
 			setSearchTerm("");
@@ -31,7 +33,7 @@ const SearchAndResults = () => {
 
 	const getRandom = async () => {
 		try {
-			const response = await axios.get(`http://localhost:8000/random-books/`);
+			const response = await axios.get(`${fastAPIURL}random-books/`);
 			const randomTitles = response.data;
 			setRecommendations(randomTitles);
 		} catch (error) {

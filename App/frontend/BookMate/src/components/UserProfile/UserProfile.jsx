@@ -14,16 +14,15 @@ const UserProfile = () => {
 	const [deadLine, setDeadLine] = useState(null);
 	const [confirmDelete, setConfirmDelete] = useState(false);
 	const [confirmLogout, setConfirmLogout] = useState(false);
-
-	console.log(user);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const startTimeGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-starttime");
+				const response = await axios.get(`${nodeURL}get-starttime`);
 				const { starttime } = response.data;
 				setStartTime(starttime);
-				console.log(starttime);
 			} catch (error) {
 				console.error("Error fetching start time:", error.message);
 			}
@@ -31,10 +30,9 @@ const UserProfile = () => {
 
 		const deadLineGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-deadline");
+				const response = await axios.get(`${nodeURL}get-deadline`);
 				const { deadline } = response.data;
 				setDeadLine(deadline);
-				console.log(deadline);
 			} catch (error) {
 				console.error("Error fetching deadline:", error.message);
 			}
@@ -47,11 +45,8 @@ const UserProfile = () => {
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
-				console.log(status);
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -65,7 +60,6 @@ const UserProfile = () => {
 		if (!user) {
 			navigate("/login");
 		} else {
-			console.log("Logged in");
 		}
 	}, [user, navigate]);
 
@@ -88,17 +82,14 @@ const UserProfile = () => {
 			try {
 				const userID = user.id;
 				const LibID = user.LibID;
-				console.log(LibID);
 
-				const response = await fetch("http://localhost:3000/delete-user", {
+				const response = await fetch(`${nodeURL}delete-user`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({ id: userID, LibID: LibID }),
 				});
-
-				console.log(response);
 
 				localStorage.removeItem("user");
 				setUser(null);
@@ -138,7 +129,7 @@ const UserProfile = () => {
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Get your Bookmates in:
 							</h1>
-							{startTime && <Countdown targetDateTime={deadLine} />}
+							{deadLine && <Countdown targetDateTime={deadLine} />}
 							<div className="flex flex-row justify-center">
 								<Link
 									to="/find-your-match"

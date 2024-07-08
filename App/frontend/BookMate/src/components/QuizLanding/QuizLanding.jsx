@@ -7,12 +7,12 @@ const QuizLanding = ({ onStartQuiz, isQuizActive }) => {
 	const navigate = useNavigate();
 	const [answeredCount, setAnsweredCount] = useState(0);
 	const [loading, setLoading] = useState(true);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	const fetchQuizData = async () => {
 		try {
-			const response = await fetch(
-				`http://localhost:3000/get-answers?LibID=${user.LibID}`
-			);
+			const response = await fetch(`${nodeURL}get-answers?LibID=${user.LibID}`);
 			const data = await response.json();
 			if (data.answers) {
 				setAnsweredCount(Object.keys(data.answers).length);

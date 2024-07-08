@@ -19,15 +19,16 @@ import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
 	const [activated, setactivated] = useState(false);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const appActiveGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/app-status");
+				const response = await axios.get(`${nodeURL}app-status`);
 				const { status } = response.data;
 
 				setactivated(status);
-				console.log("app is:" + activated);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
 			}

@@ -10,12 +10,13 @@ const GetBookmate = () => {
 	const [optedIn, setOptedIn] = useState(false);
 	const [bookmateStatus, setBookmateStatus] = useState(false);
 
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
+
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
 				console.log(status);
 				setBookmateStatus(status);
@@ -35,15 +36,11 @@ const GetBookmate = () => {
 
 		const fetchOptInStatus = async () => {
 			try {
-				const response = await axios.post(
-					"http://localhost:3000/opt-status",
-					null,
-					{
-						params: {
-							id: user.id,
-						},
-					}
-				);
+				const response = await axios.post(`${nodeURL}opt-status`, null, {
+					params: {
+						id: user.id,
+					},
+				});
 				setOptedIn(response.data.optedIn);
 			} catch (error) {
 				console.error("Error fetching opt-in status:", error.message);

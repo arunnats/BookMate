@@ -19,14 +19,15 @@ const Library = () => {
 	const [bookmateStatus, setBookmateStatus] = useState(false);
 	const [startTime, setStartTime] = useState(null);
 	const [deadLine, setDeadLine] = useState(null);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const startTimeGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-starttime");
+				const response = await axios.get(`${nodeURL}get-starttime`);
 				const { starttime } = response.data;
 				setStartTime(starttime);
-				console.log(starttime);
 			} catch (error) {
 				console.error("Error fetching start time:", error.message);
 			}
@@ -34,10 +35,9 @@ const Library = () => {
 
 		const deadLineGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-deadline");
+				const response = await axios.get(`${nodeURL}get-deadline`);
 				const { deadline } = response.data;
 				setDeadLine(deadline);
-				console.log(deadline);
 			} catch (error) {
 				console.error("Error fetching deadline:", error.message);
 			}
@@ -50,11 +50,9 @@ const Library = () => {
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
-				console.log(status);
+
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -70,7 +68,7 @@ const Library = () => {
 		const fetchLibraryData = async () => {
 			try {
 				const libraryResponse = await axios.get(
-					`http://localhost:3000/library?LibID=${user.LibID}`
+					`${nodeURL}library?LibID=${user.LibID}`
 				);
 				const libraryData = libraryResponse.data;
 				const Fave_Books = new Set(libraryData.Fave_Books || []);
@@ -88,7 +86,6 @@ const Library = () => {
 		if (user && !user.library) {
 			fetchLibraryData();
 		} else if (user) {
-			console.log(user.library);
 			const Fave_Books = new Set(user.library.Fave_Books || []);
 			const Wish_List = new Set(user.library.Wish_List || []);
 			const Answers = user.library.Answers || "";
@@ -108,7 +105,7 @@ const Library = () => {
 			};
 
 			try {
-				await axios.post("http://localhost:3000/update-library", updateData);
+				await axios.post(`${nodeURL}update-library`, updateData);
 
 				const updatedUser = {
 					...user,
@@ -153,7 +150,7 @@ const Library = () => {
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Get your Bookmates in:
 							</h1>
-							{startTime && <Countdown targetDateTime={deadLine} />}
+							{deadLine && <Countdown targetDateTime={deadLine} />}
 							<div className="flex flex-row justify-center">
 								<Link
 									to="/find-your-match"

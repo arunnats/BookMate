@@ -22,14 +22,15 @@ const BookmatePage = () => {
 	const [bookmateStatus, setBookmateStatus] = useState(0);
 	const [startTime, setStartTime] = useState(null);
 	const [deadLine, setDeadLine] = useState(null);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const startTimeGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-starttime");
+				const response = await axios.get(`${nodeURL}get-starttime`);
 				const { starttime } = response.data;
 				setStartTime(starttime);
-				console.log(starttime);
 			} catch (error) {
 				console.error("Error fetching start time:", error.message);
 			}
@@ -37,10 +38,9 @@ const BookmatePage = () => {
 
 		const deadLineGet = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/get-deadline");
+				const response = await axios.get(`${nodeURL}get-deadline`);
 				const { deadline } = response.data;
 				setDeadLine(deadline);
-				console.log(deadline);
 			} catch (error) {
 				console.error("Error fetching deadline:", error.message);
 			}
@@ -53,11 +53,8 @@ const BookmatePage = () => {
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
-				console.log(status);
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -70,11 +67,8 @@ const BookmatePage = () => {
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
-				console.log(status);
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -97,10 +91,9 @@ const BookmatePage = () => {
 	const fetchLibraryData = async () => {
 		try {
 			const libraryResponse = await axios.get(
-				`http://localhost:3000/library?LibID=${user.LibID}`
+				`${nodeURL}library?LibID=${user.LibID}`
 			);
 			const fetchedLibraryData = libraryResponse.data;
-			console.log(fetchedLibraryData);
 
 			const Fave_Books = new Set(fetchedLibraryData.Fave_Books || []);
 			const Wish_List = new Set(fetchedLibraryData.Wish_List || []);
@@ -118,13 +111,9 @@ const BookmatePage = () => {
 
 	const fetchOptInStatus = async () => {
 		try {
-			const response = await axios.post(
-				"http://localhost:3000/opt-status",
-				null,
-				{
-					params: { id: user.id },
-				}
-			);
+			const response = await axios.post(`${nodeURL}opt-status`, null, {
+				params: { id: user.id },
+			});
 			setOptedIn(response.data.optedIn);
 		} catch (error) {
 			console.error("Error fetching opt-in status:", error.message);
@@ -144,11 +133,10 @@ const BookmatePage = () => {
 
 	const handleGetMatch = async () => {
 		try {
-			const response = await axios.post("http://localhost:3000/opt-in", {
+			const response = await axios.post(`${nodeURL}opt-in`, {
 				id: user.id,
 				optStatus: !optedIn,
 			});
-			console.log(response.data);
 			setOptedIn(!optedIn);
 		} catch (error) {
 			console.error("Error opting in for matching:", error.message);

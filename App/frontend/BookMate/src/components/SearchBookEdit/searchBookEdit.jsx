@@ -8,12 +8,14 @@ const SearchAndResults = () => {
 	const [results, setResults] = useState([]);
 	const [recommendations, setRecommendations] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	const getRecommendations = async (result) => {
 		try {
 			console.log(result);
 			const response = await axios.get(
-				`http://localhost:8000/recommend/?book_title=${result}`
+				`${fastAPIURL}recommend/?book_title=${result}`
 			);
 			console.log(response.data);
 			const recommendationsData = response.data;

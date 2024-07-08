@@ -4,12 +4,13 @@ import axios from "axios";
 
 const SearchBar = ({ setResults, searchTerm, setSearchTerm }) => {
 	const fetchData = async (value) => {
-		console.log(value);
+		const nodeURL = import.meta.env.VITE_NODE_URL;
+		const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
+
+		// console.log(value);
 		try {
-			const response = await axios.get(
-				`http://localhost:3000/search?q=${value}`
-			);
-			console.log(response.data);
+			const response = await axios.get(`${nodeURL}search?q=${value}`);
+			// console.log(response.data);
 			setResults(response.data);
 		} catch (error) {
 			console.error("Error fetching data:", error);

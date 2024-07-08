@@ -8,13 +8,12 @@ const ViewBookmate = () => {
 	const navigate = useNavigate();
 	const [bookmateStatus, setBookmateStatus] = useState(false);
 	const [bookmateDetails, setBookmateDetails] = useState(null);
-
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 	useEffect(() => {
 		const bookmateStatusGet = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
 				console.log(status);
 				setBookmateStatus(status);
@@ -29,10 +28,9 @@ const ViewBookmate = () => {
 	useEffect(() => {
 		const bookmateDetailsGet = async () => {
 			try {
-				const response = await axios.post(
-					"http://localhost:3000/user-details",
-					{ id: user.BookmateID }
-				);
+				const response = await axios.post(`${nodeURL}user-details`, {
+					id: user.BookmateID,
+				});
 				setBookmateDetails(response.data.user);
 			} catch (error) {
 				console.error("Error fetching bookmate details:", error.message);

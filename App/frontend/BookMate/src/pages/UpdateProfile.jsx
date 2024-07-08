@@ -22,6 +22,8 @@ const UpdateDetails = () => {
 	);
 	const [emailPublic, setEmailPublic] = useState(user?.email_public || false);
 	const [phonePublic, setPhonePublic] = useState(user?.phone_public || false);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	const profilePictures = [
 		{
@@ -57,9 +59,7 @@ const UpdateDetails = () => {
 	useEffect(() => {
 		const bookmateStatusGetInit = async () => {
 			try {
-				const response = await axios.get(
-					"http://localhost:3000/get-bookmate-status"
-				);
+				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
 				setBookmateStatus(status);
 			} catch (error) {
@@ -84,7 +84,7 @@ const UpdateDetails = () => {
 
 	const handleSave = async () => {
 		try {
-			const response = await axios.post("http://localhost:3000/update-user", {
+			const response = await axios.post(`${nodeURL}update-user`, {
 				id: user.id,
 				picture_url: selectedProfilePicture,
 				nickname: nickname,
@@ -98,12 +98,9 @@ const UpdateDetails = () => {
 			user.profile_done = 1;
 			console.log(response.data.message);
 
-			const responseUser = await axios.post(
-				"http://localhost:3000/user-details",
-				{
-					id: user.id,
-				}
-			);
+			const responseUser = await axios.post(`${nodeURL}user-details`, {
+				id: user.id,
+			});
 			const updatedUser = responseUser.data.user;
 
 			console.log(updatedUser);

@@ -5,15 +5,14 @@ import BookCardInt from "../BookCardInt/BookCardInt.jsx";
 const LibraryShelf = ({ books, editState, removeBook }) => {
 	const [bookDetailsList, setBookDetailsList] = useState([]);
 
-	console.log(bookDetailsList);
+	const nodeURL = import.meta.env.VITE_NODE_URL;
+	const fastAPIURL = import.meta.env.VITE_FASTAPI_URL;
 
 	useEffect(() => {
 		const fetchBookDetails = async () => {
 			try {
 				const fetchPromises = books.map(async (isbn) => {
-					const response = await fetch(
-						`http://localhost:3000/book-details/?ISBN=${isbn}`
-					);
+					const response = await fetch(`${nodeURL}book-details/?ISBN=${isbn}`);
 					if (!response.ok) {
 						throw new Error(`Failed to fetch book details for ISBN ${isbn}`);
 					}
