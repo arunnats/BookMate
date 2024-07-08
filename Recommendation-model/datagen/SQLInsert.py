@@ -1,7 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-# Connect to MySQL database using SQLAlchemy
 engine = create_engine('mysql+mysqlconnector://root:nats@localhost/bookmate')
 
 def load_data():

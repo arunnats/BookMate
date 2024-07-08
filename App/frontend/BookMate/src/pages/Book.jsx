@@ -67,7 +67,22 @@ const Book = () => {
 	}, [isbn]);
 
 	if (loading) return <div>Loading...</div>;
-	if (error) return <div>{error}</div>;
+	if (error)
+		return (
+			<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
+				<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
+					Book data unavailable
+				</h1>
+				<div className="flex flex-row justify-center">
+					<Link
+						to="/recommendations"
+						className="btn btn-secondary m-2 font-poppins"
+					>
+						Let's Go!
+					</Link>
+				</div>
+			</div>
+		);
 
 	return <div>{bookDetails && <BookInfoPage bookDetails={bookDetails} />}</div>;
 };
