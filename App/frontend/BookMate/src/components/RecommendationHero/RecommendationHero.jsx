@@ -80,10 +80,12 @@ const ReccHero = () => {
 	}, []);
 
 	return (
-		<div className={`relative min-h-[90vh] flex items-center justify-center`}>
+		<div
+			className={`relative md:min-h-[90vh] flex items-center justify-center`}
+		>
 			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row m-auto py-4">
-					<div className="min-h-[80vh] w-[10%] flex flex-col-reverse">
+				<div className="flex flex-col-reverse md:flex-row m-auto py-4">
+					<div className=" w-[10%] hidden md:flex flex-col-reverse">
 						<img
 							ref={sideImgL}
 							src={handL}
@@ -91,11 +93,11 @@ const ReccHero = () => {
 							className="max-w-full h-auto object-contain py-20 pr-4"
 						/>
 					</div>
-					<div className="min-h-[80vh] w-[48%] flex flex-col items-center justify-center p-1">
-						<h1 className="text-4xl font-bold text-primary font-poppins p-1">
+					<div className=" sm:w-full md:w-[48%] flex flex-col items-center justify-center p-1">
+						<h1 className="text-3xl md:text-4xl 2xl:text-5xl font-bold text-primary font-poppins p-1">
 							Book Recommendations
 						</h1>
-						<p className="text-xl text-white font-montserrat font-medium text-justify p-1">
+						<p className="text-xl 2xl:text-2xl text-white font-montserrat font-medium text-justify p-5 md:p-1">
 							Find your next favorite book with our meticulous AI model, trained
 							on over 1,149,000 ratings from over 278,000 users across the
 							world! Simply choose a book you like and get curated results in an
@@ -110,15 +112,15 @@ const ReccHero = () => {
 							</Link>
 						</div>
 					</div>
-					<div className="min-h-[80vh] w-[32%] flex items-center justify-center">
+					<div className="sm:w-full md:w-[32%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={reccLogo}
 							alt="Hero"
-							className="max-w-full h-auto object-contain align-middle justify-center p-10"
+							className=" max-w-full h-auto object-contain align-middle justify-center px-24 md:p-10"
 						/>
 					</div>
-					<div className="min-h-[80vh] w-[10%] flex flex-col">
+					<div className=" w-[10%] hidden md:flex flex-col">
 						<img
 							ref={sideImgR}
 							src={handR}

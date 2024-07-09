@@ -106,10 +106,10 @@ const UserProfile = () => {
 				<AppOffline />
 			) : (
 				<div
-					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box}`}
+					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box} `}
 				>
 					{bookmateStatus === 1 && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden ">
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								The next round of Bookmate starts in:
 							</h1>
@@ -165,7 +165,7 @@ const UserProfile = () => {
 									src={user.picture_url}
 									referrerPolicy="no-referrer"
 									alt="Profile"
-									className="w-auto h-[20vh]"
+									className="w-auto h-[16vh] md:h-[20vh]"
 								/>
 								<div className="flex flex-col font-montserrat text-accent font-medium justify-center align-middle text-lg">
 									<p>
@@ -179,14 +179,14 @@ const UserProfile = () => {
 									<br />
 								</div>
 							</div>
-							<div className="flex flex-col font-montserrat text-accent font-medium justify-center align-middle text-lg">
+							<div className="flex flex-col font-montserrat text-accent font-medium justify-center align-middle text-lg mx-5">
 								<p>
 									Email visible to your Bookmate?:{" "}
 									{user.email_public ? "Yes" : "No"}
 								</p>
 
 								<p>
-									Phone number visible to your Bookmate?:{" "}
+									Phone visible to your Bookmate?:{" "}
 									{user.phone_public ? "Yes" : "No"}
 								</p>
 								<p>
@@ -197,10 +197,10 @@ const UserProfile = () => {
 									to="/update-profile"
 									className="btn btn-secondary m-2 font-poppins "
 								>
-									Update Profile
+									Change preferences
 								</Link>
 							</div>
-							<div className="flex flex-row justify-center align-middle mb-20">
+							<div className="flex flex-row justify-center align-middle mb-20 ">
 								<button
 									className="btn btn-secondary m-2 font-poppins w-[200px]"
 									onClick={deleteAccount}

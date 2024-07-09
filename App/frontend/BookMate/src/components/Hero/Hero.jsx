@@ -6,6 +6,8 @@ import heroLogo from "../../assets/images/hero-image.png";
 import map from "../../assets/images/map.png";
 import { Link } from "react-router-dom";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Hero = () => {
 	const imgRef = useRef(null);
 	const mapRef = useRef(null);
@@ -37,8 +39,8 @@ const Hero = () => {
 			mapRef.current,
 			{
 				x: -30,
-				y: -10,
-				rotation: -20,
+				y: 10,
+				rotation: -17,
 			},
 			{
 				x: 0,
@@ -57,12 +59,12 @@ const Hero = () => {
 
 	return (
 		<div
-			className={`relative bg-primary min-h-[80vh] flex items-center justify-center ${styles.box}`}
+			className={`relative md:min-h-[85vh] bg-primary flex items-center justify-center ${styles.box}`}
 		>
 			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row min-w-[100vw] m-auto p-3">
-					<div className="min-h-[80vh] w-[9%] flex flex-col-reverse"></div>
-					<div className="min-h-[80vh] w-[46%] flex items-center justify-center">
+				<div className="flex flex-col md:flex-row min-w-[100vw] m-auto p-3">
+					<div className=" lg:w-[9%] flex flex-col-reverse"></div>
+					<div className=" lg:w-[46%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={heroLogo}
@@ -70,11 +72,8 @@ const Hero = () => {
 							className="max-w-full h-auto object-contain align-middle justify-center p-8"
 						/>
 					</div>
-					<div className="min-h-[80vh] w-[31%] flex flex-col items-center justify-center">
-						{/* <h1 className="text-3xl font-bold text-secondary font-poppins p-1">
-							Welcome to Book Mate!
-						</h1> */}
-						<p className="text-xl text-accent font-montserrat font-medium text-justify p-1">
+					<div className=" lg:w-[31%] flex flex-col items-center justify-center">
+						<p className="text-xl 2xl:text-2xl text-accent font-montserrat font-medium text-justify p-5 md:p-1 md:mt-14	">
 							Book Mate is the perfect way to find your next read and the person
 							to read with! Finding individuals with the same taste as yourself
 							has never been easier, thanks to our AI-powered match engine. So
@@ -82,14 +81,14 @@ const Hero = () => {
 						</p>
 						<div className="flex flex-row justify-center">
 							<Link
-								className="btn btn-secondary m-2 font-poppins"
+								className="btn btn-secondary m-2 font-poppins mb-12"
 								to="/find-your-match"
 							>
 								Find Your Book Mate!
 							</Link>
 						</div>
 					</div>
-					<div className="min-h-[80vh] w-[14%] flex flex-col-reverse items-center">
+					<div className="hidden lg:w-[14%] md:flex flex-col-reverse items-center ">
 						<img
 							ref={mapRef}
 							src={map}
