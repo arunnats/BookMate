@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserContext } from "./userContext";
 import "./index.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -22,6 +23,7 @@ const RootComponent = () => {
 			<UserContext.Provider value={{ user, setUser }}>
 				<React.StrictMode>
 					<App />
+					<Analytics />
 				</React.StrictMode>
 			</UserContext.Provider>
 		</GoogleOAuthProvider>
