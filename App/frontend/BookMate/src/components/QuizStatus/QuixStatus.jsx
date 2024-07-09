@@ -5,7 +5,7 @@ const QuizStatus = ({ answersLength, bookmateStatus }) => {
 	return (
 		<div>
 			{bookmateStatus === 1 && (
-				<div className="text-center w-[45%] m-auto my-1">
+				<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
 						2) Take the Quiz
 					</h1>
@@ -27,7 +27,7 @@ const QuizStatus = ({ answersLength, bookmateStatus }) => {
 				</div>
 			)}
 			{bookmateStatus === 2 && (
-				<div className="text-center w-[45%] m-auto my-1">
+				<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
 						2) Take the Quiz
 					</h1>

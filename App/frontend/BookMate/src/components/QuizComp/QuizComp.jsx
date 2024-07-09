@@ -82,7 +82,7 @@ const QuizComp = ({ setStartQuiz }) => {
 
 	return (
 		<>
-			<div className="flex justify-center space-x-4">
+			<div className="flex justify-center space-x-4 ">
 				<button
 					onClick={handlePrevious}
 					disabled={currentCluster === 0}
@@ -110,7 +110,7 @@ const QuizComp = ({ setStartQuiz }) => {
 				)}
 			</div>
 
-			<div>
+			<div className="px-5">
 				<QuestionCluster
 					cluster={QuestionsData[currentCluster]}
 					answers={answers}

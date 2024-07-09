@@ -32,8 +32,8 @@ const ReccInfo = () => {
 	return (
 		<div className={`relative bg-primary flex items-center justify-center `}>
 			<div className="text-center text-neutral-content w-full overflow-hidden">
-				<div className="flex flex-row m-auto p-3 pt-0">
-					<div className=" w-[32%] flex items-center justify-center">
+				<div className="flex flex-col md:flex-row m-auto p-3 pt-0">
+					<div className=" w-full md:w-[34%] flex items-center justify-center">
 						<img
 							ref={imgRef}
 							src={reccLogo}
@@ -41,15 +41,11 @@ const ReccInfo = () => {
 							className="max-h-[45h] object-contain align-middle justify-center p-5"
 						/>
 					</div>
-					<div className=" w-[68%] flex flex-col ">
-						<p className="text-lg text-accent font-montserrat font-medium text-justify p-1 pt-3">
-							Find your next favorite book with our meticulous AI model, trained
-							on over 1,149,000 ratings from over 278,000 users across the
-							world! Simply choose a book you like and get curated results in an
-							instant! Click on the book to view its information.
-							<br />
-							Don't know what to read next? Click on the Get Random Books button
-							to get random book titles.
+					<div className="w-full md:w-[66%] flex flex-col ">
+						<p className="text-lg md:text-xl 2xl:text-2xl text-accent font-montserrat font-semibold text-justify p-3 pt-3 my-auto">
+							Find someone who shares a similar reading profile by adding three
+							or more of your favorite books to your library and taking the
+							questionnaire and make sure you opt in. Leave the rest to us!
 						</p>
 					</div>
 				</div>

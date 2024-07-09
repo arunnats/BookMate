@@ -65,7 +65,7 @@ const LoginPage = () => {
 	return (
 		<>
 			<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
-				<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
+				<h1 className="text-3xl xl:text-4xl 2xl:text-5xl text-center font-bold text-secondary font-poppins mb-6 mx-5">
 					Login with Gmail to use Bookmate.
 				</h1>
 				<GoogleLogin

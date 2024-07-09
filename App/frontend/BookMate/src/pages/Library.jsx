@@ -130,7 +130,7 @@ const Library = () => {
 					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box} mb-8`}
 				>
 					{bookmateStatus === 1 && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+						<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden">
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								The next round of Bookmate starts in:
 							</h1>
@@ -146,7 +146,7 @@ const Library = () => {
 						</div>
 					)}
 					{bookmateStatus === 2 && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+						<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden">
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Get your Bookmates in:
 							</h1>
@@ -162,7 +162,7 @@ const Library = () => {
 						</div>
 					)}
 					{bookmateStatus === 3 && user.BookmateID && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+						<div className="flex flex-col justify-center align-middle margin-auto overflow-hidden">
 							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Book Mate results are out!
 							</h1>
@@ -176,7 +176,7 @@ const Library = () => {
 							</div>
 						</div>
 					)}
-					<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+					<div className="flex flex-col justify-center align-middle margin-auto overflow-hidden">
 						<h1 className="text-4xl text-secondary font-poppins font-bold mt-6 text-center">
 							Library Page
 						</h1>

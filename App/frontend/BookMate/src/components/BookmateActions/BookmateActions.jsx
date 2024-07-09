@@ -2,7 +2,7 @@ import React from "react";
 
 const BookmateActions = ({ optedIn, handleGetMatch, isButtonDisabled }) => {
 	return (
-		<div className="text-center w-[45%] m-auto my-1">
+		<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 			<h1 className="text-secondary font-poppins font-bold text-3xl">
 				3) Opt in!
 			</h1>

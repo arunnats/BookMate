@@ -152,7 +152,7 @@ const BookmatePage = () => {
 			className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box}`}
 		>
 			{bookmateStatus === 0 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+				<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden">
 					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						Under Maintenance
 					</h1>
@@ -192,7 +192,7 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 2 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden ">
+				<div className="flex flex-col justify-center align-middle margin-auto  ">
 					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						Get your Bookmates in:
 					</h1>
@@ -221,7 +221,7 @@ const BookmatePage = () => {
 			)}
 
 			{bookmateStatus === 3 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden min-h-[100vh]">
+				<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden min-h-[100vh]">
 					<h1 className="text-secondary font-poppins font-bold text-4xl text-center mt-6">
 						Book Mate results are out!
 					</h1>

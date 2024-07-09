@@ -5,7 +5,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 	return (
 		<div>
 			{bookmateStatus === 1 && (
-				<div className="text-center w-[45%] m-auto my-1">
+				<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
 						1) Manage your library
 					</h1>
@@ -22,7 +22,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 			{bookmateStatus === 2 && (
 				<div className="flex flex-col justify-center align-middle">
 					{faveBooksSize + wishListSize >= 3 ? (
-						<div className="text-center w-[45%] m-auto my-1">
+						<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 							<h1 className="text-secondary font-poppins font-bold text-3xl">
 								1) Manage your library
 							</h1>
@@ -32,7 +32,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 							</p>
 						</div>
 					) : (
-						<div className="text-center w-[45%] m-auto my-1">
+						<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 							<h1 className="text-secondary font-poppins font-bold text-3xl">
 								1) Manage your library
 							</h1>
@@ -50,7 +50,7 @@ const LibraryStatus = ({ faveBooksSize, wishListSize, bookmateStatus }) => {
 				</div>
 			)}
 			{bookmateStatus === 3 && (
-				<div className="text-center w-[45%] m-auto my-1">
+				<div className="text-center w-[90%] md:w-[45%] m-auto my-1">
 					<h1 className="text-secondary font-poppins font-bold text-3xl">
 						Manage your library
 					</h1>

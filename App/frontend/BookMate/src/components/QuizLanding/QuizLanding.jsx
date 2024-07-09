@@ -37,11 +37,11 @@ const QuizLanding = ({ onStartQuiz, isQuizActive }) => {
 	}
 
 	return (
-		<div className="relative bg-primary flex justify-center mt-10">
+		<div className="relative bg-primary flex justify-center mt-1 md:mt-5">
 			<div className="text-center text-neutral-content w-full overflow-hidden">
 				<div className="flex flex-col items-center justify-center p-3">
 					<h1 className="text-secondary font-poppins font-bold text-4xl mb-4">
-						Quiz
+						The Book Mate Quiz!
 					</h1>
 					{answeredCount === 0 && !isQuizActive && (
 						<h3 className="text-lg text-accent font-montserrat font-medium p-1">

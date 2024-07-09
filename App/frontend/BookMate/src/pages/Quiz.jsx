@@ -74,10 +74,10 @@ const Quiz = () => {
 
 	return (
 		<div
-			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 min-h-[88vh]`}
+			className={`bg-primary mx-auto flex flex-col items-center  ${styles.box} mb-8 min-h-[88vh] overflow-hidden`}
 		>
 			{bookmateStatus === 1 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+				<div className="flex flex-col mx-auto justify-center align-middle margin-auto overflow-hidden">
 					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						The next round of Bookmate starts in:
 					</h1>
@@ -93,7 +93,7 @@ const Quiz = () => {
 				</div>
 			)}
 			{bookmateStatus === 2 && (
-				<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
+				<div className="flex flex-col mx-auto justify-center align-middle margin-auto overflow-hidden">
 					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						The next round of Bookmate starts in:
 					</h1>

@@ -109,8 +109,8 @@ const UserProfile = () => {
 					className={`bg-primary mx-auto flex flex-col items-center justify-center ${styles.box} `}
 				>
 					{bookmateStatus === 1 && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden ">
-							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden ">
+							<h1 className="text-2xl md:text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								The next round of Bookmate starts in:
 							</h1>
 							{startTime && <Countdown targetDateTime={startTime} />}
@@ -125,8 +125,8 @@ const UserProfile = () => {
 						</div>
 					)}
 					{bookmateStatus === 2 && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
-							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						<div className="flex flex-col 	 justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-2xl md:text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Get your Bookmates in:
 							</h1>
 							{deadLine && <Countdown targetDateTime={deadLine} />}
@@ -141,8 +141,8 @@ const UserProfile = () => {
 						</div>
 					)}
 					{bookmateStatus === 3 && user.BookmateID && (
-						<div className="flex flex-col w-[90%] justify-center align-middle margin-auto overflow-hidden">
-							<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+						<div className="flex flex-col  justify-center align-middle margin-auto overflow-hidden">
+							<h1 className="text-2xl md:text-4xl text-secondary font-poppins font-bold my-3 text-center">
 								Book Mate results are out!
 							</h1>
 							<div className="flex flex-row justify-center">
@@ -155,7 +155,7 @@ const UserProfile = () => {
 							</div>
 						</div>
 					)}
-					<h1 className="text-4xl text-secondary font-poppins font-bold my-3 text-center">
+					<h1 className="text-3xl md:text-4xl text-secondary font-poppins font-bold my-3 text-center">
 						User Profile
 					</h1>
 					{user ? (
@@ -202,13 +202,13 @@ const UserProfile = () => {
 							</div>
 							<div className="flex flex-row justify-center align-middle mb-20 ">
 								<button
-									className="btn btn-secondary m-2 font-poppins w-[200px]"
+									className="btn btn-secondary m-2 font-poppins w-[100px] md:w-[200px]"
 									onClick={deleteAccount}
 								>
 									{confirmDelete ? "Confirm Delete?" : "Delete Account"}
 								</button>
 								<button
-									className="btn btn-secondary m-2 font-poppins w-[200px]"
+									className="btn btn-secondary m-2 font-poppins w-[100px] md:w-[200px]"
 									onClick={handleLogout}
 								>
 									{confirmLogout ? "Confirm Logout?" : "Logout"}
