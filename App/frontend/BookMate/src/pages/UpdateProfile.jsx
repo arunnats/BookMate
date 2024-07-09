@@ -237,7 +237,12 @@ const UpdateDetails = () => {
 					</div>
 
 					<div className="w-[350px] flex flex-col items-center mx-auto">
-						<div className="form-control my-2">
+						<div className=" my-2">
+							<span className="label-text text-secondary font-poppins text-xl m-2 mt-4 font-semibold">
+								You must make one of the following public to continue:
+							</span>
+						</div>
+						<div className="form-control my-1">
 							<label className="label cursor-pointer flex justify-between">
 								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
 									Make Instagram ID public?
@@ -252,7 +257,8 @@ const UpdateDetails = () => {
 								/>
 							</label>
 						</div>
-						<div className="form-control my-2">
+
+						<div className="form-control my-1">
 							<label className="label cursor-pointer flex justify-between">
 								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
 									Make phone number public?
@@ -267,7 +273,7 @@ const UpdateDetails = () => {
 								/>
 							</label>
 						</div>
-						<div className="form-control my-2">
+						<div className="form-control my-1">
 							<label className="label cursor-pointer flex justify-between">
 								<span className="label-text text-secondary font-poppins text-lg mx-2 font-semibold">
 									Make email public?
