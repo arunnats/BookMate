@@ -16,7 +16,6 @@ const ViewBookmate = () => {
 			try {
 				const response = await axios.get(`${nodeURL}get-bookmate-status`);
 				const { status } = response.data;
-				console.log(status);
 				setBookmateStatus(status);
 			} catch (error) {
 				console.error("Error fetching bookmate status:", error.message);
@@ -59,9 +58,6 @@ const ViewBookmate = () => {
 	if (!user) {
 		return <p>Loading...</p>;
 	}
-
-	console.log(user);
-	console.log(bookmateDetails);
 
 	return (
 		<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
@@ -108,10 +104,7 @@ const ViewBookmate = () => {
 			) : (
 				<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
 					<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
-						Bookmate is Offline
-					</h1>
-					<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
-						Contact arunnats2004@gmail.com
+						You didnt opt in this time. Stay tuned for the next round!
 					</h1>
 				</div>
 			)}

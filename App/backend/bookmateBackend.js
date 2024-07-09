@@ -418,6 +418,24 @@ async function deleteUserById(id) {
 	}
 }
 
+async function setBookmateIdToNull(userId) {
+	try {
+		const connection = await pool.getConnection();
+
+		const [rows] = await connection.query(
+			"UPDATE users SET BookmateID = NULL WHERE BookmateID = ?",
+			[userId]
+		);
+
+		console.log(rows);
+
+		connection.release();
+	} catch (error) {
+		console.error("Error updating BookmateID:", error.message);
+		throw error;
+	}
+}
+
 async function deleteLibraryById(id) {
 	try {
 		const connection = await pool.getConnection();
@@ -627,21 +645,6 @@ app.post("/profile-status", async (req, res) => {
 	}
 });
 
-app.post("/delete-user", async (req, res) => {
-	const { id, LibID } = req.body;
-	try {
-		console.log("Deleting user by id:", id, "and LibID:", LibID);
-
-		await deleteLibraryById(LibID);
-		await deleteUserById(id);
-
-		res.status(200).json({ message: "User deleted successfully" });
-	} catch (error) {
-		console.error("Error deleting user:", error.message);
-		res.status(500).json({ error: "Internal Server Error" });
-	}
-});
-
 app.post("/opt-in", async (req, res) => {
 	const { id, optStatus } = req.body;
 	console.log(req.body);
@@ -694,6 +697,7 @@ app.post("/delete-user", async (req, res) => {
 	try {
 		console.log("Deleting user by id:", id, "and LibID:", LibID);
 
+		await setBookmateIdToNull(id);
 		await deleteLibraryById(LibID);
 		await deleteUserById(id);
 
