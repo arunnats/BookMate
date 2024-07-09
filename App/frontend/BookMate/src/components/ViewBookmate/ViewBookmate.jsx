@@ -29,16 +29,22 @@ const ViewBookmate = () => {
 	useEffect(() => {
 		const bookmateDetailsGet = async () => {
 			try {
-				const response = await axios.post(`${nodeURL}user-details`, {
-					id: user.BookmateID,
+				const responseBookMateID = await axios.post(`${nodeURL}user-details`, {
+					id: user.id,
 				});
-				setBookmateDetails(response.data.user);
+
+				const { bookMateID } = responseBookMateID;
+				const responseBookMate = await axios.post(`${nodeURL}user-details`, {
+					id: responseBookMateID.data.user.BookmateID,
+				});
+
+				setBookmateDetails(responseBookMate.data.user);
 			} catch (error) {
 				console.error("Error fetching bookmate details:", error.message);
 			}
 		};
 
-		if (user && user.BookmateID) {
+		if (user) {
 			bookmateDetailsGet();
 		}
 	}, [user]);
@@ -47,7 +53,6 @@ const ViewBookmate = () => {
 		if (!user) {
 			navigate("/login");
 		} else {
-			console.log("Logged in");
 		}
 	}, [user, navigate]);
 
@@ -59,38 +64,56 @@ const ViewBookmate = () => {
 	console.log(bookmateDetails);
 
 	return (
-		<div className="flex flex-col align-middle justify-center">
-			<h1 className="text-3xl text-white font-bold my-3">
+		<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
+			<h1 className="text-4xl font-bold text-secondary font-poppins my-2">
 				Hey {user.nickname ? user.nickname : user.first_name}
 			</h1>
-			{bookmateStatus === 3 && user.BookmateID && bookmateDetails ? (
-				<div className="flex flex-col">
-					<h1 className="text-3xl text-white font-bold my-3">
-						Your bookmate is {bookmateDetails.first_name}
+			<h1 className="text-4xl font-bold text-secondary font-poppins ">
+				It's a match!
+			</h1>
+			{bookmateStatus === 3 && bookmateDetails ? (
+				<div className="flex flex-col justify-center align-middle">
+					<h1 className="text-2xl font-bold text-secondary font-poppins my-1">
+						Your bookmate is{" "}
+						{bookmateDetails.nickname
+							? bookmateDetails.nickname
+							: bookmateDetails.first_name}
 					</h1>
-					{user.instagram_public && (
-						<h1 className="text-3xl text-white font-bold my-3">
+					<img
+						src={bookmateDetails.picture_url}
+						alt=""
+						className="w-[100px] h-auto m-auto my-3"
+					/>
+					<h1 className="text-2xl font-bold text-secondary font-poppins my-1">
+						Reach out to them!
+					</h1>
+					{bookmateDetails.instagram_public && (
+						<h1 className="text-2xl font-bold text-secondary font-poppins my-1">
 							Instagram: {bookmateDetails.instagram}
 						</h1>
 					)}
 
-					{user.phone_public && (
-						<h1 className="text-3xl text-white font-bold my-3">
+					{bookmateDetails.phone_public && (
+						<h1 className="text-2xl font-bold text-secondary font-poppins my-1">
 							Phone number: {bookmateDetails.phone_num}
 						</h1>
 					)}
 
-					{user.email_public && (
-						<h1 className="text-3xl text-white font-bold my-3">
+					{bookmateDetails.email_public && (
+						<h1 className="text-2xl font-bold text-secondary font-poppins my-1">
 							Email: {bookmateDetails.email}
 						</h1>
 					)}
 				</div>
 			) : (
-				<h1 className="text-3xl text-white font-bold my-3">
-					You didnt sign up for the last round of bookmate. You can try next
-					time!
-				</h1>
+				<div className="bg-primary min-h-[80vh] flex flex-col items-center justify-center">
+					<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
+						Bookmate is Offline
+					</h1>
+					<h1 className="text-4xl font-bold text-secondary font-poppins mb-6">
+						Contact arunnats2004@gmail.com
+					</h1>
+				</div>
 			)}
 		</div>
 	);
