@@ -173,7 +173,7 @@ const QuestionsData = [
 				options: [
 					"A) Titles with magical or mythical elements like 'The Priory of the Orange Tree'",
 					"B) Titles suggesting suspense and danger like The 'Girl on the Train'",
-					"C) Titles hinting at love or humor like To All the Boys 'The Both Die at the End'",
+					"C) Titles hinting at love or humor like To 'All the Boys Before You'",
 					"D) Titles that are thought-provoking like A 'Brief History of Time'",
 				],
 			},
@@ -204,7 +204,7 @@ const QuestionsData = [
 					"A) Allies and foes",
 					"B) Suspects and detectives",
 					"C) Lovers and friends",
-					"D) Lovers and friends",
+					"D) The reader and the book",
 				],
 			},
 			{
