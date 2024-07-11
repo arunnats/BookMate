@@ -11,6 +11,10 @@ Book Mate is a comprehensive matchmaking and recommendation platform designed to
 ### Matchmaking Algorithm
 The core of Book Mate is its sophisticated matchmaking algorithm. When users opt-in for matchmaking, they take a quirky questionnaire that assesses their reading preferences. The system also takes into account the books added to their library. Once the countdown timer ends, the algorithm analyzes the quiz answers and library contents to match users with similar reading profiles.
 
+<p align="center">
+  <img src="https://github.com/arunnats/BookMate/assets/118368673/1ac01fff-ed04-4136-8626-93c71fbf6f7d" alt="Image 5" />
+</p>
+
 ### Quiz for Matches
 The matchmaking process begins with a fun and interactive quiz. This quiz is designed to understand the user's reading habits, preferences, and personality. The answers provided here are crucial for the AI model to find the best possible matches.
 
