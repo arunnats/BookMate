@@ -1,13 +1,29 @@
 FROM python:3.10-slim
 
-ENV PYTHONUNBUFFERED True
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    APP_HOME=/app \
+    PORT=8080
 
-ENV APP_HOME /app
+# Create and set working directory
 WORKDIR $APP_HOME
-COPY . ./
 
-ENV PORT 8080
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements first for better caching
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-CMD exec uvicorn main:app --host 0.0.0.0 --port ${PORT} 
+# Copy application code
+COPY . .
+
+# Expose the port
+EXPOSE $PORT
+
+# Run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
