@@ -100,6 +100,8 @@ const App = () => {
               </PrivateRoute>
             }
           />
+
+          <Route path="/privacy-policy" element={<About />} />
           <Route
             path="/update-profile"
             element={activated ? <UpdateDetails /> : <AppOffline />}
