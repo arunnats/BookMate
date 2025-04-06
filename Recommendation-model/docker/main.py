@@ -6,6 +6,23 @@ import numpy as np
 import pandas as pd
 import mysql.connector
 from dotenv import load_dotenv
+from typing import List, Dict, Any
+from pydantic import BaseModel, Field
+
+class BookRecommendation(BaseModel):
+    title: str
+    author: str
+    image_url: str
+    year: int
+    isbn: str
+    score: float
+    
+    class Config:
+        json_encoders = {
+            np.integer: lambda x: int(x),
+            np.floating: lambda x: float(x),
+            np.ndarray: lambda x: x.tolist()
+        }
 
 load_dotenv()
 
@@ -172,31 +189,47 @@ async def make_matches():
     
     print("Matches updated successfully")
 
-@app.get("/recommend/")
+@app.get("/recommend/", response_model=List[BookRecommendation])
 async def get_recommendations(book_title: str):
     print(f"Recommendation request received for book title: '{book_title}'")
     
     if book_title not in app.state.pt.index:
         print(f"Book '{book_title}' not found in the pivot table.")
         return {"error": f"Book '{book_title}' not found in the pivot table."}
-    
+
     index = np.where(app.state.pt.index == book_title)[0][0]
-    similar_items = sorted(list(enumerate(app.state.similarity_scores[index])), key=lambda x: x[1], reverse=True)[1:11]
-    
+    similarity_vector = app.state.similarity_scores[index]
+
+    similar_items = sorted(
+        enumerate(similarity_vector),
+        key=lambda x: x[1],
+        reverse=True
+    )[1:11]  # Skip the first since it's the book itself
+
     data = []
-    for i in similar_items:
-        item = []
-        temp_df = app.state.books[app.state.books['Book-Title'] == app.state.pt.index[i[0]]]
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Year-Of-Publication'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['ISBN'].values))
+    for idx, score in similar_items:
+        title = app.state.pt.index[idx]
+        temp_df = app.state.books[app.state.books['Book-Title'] == title]
         
-        data.append(item)
-    
+        # Check if temp_df is not empty before accessing iloc[0]
+        if not temp_df.empty:
+            book_info = temp_df.drop_duplicates('Book-Title').iloc[0]
+            
+            data.append(BookRecommendation(
+                title=book_info['Book-Title'],
+                author=book_info['Book-Author'],
+                image_url=book_info['Image-URL-M'],
+                year=book_info['Year-Of-Publication'],
+                isbn=book_info['ISBN'],
+                score=score
+            ))
+        else:
+            print(f"Book '{title}' found in pivot table but not in books dataframe")
+            # Optionally add a placeholder or skip this item
+
     print(f"Recommendations generated successfully for book title: '{book_title}'")
     return data
+
 
 @app.get("/top-books/")
 async def get_top_books():
