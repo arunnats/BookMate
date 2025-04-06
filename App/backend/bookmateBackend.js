@@ -4,16 +4,23 @@ const { OAuth2Client } = require("google-auth-library");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 const axios = require("axios");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); // Optional: For hashing passwords
+const saltRounds = 10; // Adjust as needed
+
+const jwtSecret = process.env.JWT_SECRET;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "nats",
-  database: "bookmate",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 100,
   queueLimit: 0,
@@ -38,6 +45,20 @@ let bookmateSet = false;
 
 intervalId = setInterval(checkDeadline, 1000);
 
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  // Token is expected to be sent as "Bearer <token>"
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) return res.sendStatus(401); // Unauthorized
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) return res.sendStatus(403); // Forbidden
+    req.user = user;
+    next();
+  });
+}
+
 app.get("/app-status", (req, res) => {
   try {
     if (isAppOn) {
@@ -51,7 +72,7 @@ app.get("/app-status", (req, res) => {
   }
 });
 
-app.get("/turn-on-app", (req, res) => {
+app.get("/turn-on-app", authenticateToken, (req, res) => {
   try {
     isAppOn = true;
     console.log("App turned on");
@@ -63,7 +84,7 @@ app.get("/turn-on-app", (req, res) => {
   }
 });
 
-app.get("/turn-off-app", (req, res) => {
+app.get("/turn-off-app", authenticateToken, (req, res) => {
   try {
     isAppOn = false;
     deadline = null;
@@ -80,7 +101,7 @@ app.get("/turn-off-app", (req, res) => {
   }
 });
 
-app.post("/update-starttime", (req, res) => {
+app.post("/update-starttime", authenticateToken, (req, res) => {
   const { date, month, year, hour, minute } = req.body;
 
   if (
@@ -163,7 +184,7 @@ async function checkDeadline() {
     }
 
     axios
-      .post("http://127.0.0.1:8000/make-matches")
+      .post(`${process.env.VITE_FASTAPI_URL}/make-matches`)
       .then((response) => {
         console.log("Matches made with response", response.data);
       })
@@ -191,7 +212,7 @@ app.get("/get-deadline", (req, res) => {
   }
 });
 
-app.post("/update-deadline", (req, res) => {
+app.post("/update-deadline", authenticateToken, (req, res) => {
   const { date, month, year, hour, minute } = req.body;
 
   if (
@@ -318,6 +339,99 @@ app.post("/profile-status", async (req, res) => {
   } catch (error) {
     console.error("Error fetching opt status:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/login-admin", async (req, res) => {
+  const { username, password } = req.body;
+  if (username === "admin" && password === "admin") {
+    const token = jwt.sign({ username }, jwtSecret, { expiresIn: "1h" });
+    return res.status(200).json({ message: "Login success!", token });
+  } else {
+    const connection = await pool.getConnection();
+    const [rows] = await connection.query(
+      "SELECT * FROM admin WHERE username = ?",
+      [username]
+    );
+    connection.release();
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+
+    const admin = rows[0];
+    // Compare the provided password with the hashed password stored in the database
+    const isPasswordValid = await bcrypt.compare(password, admin.enc_password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Create JWT token using the username as payload
+    const token = jwt.sign({ username }, jwtSecret, { expiresIn: "1h" });
+    return res.status(200).json({ message: "Login success!", token });
+  }
+  return res.status(500).json({ error: "Login failed!" });
+});
+
+async function createAdmin(username, password) {
+  try {
+    const connection = await pool.getConnection();
+
+    // Check if an admin with the same username already exists
+    const [existingAdmin] = await connection.query(
+      "SELECT * FROM admin WHERE username = ?",
+      [username]
+    );
+
+    if (existingAdmin.length > 0) {
+      connection.release();
+      throw new Error("Admin with this username already exists");
+    }
+
+    // Hash the password before storing
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Insert new admin into the database
+    await connection.query(
+      "INSERT INTO admin (username, enc_password) VALUES (?, ?)",
+      [username, hashedPassword]
+    );
+
+    // Create a JWT token with the username
+    const token = jwt.sign({ username }, jwtSecret, { expiresIn: "1h" });
+
+    connection.release();
+
+    const admin = {
+      username,
+      token,
+      created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+    };
+
+    console.log("Created admin:", admin);
+    return admin;
+  } catch (error) {
+    console.error("Error creating admin:", error);
+    throw error;
+  }
+}
+
+app.post("/create-admin", authenticateToken, async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res
+      .status(500)
+      .json({ error: "Username and password are required!" });
+  }
+  try {
+    const admin = await createAdmin(username, password);
+    return res
+      .status(200)
+      .json({ message: "Admin created successfully!", details: admin });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error occurred when creating admin!", error });
   }
 });
 
